@@ -1,0 +1,64 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
+
+class User extends Authenticatable
+{
+    use HasFactory, HasApiTokens;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'username',
+        'email',
+        'phone',
+        'password',
+        'role',
+        'gender',
+        'nama_lengkap',
+        'lokasi',
+        'profile_photo',
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'password', 'remember_token',
+    ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
+
+     // User.php
+    public function aduan()
+    {
+        return $this->hasMany(Aduan::class);
+    }
+
+    public function hasRole($role)
+    {
+        return $this->role === $role; 
+    }
+  public function points()
+    {
+        return $this->hasOne(UserPoints::class); // A user has one set of points
+    }
+}
