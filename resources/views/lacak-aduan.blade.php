@@ -9,7 +9,7 @@
             <a href="/tambah-lapor" class="text-blue-600 hover:underline">Lapor disini</a>
         </p>
         <!-- Dropdown untuk memilih laporan yang sudah dilaporkan -->
-        <form action="{{ route('lacakaduan') }}" method="GET" class="flex items-center space-x-4">
+        <form action="{{ route('lacakaduan.show') }}" method="GET" class="flex items-center space-x-4">
             <select
                 name="id"
                 class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700"

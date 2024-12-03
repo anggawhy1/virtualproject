@@ -17,16 +17,16 @@
         <div class="relative overflow-hidden rounded-lg shadow-lg">
             <img
                 id="currentImage"
-                src="{{ asset('storage/' . $laporan->image) }}" <!-- Ambil gambar dari database -->
+                src="{{ asset('storage/' . $laporan->image) }}"
                 alt="Foto Aduan"
                 class="w-full h-64 object-cover transition-opacity duration-500 cursor-pointer"
                 onclick="openModal('{{ asset('storage/' . $laporan->image) }}')" />
         </div>
         <div id="imageIndicators" class="flex justify-center mt-4 space-x-2">
             <!-- Misalnya, kamu punya lebih dari satu gambar -->
-            @foreach($laporan->images as $index => $image)
-                <button onclick="changeImage({{ $index }})" class="h-3 w-3 rounded-full {{ $index == 0 ? 'bg-blue-600' : 'bg-gray-300' }}"></button>
-            @endforeach
+            {{-- @foreach($laporan->images as $index => $image) --}}
+                <button onclick="changeImage({{ $laporan->images }})" class="h-3 w-3 rounded-full {{ $laporan->images == 0 ? 'bg-blue-600' : 'bg-gray-300' }}"></button>
+            {{-- @endforeach --}}
         </div>
     </div>
 

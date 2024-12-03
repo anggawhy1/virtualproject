@@ -72,7 +72,8 @@ class LaporanController extends Controller
 
         // Ambil laporan yang sudah dilaporkan oleh pengguna yang sedang login
         $laporans = Laporan::where('user_id', Auth::id())->get();
-
+        // dd($laporans);
+        // die;
         // Passing $laporans variable to the view
         return view('lacak-aduan', compact('laporans'));
     }
@@ -81,7 +82,8 @@ class LaporanController extends Controller
     {
         // Menangani permintaan untuk menampilkan detail laporan berdasarkan ID
         $laporan = Laporan::findOrFail($request->id);
-        
+        // var_dump($laporan);
+        // die;
         // Pass laporan ke view yang sesuai
         return view('aduan', compact('laporan'));
     }

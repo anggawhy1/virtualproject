@@ -36,7 +36,7 @@
                 name="lokasi"
                 placeholder="Tempat Kejadian"
                 class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700"
-                
+                id="lokasi"
             />
             <span
                 class="absolute inset-y-0 right-4 flex items-center cursor-pointer"
@@ -47,6 +47,33 @@
             </span>
         </div>
 
+        <!-- Kolom Latitude dan Longitude, tersembunyi sampai ikon ditekan -->
+        <div id="latlongFields" class="hidden">
+            <div class="mt-4">
+                <label for="latitude" class="block text-gray-600">Latitude</label>
+                <input
+                    type="text"
+                    name="latitude"
+                    id="latitude"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700"
+                    readonly
+                />
+            </div>
+
+            <div class="mt-4">
+                <label for="longitude" class="block text-gray-600">Longitude</label>
+                <input
+                    type="text"
+                    name="longitude"
+                    id="longitude"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700"
+                    readonly
+                />
+            </div>
+
+            <button type="button" id="clearData" class="text-blue-600 mt-4" onclick="clearData()">Clear Data</button>
+        </div>
+
         <div>
             <!-- Hidden input fields for latitude and longitude -->
             <input type="hidden" name="latitude" id="latitude">
@@ -54,17 +81,16 @@
         </div>
 
         <div class="relative border border-gray-300 rounded-lg p-4 flex items-center justify-center text-gray-500 w-full">
-    <label class="cursor-pointer w-full text-center">
-        <input type="file" name="files[]" class="hidden" multiple />  <!-- Added 'multiple' here -->
-        <span class="flex items-center justify-center space-x-2 text-blue-600 hover:underline">
-            <img src="{{ asset('images/tambah.png') }}" alt="Tambah File Icon" class="w-5 h-5" />
-            <span>Tambah File Pendukung</span>
-        </span>
-    </label>
-</div>
+            <label class="cursor-pointer w-full text-center">
+                <input type="file" name="files[]" class="hidden" multiple />  <!-- Added 'multiple' here -->
+                <span class="flex items-center justify-center space-x-2 text-blue-600 hover:underline">
+                    <img src="{{ asset('images/tambah.png') }}" alt="Tambah File Icon" class="w-5 h-5" />
+                    <span>Tambah File Pendukung</span>
+                </span>
+            </label>
+        </div>
 
-
-       <div class="flex items-center space-x-2">
+        <div class="flex items-center space-x-2">
             <input
                 type="checkbox"
                 id="anonim"
@@ -76,8 +102,6 @@
                 Ceklis untuk melapor sebagai Anonim
             </label>
         </div>
-
-
 
         <button
             type="submit"
@@ -151,11 +175,52 @@
 
     // Fungsi untuk membuka Google Maps dan memilih lokasi
     function openMap() {
-        const lat = document.getElementById("latitude").value;
-        const lng = document.getElementById("longitude").value;
-        const url = `https://www.google.com/maps/?q=${lat},${lng}`;
-        window.open(url, '_blank');
+        document.getElementById('lokasi').value = "";
+
+        // Menampilkan kolom latitude dan longitude
+        document.getElementById('latlongFields').classList.remove('hidden');
+
+        // Memastikan peta dibuka pada lokasi pengguna saat ini
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
+
+                // Menampilkan lokasi pada input form
+                document.getElementById("latitude").value = latitude;
+                document.getElementById("longitude").value = longitude;
+
+                // Membuka Google Maps dengan koordinat lokasi saat ini
+                const url = `https://www.google.com/maps/?q=${latitude},${longitude}`;
+                window.open(url, '_blank');
+            }, function(error) {
+                alert("Lokasi tidak ditemukan.");
+            });
+        } else {
+            alert("Geolocation tidak didukung oleh browser ini.");
+        }
+
+        // Mengizinkan pengisian lokasi jika Latitude dan Longitude kosong
+        document.getElementById('lokasi').readOnly = !(document.getElementById("latitude").value === "" && document.getElementById("longitude").value === "");
     }
+
+    // Fungsi untuk mengosongkan latitude dan longitude
+   // Fungsi untuk mengosongkan latitude dan longitude
+function clearData() {
+    // Menghapus nilai latitude dan longitude
+    document.getElementById("latitude").value = "";
+    document.getElementById("longitude").value = "";
+
+    // Mengosongkan field lokasi
+    document.getElementById('lokasi').value = "";
+
+    // Menyembunyikan kolom latitude dan longitude setelah di-clear
+    document.getElementById('latlongFields').classList.add('hidden');
+
+    // Menonaktifkan kolom lokasi untuk pengisian manual
+    document.getElementById('lokasi').readOnly = false;
+}
+
 
     // Memastikan peta diinisialisasi saat halaman dimuat
     window.onload = function() {

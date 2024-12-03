@@ -95,9 +95,9 @@ Route::get('/lacakaduan/show', [LaporanController::class, 'show'])->name('lacaka
 
 
 
-// Route::get('/tambah-lapor', function () {
-//     return view('tambah-lapor'); 
-// });
+Route::get('/tambah-lapor', function () {
+    return view('tambah-lapor'); 
+});
 Route::post('/selesai-lapor', function () {
     return redirect('/selesai-lapor'); 
 });
@@ -125,7 +125,7 @@ Route::get('/selesai-lapor', function () {
 //     return view('aduan');
 // });
 
-Route::get('/hasiladuan', function () {
+Route::get('/hasiladuan1', function () {
     return view('hasil-aduan');
 });
 
