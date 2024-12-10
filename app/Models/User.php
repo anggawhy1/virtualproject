@@ -18,7 +18,6 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'username',
         'email',
         'phone',
         'password',
@@ -27,6 +26,7 @@ class User extends Authenticatable
         'nama_lengkap',
         'lokasi',
         'profile_photo',
+        'points',
     ];
 
     /**
@@ -57,8 +57,15 @@ class User extends Authenticatable
     {
         return $this->role === $role; 
     }
-  public function points()
+  public function laporan()
     {
-        return $this->hasOne(UserPoints::class); // A user has one set of points
+        return $this->hasMany(Laporan::class);
+    }
+
+    public function rewards()
+    {
+        return $this->belongsToMany(Reward::class, 'user_rewards')
+            ->withPivot('redeemed_at')
+            ->withTimestamps();
     }
 }

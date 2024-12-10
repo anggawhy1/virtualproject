@@ -21,9 +21,9 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'username' => 'required|string|max:255',
+            'nama_lengkap' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'phone' => 'required|string|max:15|unique:users', // wajib untuk registrasi biasa
+            'phone' => 'nullable|string|max:15|unique:users', // wajib untuk registrasi biasa
             'password' => 'required|string|min:8|confirmed',
             'role' => 'nullable|string',
         ]);
@@ -32,7 +32,7 @@ class AuthController extends Controller
 
         // Buat pengguna baru
         $user = User::create([
-            'username' => $request->username,
+            'nama_lengkap' => $request->nama_lengkap,
             'email' => $request->email,
             'phone' => $request->phone, // phone hanya diperlukan saat register biasa
             'password' => Hash::make($request->password),

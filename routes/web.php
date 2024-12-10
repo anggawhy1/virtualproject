@@ -70,10 +70,22 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
     Route::post('/laporanstore', [LaporanController::class, 'store'])->name('laporan.store');
     Route::get('/laporan/{id}', [LaporanController::class, 'show'])->name('laporan.show');
+    Route::get('/selesai-lapor/{laporan}', [LaporanController::class, 'selesaiLapor'])->name('selesai-lapor');
+    Route::get('/lacakaduan', [LaporanController::class, 'lacak'])->name('lacakaduan');
+    Route::get('/lacak-aduan/show', [LaporanController::class, 'show'])->name('lacakaduan.show');
+    Route::post('/laporan/{id}/update-status', [LaporanController::class, 'updateStatus'])->name('laporan.updateStatus');
+    Route::get('/hasiladuan/{id}', [LaporanController::class, 'hasilAduan'])->name('hasiladuan');
 });
 
-Route::get('/lacakaduan', [LaporanController::class, 'lacak'])->name('lacakaduan');
-Route::get('/lacakaduan/show', [LaporanController::class, 'show'])->name('lacakaduan.show');
+Route::middleware(['auth'])->group(function () {
+    // Klaim Poin
+    Route::post('/laporan/approve-claim/{laporanId}', [LaporanController::class, 'approveAndClaimPoint'])->name('laporan.approve-claim');
+
+    // Rewards
+    Route::get('/rewards', [RewardController::class, 'index'])->name('rewards.index');
+    Route::post('/rewards/{id}/redeem', [RewardController::class, 'redeem'])->name('rewards.redeem');
+});
+
 
 
 // Route::middleware(['auth'])->group(function () {
@@ -125,9 +137,9 @@ Route::get('/selesai-lapor', function () {
 //     return view('aduan');
 // });
 
-Route::get('/hasiladuan1', function () {
-    return view('hasil-aduan');
-});
+// Route::get('/hasiladuan1', function () {
+//     return view('hasil-aduan');
+// });
 
 Route::get('/reward', function () {
     return view('reward');
@@ -154,14 +166,14 @@ Route::get('/hadiah-kamu', function () {
 // Route::get('/laporan', function () {
 //     return view('laporan'); 
 // });
-Route::get('/laporan/{id}', [LaporanController::class, 'show'])->name('laporan.show');
+// Route::get('/laporan/{id}', [LaporanController::class, 'show'])->name('laporan.show');
 
 
 
 
-Route::get('/laporan/{id}', function ($id) {
-    return "Detail laporan dengan ID: $id"; 
-});
+// Route::get('/laporan/{id}', function ($id) {
+//     return "Detail laporan dengan ID: $id"; 
+// });
 
 Route::get('/notifications', function () {
     return view('notifications'); 

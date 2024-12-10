@@ -30,29 +30,43 @@
         </div>
     </div>
 
-    <p class="text-gray-700 mb-6">{{ $laporan->description }}</p> <!-- Deskripsi laporan -->
+    <p class="text-gray-700 mb-6">{{ $laporan->deskripsi }}</p> <!-- Deskripsi laporan -->
 
-    <div class="mb-8">
-        <h2 class="text-xl font-bold text-blue-600 mb-4">Proses Aduan</h2>
-        <ul class="space-y-2 text-gray-700">
+  <div class="mb-8">
+    <h2 class="text-xl font-bold text-blue-600 mb-4">Proses Aduan</h2>
+    <ul class="space-y-2 text-gray-700">
+        <!-- Diajukan -->
+        @if($laporan->status === 'Diajukan' || $laporan->status === 'Diproses' || $laporan->status === 'Disetujui')
             <li><strong>Diajukan:</strong> {{ $laporan->created_at->format('d F Y') }}</li>
+        @endif
+
+        <!-- Diproses -->
+        @if($laporan->status === 'Diproses' || $laporan->status === 'Disetujui')
             <li><strong>Diproses:</strong> {{ $laporan->updated_at->format('d F Y') }}</li>
+        @endif
+
+        <!-- Disetujui -->
+        @if($laporan->status === 'Disetujui')
             <li>
-                <strong>Disetujui:</strong> {{ $laporan->approved_at ? $laporan->approved_at->format('d F Y') : '-' }}
+                <strong>Disetujui:</strong> {{ $laporan->approved_at->format('d F Y') }}
                 <button
                     onclick="showClaimPopup()"
                     class="ml-4 px-2 py-1 bg-blue-100 text-blue-600 rounded-lg text-sm hover:bg-blue-200">
                     Claim Point
                 </button>
             </li>
-        </ul>
-    </div>
+        @endif
+    </ul>
+</div>
 
+<!-- Hasil Aduan hanya muncul jika laporan sudah disetujui -->
+@if($laporan->status === 'Disetujui')
     <div class="mb-8">
         <h2 class="text-xl font-bold text-blue-600 mb-4">Hasil Aduan</h2>
         <a href="/hasiladuan/{{ $laporan->id }}" class="text-blue-600 hover:underline">Cek disini</a>
         <p class="text-gray-500 text-sm">{{ $laporan->updated_at->format('d F Y') }}</p>
     </div>
+@endif
 
     <!-- Popup Claim Point -->
     <div id="claimPopup" class="fixed inset-0 hidden items-center justify-center bg-black bg-opacity-50 z-50">

@@ -7,12 +7,12 @@
             <h1 class="text-3xl font-bold text-blue-600 mb-4">Terimakasih Telah Melapor!</h1>
             <p class="text-gray-700 mb-2">
                 Laporan kamu akan segera ditindak lanjuti, cek secara berkala pada 
-                <a href="/lacak-aduan" class="text-blue-600 font-semibold ml-1 cursor-pointer">
+                <a href="/lacakaduan" class="text-blue-600 font-semibold ml-1 cursor-pointer">
                     “Lacak Aduan”
                 </a>
             </p>
             <p class="text-gray-700 mb-6 flex items-center justify-center">
-                ID Laporan Kamu: <span class="font-semibold ml-1" id="reportId">1234567890</span>
+                ID Laporan Kamu: <span class="font-semibold ml-1" id="reportId">{{ $laporan->id }}</span>
                 <button
                     onclick="copyReportId()"
                     class="ml-2 text-blue-600 cursor-pointer"

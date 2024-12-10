@@ -11,8 +11,7 @@
             <select
                 name="kategori_id"
                 class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700"
-                required
-            >
+                required>
                 <option value="" disabled selected>Pilih Kategori Laporan</option>
                 @foreach($kategori as $item)
                     <option value="{{ $item->id }}">{{ $item->nama }}</option>
@@ -47,29 +46,28 @@
             </span>
         </div>
 
-        <!-- Kolom Latitude dan Longitude, tersembunyi sampai ikon ditekan -->
-        <div id="latlongFields" class="hidden">
-            <div class="mt-4">
-                <label for="latitude" class="block text-gray-600">Latitude</label>
-                <input
-                    type="text"
-                    name="latitude"
-                    id="latitude"
-                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700"
-                    readonly
-                />
-            </div>
+      <div id="latlongFields" class="hidden">
+    <div class="mt-4">
+        <label for="latitude" class="block text-gray-600">Latitude</label>
+        <input
+            type="text"
+            name="latitude"
+            id="latitude"
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700"
+            readonly
+        />
+    </div>
 
-            <div class="mt-4">
-                <label for="longitude" class="block text-gray-600">Longitude</label>
-                <input
-                    type="text"
-                    name="longitude"
-                    id="longitude"
-                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700"
-                    readonly
-                />
-            </div>
+    <div class="mt-4">
+        <label for="longitude" class="block text-gray-600">Longitude</label>
+        <input
+            type="text"
+            name="longitude"
+            id="longitude"
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700"
+            readonly
+        />
+    </div>
 
             <button type="button" id="clearData" class="text-blue-600 mt-4" onclick="clearData()">Clear Data</button>
         </div>
@@ -120,112 +118,95 @@
 <script>
     let map, marker;
 
-    // Function to initialize the map
-    function initMap() {
-        // Lokasi default jika geolocation gagal
-        const defaultLocation = { lat: -6.200000, lng: 106.816666 };
+// Fungsi untuk inisialisasi peta
+function initMap() {
+    const defaultLocation = { lat: -7.9169924, lng: 112.1549559 };
 
-        // Inisialisasi peta
-        map = new google.maps.Map(document.getElementById("map"), {
-            center: defaultLocation,
-            zoom: 15,
+    map = new google.maps.Map(document.getElementById("map"), {
+        center: defaultLocation,
+        zoom: 15,
+    });
+
+    marker = new google.maps.Marker({
+        position: defaultLocation,
+        map: map,
+        draggable: true,
+    });
+
+    google.maps.event.addListener(marker, "dragend", function() {
+        const position = marker.getPosition();
+        document.getElementById("latitude").value = position.lat();
+        document.getElementById("longitude").value = position.lng();
+    });
+
+    map.addListener("click", function(event) {
+        const latLng = event.latLng;
+        marker.setPosition(latLng);
+        document.getElementById("latitude").value = latLng.lat();
+        document.getElementById("longitude").value = latLng.lng();
+    });
+
+    getLocation();
+}
+
+// Fungsi untuk mendapatkan lokasi pengguna
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+
+            const userLocation = { lat: latitude, lng: longitude };
+            map.setCenter(userLocation);
+            marker.setPosition(userLocation);
+
+            document.getElementById("latitude").value = latitude;
+            document.getElementById("longitude").value = longitude;
+        }, function(error) {
+            alert("Lokasi tidak ditemukan. Peta diatur ke lokasi default.");
         });
+    } else {
+        alert("Geolocation tidak didukung oleh browser ini.");
+    }
+}
 
-        // Membuat marker yang bisa digeser
-        marker = new google.maps.Marker({
-            position: defaultLocation,
-            map: map,
-            draggable: true,
+// Fungsi untuk membuka peta dan memilih lokasi
+function openMap() {
+    document.getElementById('lokasi').value = "";
+    document.getElementById('latlongFields').classList.remove('hidden');
+
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+
+            document.getElementById("latitude").value = latitude;
+            document.getElementById("longitude").value = longitude;
+
+            const url = `https://www.google.com/maps/?q=${latitude},${longitude}`;
+            window.open(url, '_blank');
+        }, function(error) {
+            alert("Lokasi tidak ditemukan.");
         });
-
-        // Ketika marker digeser, update koordinat di form
-        google.maps.event.addListener(marker, "dragend", function() {
-            const position = marker.getPosition();
-            document.getElementById("latitude").value = position.lat();
-            document.getElementById("longitude").value = position.lng();
-        });
-
-        // Cek geolocation untuk mendapatkan lokasi pengguna
-        getLocation();
+    } else {
+        alert("Geolocation tidak didukung oleh browser ini.");
     }
 
-    // Fungsi untuk mendapatkan lokasi pengguna dan memperbarui peta
-    function getLocation() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                const latitude = position.coords.latitude;
-                const longitude = position.coords.longitude;
+    document.getElementById('lokasi').readOnly = !(document.getElementById("latitude").value === "" && document.getElementById("longitude").value === "");
+}
 
-                // Set lokasi peta dan marker berdasarkan lokasi pengguna
-                const userLocation = { lat: latitude, lng: longitude };
-                map.setCenter(userLocation);
-                marker.setPosition(userLocation);
-
-                // Update form fields dengan lokasi pengguna
-                document.getElementById("latitude").value = latitude;
-                document.getElementById("longitude").value = longitude;
-            }, function(error) {
-                // Tangani error jika lokasi tidak ditemukan
-                alert("Lokasi tidak ditemukan. Peta diatur ke lokasi default.");
-            });
-        } else {
-            alert("Geolocation tidak didukung oleh browser ini.");
-        }
-    }
-
-    // Fungsi untuk membuka Google Maps dan memilih lokasi
-    function openMap() {
-        document.getElementById('lokasi').value = "";
-
-        // Menampilkan kolom latitude dan longitude
-        document.getElementById('latlongFields').classList.remove('hidden');
-
-        // Memastikan peta dibuka pada lokasi pengguna saat ini
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                const latitude = position.coords.latitude;
-                const longitude = position.coords.longitude;
-
-                // Menampilkan lokasi pada input form
-                document.getElementById("latitude").value = latitude;
-                document.getElementById("longitude").value = longitude;
-
-                // Membuka Google Maps dengan koordinat lokasi saat ini
-                const url = `https://www.google.com/maps/?q=${latitude},${longitude}`;
-                window.open(url, '_blank');
-            }, function(error) {
-                alert("Lokasi tidak ditemukan.");
-            });
-        } else {
-            alert("Geolocation tidak didukung oleh browser ini.");
-        }
-
-        // Mengizinkan pengisian lokasi jika Latitude dan Longitude kosong
-        document.getElementById('lokasi').readOnly = !(document.getElementById("latitude").value === "" && document.getElementById("longitude").value === "");
-    }
-
-    // Fungsi untuk mengosongkan latitude dan longitude
-   // Fungsi untuk mengosongkan latitude dan longitude
+// Fungsi untuk mengosongkan latitude dan longitude
 function clearData() {
-    // Menghapus nilai latitude dan longitude
     document.getElementById("latitude").value = "";
     document.getElementById("longitude").value = "";
 
-    // Mengosongkan field lokasi
     document.getElementById('lokasi').value = "";
-
-    // Menyembunyikan kolom latitude dan longitude setelah di-clear
     document.getElementById('latlongFields').classList.add('hidden');
-
-    // Menonaktifkan kolom lokasi untuk pengisian manual
     document.getElementById('lokasi').readOnly = false;
 }
 
-
-    // Memastikan peta diinisialisasi saat halaman dimuat
-    window.onload = function() {
-        initMap();
-    }
-</script> 
-
+window.onload = function() {
+    initMap();
+}
+</script>
 @endsection

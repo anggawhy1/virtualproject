@@ -25,6 +25,8 @@ class Laporan extends Model
         'user_id',
         'kategori_id',
         'anonim',
+        'approved_at',
+        'is_claimed',
     ];
 
     // Menambahkan ID acak 10 digit secara otomatis saat data baru dibuat
@@ -46,4 +48,10 @@ class Laporan extends Model
     {
         return $this->belongsTo(Kategori::class, 'kategori_id');
     }
+
+     protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'approved_at' => 'datetime',
+    ];
 }
