@@ -157,32 +157,32 @@ public function hasilAduan($id)
 
 public function approveAndClaimPoint($laporanId)
 {
-    
+    // Retrieve the laporan by its ID
     $laporan = Laporan::findOrFail($laporanId);
     
-    if ($laporan->status == 'Diajukan') {
-        $laporan->status = 'Disetujui';
-        $laporan->save();
+    // Check if the laporan status is 'Disetujui'
+    if ($laporan->status == 'Disetujui') {
+        // Mark the claim as done
+        $laporan->is_claimed = 1; 
+        $laporan->save(); // Save the updated laporan
+        $user = Auth::user();
         
-        if ($laporan->user_id) {
-            $user = User::find($laporan->user_id);            
-            
-            if (!$laporan->is_claimed) {
-                $user->increment('points', 1); 
-                $laporan->is_claimed = true;
-                $laporan->save();
-            }
+        if ($user) {
+            // Increment the points of the currently logged-in user
+            $user->increment('points', 1); // Adds 1 to the current points
+            $user->save(); // Save the updated user points
         }
         
-        return response()->json([
-            'message' => 'Laporan disetujui dan 1 poin berhasil diklaim.',
-        ]);
+        // Return success message
+        return response()->json(['success' => true, 'message' => 'Laporan disetujui dan 1 poin berhasil diklaim.']);
     }
 
-    return response()->json([
-        'message' => 'Laporan tidak dapat disetujui.',
-    ]);
+    // Return failure message if the laporan is not approved
+    return response()->json(['success' => false, 'message' => 'Laporan tidak dapat disetujui.']);
 }
+
+
+
 
 
 }

@@ -15,13 +15,14 @@
 
     <div class="mb-8">
         <div class="relative overflow-hidden rounded-lg shadow-lg">
+        
             <img
-                id="currentImage"
-                src="{{ asset('storage/' . $laporan->image) }}"
-                alt="Foto Aduan"
-                class="w-full h-64 object-cover transition-opacity duration-500 cursor-pointer"
-                onclick="openModal('{{ asset('storage/' . $laporan->image) }}')" />
-        </div>
+            id="currentImage"
+            src="{{ asset('storage/' . str_replace('\/', '/', json_decode($laporan->files)[0])) }}"
+            alt="Foto Aduan"
+            class="w-full h-64 object-cover transition-opacity duration-500 cursor-pointer"
+            onclick="openModal('{{ asset('storage/' . str_replace('\/', '/', json_decode($laporan->files)[0])) }}')" />
+        
         <div id="imageIndicators" class="flex justify-center mt-4 space-x-2">
             <!-- Misalnya, kamu punya lebih dari satu gambar -->
             {{-- @foreach($laporan->images as $index => $image) --}}
@@ -45,19 +46,25 @@
             <li><strong>Diproses:</strong> {{ $laporan->updated_at->format('d F Y') }}</li>
         @endif
 
-        <!-- Disetujui -->
-        @if($laporan->status === 'Disetujui')
-            <li>
-                <strong>Disetujui:</strong> {{ $laporan->approved_at->format('d F Y') }}
-                <button
-                    onclick="showClaimPopup()"
-                    class="ml-4 px-2 py-1 bg-blue-100 text-blue-600 rounded-lg text-sm hover:bg-blue-200">
-                    Claim Point
-                </button>
-            </li>
-        @endif
-    </ul>
-</div>
+            <!-- Disetujui -->
+            @if($laporan->status === 'Disetujui')
+                <li>
+                    <strong>Disetujui:</strong> {{ $laporan->approved_at->format('d F Y') }}
+                    @if($laporan->is_claimed == 0)
+                        <form id="claimForm" action="{{ route('laporan.approve-claim', $laporan->id) }}" method="POST" class="inline">
+                            @csrf
+                            <button
+                                type="button"
+                                id="claimButton"
+                                class="ml-4 px-2 py-1 bg-blue-100 text-blue-600 rounded-lg text-sm hover:bg-blue-200">
+                                Claim Point
+                            </button>
+                        </form>        
+                    @endif
+                </li>
+            @endif
+        </ul>
+    </div>
 
 <!-- Hasil Aduan hanya muncul jika laporan sudah disetujui -->
 @if($laporan->status === 'Disetujui')
@@ -122,17 +129,73 @@
         });
     }
 
-    function showClaimPopup() {
-        const popup = document.getElementById('claimPopup');
+   document.addEventListener('DOMContentLoaded', function() {
+    // Check if the claimButton exists before adding the event listener
+    const claimButton = document.getElementById('claimButton');
+    
+    if (claimButton) {
+        claimButton.addEventListener('click', function(e) {
+            e.preventDefault(); // Prevent the form from being submitted normally
+
+            // Show the popup before submitting the form
+            showClaimPopup();
+
+            // Submit the form via AJAX
+            var form = document.getElementById('claimForm');
+            var formData = new FormData(form);
+
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content // Ensure CSRF token is sent
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Show success message
+                    alert('Poin berhasil diklaim!');
+                } else {
+                    alert('Gagal mengklaim poin.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Terjadi kesalahan.');
+            });
+        });
+    }
+});
+
+function showClaimPopup() {
+    const popup = document.getElementById('claimPopup');
+    if (popup) {
         popup.classList.remove('hidden');
         popup.classList.add('flex');
     }
+}
 
-    function closePopup() {
-        const popup = document.getElementById('claimPopup');
+function closePopup() {
+    const popup = document.getElementById('claimPopup');
+    if (popup) {
         popup.classList.add('hidden');
         popup.classList.remove('flex');
     }
+    refreshPage();
+}
+
+function refreshPage() {
+    window.location.reload();  // Refresh the page
+}
+
+// Add an event listener to close the popup when clicking outside of it
+document.getElementById('claimPopup').addEventListener('click', function(event) {
+    if (event.target === this) { // If the click is outside the popup
+        closePopup(); // Close the popup and refresh the page
+    }
+});
+
 
     function openModal(imageSrc) {
         const modal = document.getElementById('imageModal');
