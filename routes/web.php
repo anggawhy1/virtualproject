@@ -252,3 +252,10 @@ Route::get('/admin/settings', function (Illuminate\Http\Request $request) {
 Route::get('/logout', function () {
     return redirect('/');
 })->name('logout');
+
+
+
+//chatbot
+Route::get('/chatbot', function () {
+    return view('chatbot'); 
+})->name('chatbot');
