@@ -8,6 +8,12 @@ use App\Http\Controllers\RewardController;
 use App\Http\Controllers\ProfileController;
 
 
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminLaporController;
+use App\Http\Controllers\RewardsAdminController;
+use App\Http\Controllers\PesanController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -206,3 +212,43 @@ Route::get('/info-point', function () {
 })->name('info-point');
 
 
+
+
+
+
+Route::get('/admin/dashboard', function () {
+    return view('admin.dashboard');
+})->name('admin.dashboard');
+
+Route::get('/admin/users', function () {
+    return view('admin.users');
+})->name('admin.users');
+
+Route::get('/admin/users', [UserController::class, 'index'])->name('admin.users');
+
+Route::get('/admin/users/{id}', [UserController::class, 'show'])->name('users.show');
+
+
+Route::get('/admin/reports', [AdminLaporController::class, 'index'])->name('admin.reports');
+
+Route::get('/admin/reports/{id}', [AdminLaporController::class, 'show'])->name('admin.reports.show');
+Route::get('/admin/reports/index', [AdminLaporController::class, 'index'])->name('admin.reports.index');
+
+Route::prefix('admin')->group(function () {
+    Route::get('/rewards', [RewardsAdminController::class, 'index'])->name('admin.rewards');
+    Route::get('/rewards/{id}', [RewardsAdminController::class, 'show'])->name('rewards.show');
+});
+
+Route::prefix('admin')->group(function () {
+    Route::get('/message', [PesanController::class, 'index'])->name('admin.message');
+    Route::get('/message/{id}', [PesanController::class, 'show'])->name('admin.message.detail');
+});
+
+Route::get('/admin/settings', function (Illuminate\Http\Request $request) {
+    $section = $request->input('section', 'default'); 
+    return view('admin.settings', compact('section'));
+})->name('admin.settings');
+
+Route::get('/logout', function () {
+    return redirect('/');
+})->name('logout');
