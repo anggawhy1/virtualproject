@@ -51,10 +51,24 @@
 
         <button
             type="submit"
-            class="w-full py-3 text-white bg-blue-600 rounded-md hover:bg-blue-700 transition transform hover:scale-105 duration-200">
+            class="w-full py-3 text-white bg-blue-600 rounded-md hover:bg-blue-700 transition duration-200">
             Daftar
         </button>
+
     </form>
+
+    <div class="flex items-center my-6">
+        <hr class="flex-grow border-t-4 border-gray-300" />
+        <span class="mx-4 text-gray-500 text-sm font-medium">Or Continue With</span>
+        <hr class="flex-grow border-t-4 border-gray-300" />
+    </div>
+
+    <a
+        href="{{ route('google.login') }}"
+        class="flex items-center justify-center w-full py-3 text-gray-700 border border-gray-300 rounded-md hover:bg-gray-100 transition duration-200 space-x-3">
+        <i class="fab fa-google text-blue-500 text-lg"></i>
+        <span class="font-medium">Login With Google</span>
+    </a>
 
     @if (session('error'))
     <p class="mt-4 text-center text-red-500">{{ session('error') }}</p>
