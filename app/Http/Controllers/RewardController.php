@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Reward;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\UserReward;
 
 class RewardController extends Controller
 {
@@ -30,4 +31,11 @@ class RewardController extends Controller
 
         return redirect()->back()->with('success', 'Reward berhasil ditukarkan!');
     }
+
+
+public function indexadmin()
+{
+    $rewards = Reward::with('users')->get(); 
+    
+    return view('rewards.index', compact('rewards'));
 }

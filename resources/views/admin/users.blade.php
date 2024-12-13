@@ -43,18 +43,26 @@
             <tbody>
                 @foreach ($users as $user)
                     <tr>
-                        <td class="py-2 px-4">
-                            
-                            <img src="{{ asset($user['profile']) }}" alt="Profile" class="w-10 h-10 rounded-full">
-                        </td>
-                        <td class="py-2 px-4">{{ $user['name'] }}</td>
-                        <td class="py-2 px-4">{{ $user['email'] }}</td>
-                        <td class="py-2 px-4">{{ $user['phone'] }}</td>
-                        <td class="py-2 px-4">
-                            <a href="{{ route('users.show', $user['id']) }}" class="text-blue-600 hover:text-blue-800">
-                                <i class="fas fa-cogs text-lg"></i> 
-                            </a>
-                        </td>
+                     <td class="py-2 px-4">
+    @if ($user->profile_photos) <!-- Check if the user has a profile picture -->
+        <img src="{{ asset('storage/profile_photos/' . $user->profile_photos) }}" alt="Profile" class="w-10 h-10 rounded-full">
+    @else
+        <div class="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-gray-700 text-2xl font-bold">
+            {{ strtoupper(substr($user->nama_lengkap, 0, 1)) }} 
+        </div>
+    @endif
+</td>
+
+
+                       <td class="py-2 px-4">{{ $user['nama_lengkap'] ?? 'Data tidak tersedia' }}</td>
+<td class="py-2 px-4">{{ $user['email'] ?? 'Data tidak tersedia' }}</td>
+<td class="py-2 px-4">{{ $user['phone'] ?? 'Data tidak tersedia' }}</td>
+<td class="py-2 px-4">
+    <a href="{{ route('users.show', $user['id']) }}" class="text-blue-600 hover:text-blue-800">
+        <i class="fas fa-cogs text-lg"></i> 
+    </a>
+</td>
+
                     </tr>
                 @endforeach
             </tbody>

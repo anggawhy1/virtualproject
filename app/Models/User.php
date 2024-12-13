@@ -18,6 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
+        'username',
         'email',
         'phone',
         'password',
@@ -62,10 +63,12 @@ class User extends Authenticatable
         return $this->hasMany(Laporan::class);
     }
 
-    public function rewards()
-    {
-        return $this->belongsToMany(Reward::class, 'user_rewards')
-            ->withPivot('redeemed_at')
-            ->withTimestamps();
-    }
+
+public function rewards()
+{
+    return $this->belongsToMany(Reward::class, 'user_rewards')
+        ->withPivot('redeemed_at')
+        ->withTimestamps();
+}
+
 }

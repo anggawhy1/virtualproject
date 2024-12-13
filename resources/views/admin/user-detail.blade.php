@@ -17,34 +17,41 @@
             </a>
         </div>
 
-        <div class="flex items-center mb-6">
-            <img src="{{ asset($user['profile']) }}" alt="Profile" class="w-10 h-10 rounded-full">
-            <div class="ml-4"> 
-                <h2 class="text-xl font-semibold">{{ $user['name'] }}</h2>
-                <p class="text-gray-600">{{ $user['role'] }}</p>
-            </div>
+      <div class="flex items-center mb-6">
+    @if ($user->profile) <!-- Check if the user has a profile picture -->
+        <img src="{{ asset('storage/profile_photos/' . $user->profile_pho) }}" alt="Profile" class="w-10 h-10 rounded-full">
+    @else
+        <div class="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-gray-700 text-2xl font-bold">
+            {{ strtoupper(substr($user->name, 0, 1)) }} <!-- Display the first letter of the user's name if no photo -->
         </div>
+    @endif
+<div class="ml-4">
+    <h2 class="text-xl font-semibold">{{ $user->nama_lengkap ?? 'Nama tidak tersedia' }}</h2>
+    <p class="text-gray-600">{{ $user->role ?? 'Role tidak tersedia' }}</p>
+</div>
+</div>
 
-        <div class="space-y-4">
 
-            <div class="flex items-center space-x-6">
-                <span class="font-semibold w-32">Email:</span>
-                <span class="text-gray-700">{{ $user['email'] }}</span>
-            </div>
-            <div class="flex items-center space-x-6">
-                <span class="font-semibold w-32">No HP:</span>
-                <span class="text-gray-700">{{ $user['phone'] }}</span>
-            </div>
-            <div class="flex items-center space-x-6">
-                <span class="font-semibold w-32">Lokasi:</span>
-                <span class="text-gray-700">{{ $user['address'] }}</span>
-            </div>
-            <div class="flex items-center space-x-6">
-                <span class="font-semibold w-32">Tanggal Lahir:</span>
-                <span class="text-gray-700">{{ \Carbon\Carbon::parse($user['dob'])->format('d F Y') }}</span>
-            </div>
-        </div>
-
+    <div class="space-y-4">
+    <div class="flex items-center space-x-6">
+        <span class="font-semibold w-32">Email:</span>
+        <span class="text-gray-700">{{ $user['email'] ?? 'Email tidak tersedia' }}</span>
+    </div>
+    <div class="flex items-center space-x-6">
+        <span class="font-semibold w-32">No HP:</span>
+        <span class="text-gray-700">{{ $user['phone'] ?? 'No HP tidak tersedia' }}</span>
+    </div>
+    <div class="flex items-center space-x-6">
+        <span class="font-semibold w-32">Lokasi:</span>
+        <span class="text-gray-700">{{ $user['lokasi'] ?? 'Lokasi tidak tersedia' }}</span>
+    </div>
+    <div class="flex items-center space-x-6">
+        <span class="font-semibold w-32">Tanggal Lahir:</span>
+        <span class="text-gray-700">
+            {{ $user['dob'] ? \Carbon\Carbon::parse($user['dob'])->format('d F Y') : 'Tanggal Lahir tidak tersedia' }}
+        </span>
+    </div>
+</div>
         <div class="mt-6 space-y-4">
 
             <div class="flex items-center justify-between bg-blue-50 border border-blue-600 rounded-lg p-4">

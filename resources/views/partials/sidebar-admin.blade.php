@@ -32,10 +32,15 @@
                     <i class="fas fa-cogs mr-2"></i>
                     <span>Settings</span>
                 </a>
-                <a href="{{ route('logout') }}" class="flex items-center py-2 px-4 mb-4 text-blue-600 hover:bg-blue-600 hover:text-white rounded-md transition">
-                    <i class="fas fa-sign-out-alt mr-2"></i>
-                    <span>Logout</span>
-                </a>
+
+                <form action="{{ route('logout') }}" method="POST" id="logout-form">
+    @csrf
+    <a href="#" onclick="document.getElementById('logout-form').submit()" class="flex items-center py-2 px-4 mb-4 text-blue-600 hover:bg-blue-600 hover:text-white rounded-md transition">
+        <i class="fas fa-sign-out-alt mr-2"></i>
+        <span>Logout</span>
+    </a>
+</form>
+
             </nav>
         </div>
     </aside>

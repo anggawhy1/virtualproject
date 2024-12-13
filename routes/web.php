@@ -6,6 +6,7 @@ use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RewardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DashboardController;
 
 
 use App\Http\Controllers\UserController;
@@ -30,16 +31,37 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
-// Rute halaman beranda, hanya bisa diakses setelah login
-Route::get('/beranda', function () {
-    // Pastikan pengguna sudah login sebelum mengakses halaman beranda
-    if (Auth::check()) {
-        return view('beranda');  // Pastikan view 'beranda' ada di resources/views
-    } else {
-        return redirect()->route('login');  // Jika belum login, redirect ke halaman login
+// Route for Beranda (Homepage)
+Route::middleware(['auth'])->get('/beranda', function () {
+    if (Auth::user()->role === 'admin') {
+        return redirect()->route('admin.dashboard');
     }
+
+    return view('beranda');
 })->name('beranda');
+
+
+
+Route::middleware(['auth', 'isAdmin'])->get('/admin/dashboard', [DashboardController::class, 'index'])
+    ->name('admin.dashboard');
+
+
+
+// Admin routes
+Route::middleware(['auth', 'isAdmin'])->group(function () {
+    Route::get('/admin/users', [UserController::class, 'index'])->name('admin.users');
+    Route::get('/admin/users/{id}', [UserController::class, 'show'])->name('users.show');
+});
+
+Route::middleware(['auth', 'isAdmin'])->group(function() {
+    Route::get('/admin/reports', [LaporanController::class, 'adminReports'])->name('admin.reports');
+    Route::get('/admin/reports/{laporan}', [LaporanController::class, 'reportshow'])->name('admin.reports.show');
+});
+
+Route::middleware(['auth', 'isAdmin'])->group(function() {
+Route::get('/rewards', [RewardController::class, 'indexadmin'])->name('rewards.index');
+Route::post('/rewards/{id}/redeem', [RewardController::class, 'redeem'])->name('rewards.redeem');
+});
 
 // Show register form (GET request)
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
@@ -215,23 +237,6 @@ Route::get('/info-point', function () {
 
 
 
-
-Route::get('/admin/dashboard', function () {
-    return view('admin.dashboard');
-})->name('admin.dashboard');
-
-Route::get('/admin/users', function () {
-    return view('admin.users');
-})->name('admin.users');
-
-Route::get('/admin/users', [UserController::class, 'index'])->name('admin.users');
-
-Route::get('/admin/users/{id}', [UserController::class, 'show'])->name('users.show');
-
-
-Route::get('/admin/reports', [AdminLaporController::class, 'index'])->name('admin.reports');
-
-Route::get('/admin/reports/{id}', [AdminLaporController::class, 'show'])->name('admin.reports.show');
 Route::get('/admin/reports/index', [AdminLaporController::class, 'index'])->name('admin.reports.index');
 
 Route::prefix('admin')->group(function () {

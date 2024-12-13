@@ -181,7 +181,26 @@ public function approveAndClaimPoint($laporanId)
     return response()->json(['success' => false, 'message' => 'Laporan tidak dapat disetujui.']);
 }
 
+public function adminReports()
+{
+    if (!Auth::check() || !Auth::user()->hasRole('admin')) {
+        return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu.');
+    }
 
+    $reports = Laporan::with('user')->orderBy('created_at', 'desc')->paginate(10);
+
+    return view('admin.reports', compact('reports'));
+}
+
+
+public function reportshow($id)
+{
+    // Menampilkan laporan berdasarkan ID dengan kategori yang terkait
+    $laporan = Laporan::with('kategori')->findOrFail($id);
+
+    // Pass laporan and kategori to the view
+    return view('admin.reports-detail', compact('laporan'));
+}
 
 
 

@@ -83,46 +83,38 @@ class AuthController extends Controller
 
 
   
- // Redirect ke Google untuk autentikasi
-    public function redirectToGoogle()
+ public function redirectToGoogle()
     {
         return Socialite::driver('google')->redirect();
     }
 
     // Handle callback dari Google
-  public function handleGoogleCallback()
-{
-    try {
-        // Log untuk menandai bahwa callback telah dijangkau
-        \Log::info('Callback reached');
+    public function handleGoogleCallback()
+    {
+        try {
+            $googleUser = Socialite::driver('google')->stateless()->user();
 
-        // Mendapatkan data pengguna dari Google
-        $googleUser  = Socialite::driver('google')->stateless()->user();
+            if (!$googleUser || !$googleUser->email) {
+                return redirect('/')->with('error', 'Gagal mendapatkan data pengguna dari Google.');
+            }
 
-        if (!$googleUser  || !$googleUser ->email) {
-            return redirect('/')->with('error', 'Gagal mendapatkan data pengguna dari Google.');
+            $user = User::firstOrCreate(
+                ['email' => $googleUser->email],
+                [
+                    'username' => $googleUser->name,
+                    'nama_lengkap' => $googleUser->name,
+                    'password' => bcrypt(Str::random(16)),
+                    'role' => 'user',
+                    'profile_photo' => $googleUser->avatar,
+                ]
+            );
+
+            Auth::login($user, true);
+
+            return redirect()->intended('/beranda');
+        } catch (\Exception $e) {
+            \Log::error('Google Login Error: ' . $e->getMessage());
+            return redirect('/')->with('error', 'Gagal login menggunakan Google.');
         }
-
-        // Cek apakah pengguna sudah terdaftar berdasarkan email
-        $user = User::where('email', $googleUser ->email)->first();
-
-        if (!$user) {
-            // Jika pengguna belum terdaftar, buat pengguna baru
-            $user = User::create([
-                'username' => $googleUser ->name,
-                'email' => $googleUser ->email,
-                'phone' => null,
-                'password' => bcrypt(Str::random(16)), // Password acak untuk pengguna baru
-                'role' => 'user',
-            ]);
-        }
-
-        Auth::login($user, true);
-
-        return redirect()->intended('/beranda');  
-    } catch (Exception $e) {
-        \Log::error('Google Login Error: ' . $e->getMessage());
-        return redirect('/')->with('error', 'Gagal login menggunakan Google.');
     }
-}
 }

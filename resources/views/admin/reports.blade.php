@@ -63,10 +63,16 @@
                     <tr class="border-b">
                         <td class="py-2 px-4">#{{ $report['id'] }}</td>
                         <td class="py-2 px-4 flex items-center space-x-2">
-                            <img src="{{ asset('images/pict1.png') }}" alt="Avatar" class="w-8 h-8 rounded-full">
-                            <span>{{ $report['name'] }}</span>
+                            @if ($report->user->profile_photos)
+                                <img src="{{ asset('storage/profile_photos/' . $report->user->profile_photos) }}" alt="Profile" class="w-10 h-10 rounded-full">
+                            @else
+                                <div class="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-gray-700 text-2xl font-bold">
+                                    {{ strtoupper(substr($report->user->nama_lengkap, 0, 1)) }} 
+                                </div>
+                            @endif
+                            <span>{{ $report->user->nama_lengkap }}</span>
                         </td>
-                        <td class="py-2 px-4">{{ $report['date'] }}</td>
+                        <td class="py-2 px-4">{{ $report['created_at'] }}</td>
                         <td class="py-2 px-4">
                             <span class="px-2 py-1 text-sm rounded-full
                                 {{ $report['status'] == 'Diproses' ? 'bg-yellow-200 text-yellow-800' : '' }}
@@ -89,7 +95,6 @@
 </div>
 
 <script>
-
     function toggleFilter() {
         const filterDropdown = document.getElementById('filterDropdown');
         filterDropdown.classList.toggle('hidden');
@@ -142,10 +147,8 @@
         let filteredReports = @json($reports);
 
         if (tab === 'semua') {
-
             filteredReports = @json($reports);
         } else {
-
             filteredReports = filteredReports.filter(report => report.status.toLowerCase() === tab);
         }
 
@@ -186,6 +189,7 @@
         const activeTab = document.getElementById(`${tab}Tab`);
         activeTab.classList.add('border-b-2', 'border-blue-600');
     }
+
     document.addEventListener('DOMContentLoaded', function() {
         filterByTab('semua');
     });

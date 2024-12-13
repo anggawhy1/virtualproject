@@ -38,29 +38,38 @@
         <a href="{{ route('admin.settings', ['section' => 'default']) }}" class="text-blue-600 hover:underline">Settings</a> > Akun
     </h2>
     <div class="bg-white rounded-lg shadow-md p-4 border border-blue-600">
-        <div class="flex items-center justify-center mb-6">
-            <img src="/images/pict1.png" alt="Profile Picture" class="w-24 h-24 rounded-full border border-blue-600">
+        
+            <div class="flex items-center justify-center mb-6">
+    @if (Auth::user()->profile_picture) <!-- Check if the user has a profile picture -->
+        <img src="{{ asset('storage/profile_photos/' . Auth::user()->profile_picture) }}" alt="Profile Picture" class="w-24 h-24 rounded-full border border-blue-600">
+    @else
+        <div class="w-24 h-24 rounded-full bg-gray-300 flex items-center justify-center text-gray-700 text-2xl font-bold">
+            {{ strtoupper(substr(Auth::user()->nama_lengkap, 0, 1)) }} <!-- Display the first letter of the user's name if no photo -->
+        </div>
+    @endif
+
+
         </div>
         <form action="{{ route('admin.settings', ['section' => 'default']) }}" method="POST">
             @csrf
             <div class="mb-4">
                 <label class="block text-sm text-gray-600">Nama</label>
                 <div class="flex items-center border border-blue-600 rounded-lg p-2">
-                    <input type="text" value="Karen Starr" class="w-full text-gray-800 focus:outline-none">
+                    <input type="text" name="name" value="{{ Auth::user()->nama_lengkap }}" class="w-full text-gray-800 focus:outline-none">
                     <i class="fas fa-edit text-blue-600"></i>
                 </div>
             </div>
             <div class="mb-4">
                 <label class="block text-sm text-gray-600">Email</label>
                 <div class="flex items-center border border-blue-600 rounded-lg p-2">
-                    <input type="text" value="karens.tar@gmail.com" class="w-full text-gray-800 focus:outline-none">
+                    <input type="text" name="email" value="{{ Auth::user()->email }}" class="w-full text-gray-800 focus:outline-none">
                     <i class="fas fa-edit text-blue-600"></i>
                 </div>
             </div>
             <div class="mb-4">
                 <label class="block text-sm text-gray-600">Nomor Telepon</label>
                 <div class="flex items-center border border-blue-600 rounded-lg p-2">
-                    <input type="text" value="08319920010" class="w-full text-gray-800 focus:outline-none">
+                    <input type="text" name="phone" value="{{ Auth::user()->phone ?? 'Not Set' }}" class="w-full text-gray-800 focus:outline-none">
                     <i class="fas fa-edit text-blue-600"></i>
                 </div>
             </div>
