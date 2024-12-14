@@ -100,19 +100,20 @@
 </div>
 
 <script>
-    let uploadedFiles = []; // Menyimpan file yang diunggah
+    let uploadedFiles = []; 
 
     function showFilePreviews(event) {
         const filePreviewsContainer = document.getElementById('file-previews');
         const newFiles = Array.from(event.target.files);
 
-        // Tambahkan file baru ke array
-        uploadedFiles = [...uploadedFiles, ...newFiles];
+        newFiles.forEach(newFile => {
+            if (!uploadedFiles.some(file => file.name === newFile.name && file.size === newFile.size)) {
+                uploadedFiles.push(newFile);
+            }
+        });
 
-        // Hapus semua preview sebelumnya
         filePreviewsContainer.innerHTML = '';
 
-        // Render semua file yang ada di uploadedFiles
         uploadedFiles.forEach((file, index) => {
             const filePreview = document.createElement('div');
             filePreview.className = 'flex items-center justify-between bg-gray-100 p-2 rounded mb-2 border';
@@ -126,15 +127,12 @@
             deleteButton.onclick = () => {
                 const inputElement = document.querySelector('input[type="file"]');
                 const dt = new DataTransfer();
-                
-                // Hapus file dari array
+
                 uploadedFiles.splice(index, 1);
 
-                // Perbarui daftar file input
                 uploadedFiles.forEach(file => dt.items.add(file));
                 inputElement.files = dt.files;
 
-                // Render ulang preview
                 showFilePreviews({ target: inputElement });
             };
 
@@ -142,6 +140,11 @@
             filePreview.appendChild(deleteButton);
             filePreviewsContainer.appendChild(filePreview);
         });
+
+        const inputElement = document.querySelector('input[type="file"]');
+        const dt = new DataTransfer();
+        uploadedFiles.forEach(file => dt.items.add(file));
+        inputElement.files = dt.files;
     }
 </script>
 
