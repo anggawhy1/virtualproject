@@ -27,10 +27,6 @@
                     <i class="fas fa-comment mr-2"></i>
                     <span>Pesan</span>
                 </a>
-                <a href="{{ route('admin.settings') }}" class="flex items-center py-2 px-4 mb-4 text-blue-600 hover:bg-blue-600 hover:text-white rounded-md transition">
-                    <i class="fas fa-cogs mr-2"></i>
-                    <span>Settings</span>
-                </a>
 
                 <a href="#" onclick="confirmLogout()" class="flex items-center py-2 px-4 mb-4 text-blue-600 hover:bg-blue-600 hover:text-white rounded-md transition">
                     <i class="fas fa-sign-out-alt mr-2"></i>

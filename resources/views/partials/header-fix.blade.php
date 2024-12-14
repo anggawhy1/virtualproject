@@ -9,16 +9,18 @@
     </div>
 
     <div class="flex items-center space-x-8">
-        <!-- Pesan -->
+
         <div class="relative">
             <a href="{{ route('admin.message') }}" class="text-blue-600 hover:text-blue-800">
                 <i class="fas fa-envelope text-lg"></i>
             </a>
         </div>
 
-        <a href="/admin/settings" class="flex items-center space-x-2">
-            <img src="{{ asset('images/pict1.png') }}" alt="User Profile" class="w-8 h-8 rounded-full">
-            <span class="text-gray-700">Admin</span>
+        <div class="flex items-center space-x-2">
+            <a href="/admin/settings" class="flex items-center space-x-2">
+                <img src="{{ asset('images/pict1.png') }}" alt="User Profile" class="w-8 h-8 rounded-full">
+                <span class="text-gray-700">Admin</span>
+            </a>
         </div>
     </div>
 </header>
