@@ -18,7 +18,7 @@
         <i class="fas fa-file-alt mr-2"></i> Laporan
     </a>
     <a
-        href="/reward"
+        href="/rewards"
         class="block py-3 mt-8 text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition duration-300 shadow-md transform hover:scale-105 text-center"
     >
         Tukar Hadiah

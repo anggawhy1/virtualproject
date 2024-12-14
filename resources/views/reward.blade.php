@@ -8,30 +8,29 @@
         <section class="w-3/4 p-6 border border-gray-300 rounded-lg bg-white shadow-md">
             <h1 class="text-3xl font-bold text-blue-600 mb-4">Tukar Hadiah</h1>
             <p class="text-gray-700 mb-2">Kumpulkan point dan tukarkan hadiahnya</p>
-            <p class="text-gray-700 mb-8">Point kamu sekarang adalah: <span class="font-bold text-blue-600">100</span></p>
+           <p class="text-gray-700 mb-8">
+    @if(Auth::check())
+        Point kamu sekarang adalah: <span class="font-bold text-blue-600">{{ Auth::user()->points }}</span>
+    @else
+        Anda belum login. Silakan login untuk melihat poin Anda.
+    @endif
+</p>
 
-            
+
             <h2 class="text-lg font-semibold mb-4">Hadiah yang bisa ditukarkan.
             <a href="/hadiah-kamu" class="text-blue-600 no-underline hover:underline text-sm font-normal" style="font-weight: 400;">Lihat Hadiah Saya</a>
             
             <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
-                @foreach ([
-                    ['id' => 'voucher-belanja', 'title' => 'Voucher Belanja', 'points' => 10, 'icon' => 'voucher.png'],
-                    ['id' => 'merchandise', 'title' => 'Merchandise', 'points' => 20, 'icon' => 'merchandise.png'],
-                    ['id' => 'discount-belanja', 'title' => 'Discount Belanja', 'points' => 40, 'icon' => 'diskon.png'],
-                    ['id' => 'hadiah-special', 'title' => 'Hadiah Special', 'points' => 50, 'icon' => 'hadiah.png'],
-                    ['id' => 'tiket-liburan', 'title' => 'Tiket Liburan', 'points' => 100, 'icon' => 'tiket.png'],
-                    ['id' => 'gadget', 'title' => 'Gadget', 'points' => 500, 'icon' => 'gadgets.png'],
-                ] as $reward)
+                @foreach ($rewards as $reward)
                     <div
-                        data-id="{{ $reward['id'] }}"
+                        data-id="{{ $reward->id }}"
                         class="p-4 border border-gray-300 rounded-lg cursor-pointer hover:shadow-lg transition duration-300 flex items-center justify-between reward-item"
                     >
                         <div class="flex items-center space-x-4">
-                            <img src="{{ asset('images/' . $reward['icon']) }}" alt="{{ $reward['title'] }}" class="w-8 h-8" />
+                            <img src="{{ asset('images/' . $reward->icon) }}" alt="{{ $reward->slug }}" class="w-8 h-8" />
                             <div>
-                                <h3 class="text-lg font-semibold">{{ $reward['title'] }}</h3>
-                                <p class="text-sm text-gray-600">Tukar Point {{ $reward['points'] }}</p>
+                                <h3 class="text-lg font-semibold">{{ $reward->slug }}</h3>
+                                <p class="text-sm text-gray-600">Tukar Point {{ $reward->points }}</p>
                             </div>
                         </div>
                         <span class="text-gray-500">&gt;</span>
@@ -54,13 +53,12 @@
         // Tambahkan event listener ke setiap item hadiah
         document.querySelectorAll('.reward-item').forEach(item => {
             item.addEventListener('click', function () {
-                const rewardId = this.getAttribute('data-id');
-                if (rewardId) {
-                    window.location.href = `/reward/${rewardId}`;
+                const rewardSlug = this.getAttribute('data-id');
+                if (rewardSlug) {
+                    window.location.href = `/reward/${rewardSlug}`;
                 }
             });
         });
     });
 </script>
 @endpush
-

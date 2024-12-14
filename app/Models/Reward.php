@@ -9,12 +9,14 @@ class Reward extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'description', 'points'];
+    protected $table = 'rewards';
 
-    public function users()
+    protected $fillable = ['slug', 'name', 'points', 'icon', 'description'];
+
+ public function users()
     {
         return $this->belongsToMany(User::class, 'user_rewards')
-            ->withPivot('redeemed_at')
+            ->withPivot('redeemed_at', 'status')
             ->withTimestamps();
     }
 }

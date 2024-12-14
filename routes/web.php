@@ -59,9 +59,11 @@ Route::middleware(['auth', 'isAdmin'])->group(function() {
 });
 
 Route::middleware(['auth', 'isAdmin'])->group(function() {
-Route::get('/rewards', [RewardController::class, 'indexadmin'])->name('rewards.index');
-Route::post('/rewards/{id}/redeem', [RewardController::class, 'redeem'])->name('rewards.redeem');
+Route::get('/admin/rewards', [RewardController::class, 'indexadmin'])->name('rewards.index.admin');
+
 });
+
+
 
 // Show register form (GET request)
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
@@ -111,8 +113,12 @@ Route::middleware(['auth'])->group(function () {
 
     // Rewards
     Route::get('/rewards', [RewardController::class, 'index'])->name('rewards.index');
-    Route::post('/rewards/{id}/redeem', [RewardController::class, 'redeem'])->name('rewards.redeem');
+   Route::get('/reward/{id}', [RewardController::class, 'show'])->name('reward.detail');
+   Route::post('/reward/{id}/redeem', [RewardController::class, 'redeem'])->name('reward.redeem');
+    Route::get('/reward/{slug}', [RewardController::class, 'showpop']);
+    Route::get('/hadiah-kamu', [RewardController::class, 'showRewards'])->name('hadiah-kamu');
 });
+
 
 
 
@@ -169,23 +175,23 @@ Route::get('/selesai-lapor', function () {
 //     return view('hasil-aduan');
 // });
 
-Route::get('/reward', function () {
-    return view('reward');
-});
-Route::get('/reward/{id}', function ($id) {
-    return "Detail reward dengan ID: $id"; 
-});
-Route::get('/reward', function () {
-    return view('reward');
-})->name('reward');
-Route::get('/reward/{id}', [RewardController::class, 'show'])->name('reward.detail');
-Route::get('/redeem/{id}', function ($id) {
-    return "Penukaran untuk hadiah dengan ID: {$id} sedang diproses.";
-})->name('reward.redeem');
+// Route::get('/reward', function () {
+//     return view('reward');
+// });
+// Route::get('/reward/{id}', function ($id) {
+//     return "Detail reward dengan ID: $id"; 
+// });
+// Route::get('/reward', function () {
+//     return view('reward');
+// })->name('reward');
+// Route::get('/reward/{id}', [RewardController::class, 'show'])->name('reward.detail');
+// Route::get('/redeem/{id}', function ($id) {
+//     return "Penukaran untuk hadiah dengan ID: {$id} sedang diproses.";
+// })->name('reward.redeem');
 
-Route::get('/hadiah-kamu', function () {
-    return view('hadiah-kamu');
-})->name('hadiah.kamu');
+// Route::get('/hadiah-kamu', function () {
+//     return view('hadiah-kamu');
+// })->name('hadiah.kamu');
 
 
 
@@ -254,9 +260,9 @@ Route::get('/admin/settings', function (Illuminate\Http\Request $request) {
     return view('admin.settings', compact('section'));
 })->name('admin.settings');
 
-Route::get('/logout', function () {
-    return redirect('/');
-})->name('logout');
+// Route::get('/logout', function () {
+//     return redirect('/');
+// })->name('logout');
 
 
 

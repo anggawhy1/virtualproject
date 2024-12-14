@@ -20,6 +20,8 @@ class CreateUserRewardsTable extends Migration
         $table->timestamp('redeemed_at');
         $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         $table->foreign('reward_id')->references('id')->on('rewards')->onDelete('cascade');
+        $table->string('status');
+        $table->timestamps();
         
     });
 }

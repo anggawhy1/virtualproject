@@ -13,13 +13,15 @@ class CreateRewardsTable extends Migration
      */
     public function up()
     {
-    Schema::create('rewards', function (Blueprint $table) {
-        $table->id();
-        $table->string('name');
-        $table->text('description')->nullable();
-        $table->integer('points');
-        $table->timestamps();
-    });
+        Schema::create('rewards', function (Blueprint $table) {
+            $table->id();
+            $table->string('slug')->unique(); // untuk menyimpan 'id' hadiah
+            $table->string('name'); // untuk 'title'
+            $table->string('icon'); // untuk 'icon'
+            $table->text('description')->nullable();
+            $table->integer('points'); // untuk 'points'
+            $table->timestamps();
+        });
     }
 
     /**

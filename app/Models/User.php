@@ -64,11 +64,12 @@ class User extends Authenticatable
     }
 
 
-public function rewards()
-{
-    return $this->belongsToMany(Reward::class, 'user_rewards')
-        ->withPivot('redeemed_at')
-        ->withTimestamps();
-}
+    public function rewards()
+    {
+        return $this->belongsToMany(Reward::class, 'user_rewards')
+            ->withPivot('redeemed_at', 'status')
+            ->withTimestamps();
+    }
+
 
 }

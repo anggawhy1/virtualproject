@@ -18,7 +18,7 @@
                             <input type="checkbox" name="role" value="Admin" class="mr-2"> Admin
                         </label>
                         <label class="block text-sm">
-                            <input type="checkbox" name="role" value="User" class="mr-2"> User
+                            <input type="checkbox" name="role" value="User " class="mr-2"> User
                         </label>
                     </div>
                     <div class="mt-4 flex justify-end">
@@ -40,22 +40,27 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($rewards as $reward)
-                    <tr class="border-b">
-                        <td class="py-2 px-4 flex items-center">
-                            <img src="{{ asset($reward['profile']) }}" alt="Profile" class="w-10 h-10 rounded-full mr-3">
-                            <span>{{ $reward['name'] }}</span>
-                        </td>
-                        <td class="py-2 px-4">{{ $reward['points'] }}</td>
-                        <td class="py-2 px-4">{{ $reward['status'] }}</td>
-                        <td class="py-2 px-4">
-                            <a href="{{ route('rewards.show', $reward['id']) }}" class="text-blue-600 hover:text-blue-800">
-                                <i class="fas fa-cogs text-lg"></i>
-                            </a>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
+    @forelse ($userRewards as $userReward)
+        <tr class="border-b">
+            <td class="py-2 px-4 flex items-center">
+                <img src="{{ asset($userReward->user->profile_photo ?? 'default.png') }}" alt="Profile" class="w-10 h-10 rounded-full mr-3">
+                <span>{{ $userReward->user->username ?? 'Tidak tersedia' }}</span>
+            </td>
+            <td class="py-2 px-4">{{ $userReward->reward->points ?? 'Tidak tersedia' }}</td>
+            <td class="py-2 px-4">{{ $userReward->status ?? 'Tidak tersedia' }}</td>
+            <td class="py-2 px-4">
+                <a href="{{ route('rewards.show', $userReward->id) }}" class="text-blue-600 hover:text-blue-800">
+                    <i class="fas fa-cogs text-lg"></i>
+                </a>
+            </td>
+        </tr>
+    @empty
+        <tr>
+            <td colspan="4" class="text-center py-4">Tidak ada data rewards.</td>
+        </tr>
+    @endforelse
+</tbody>
+
         </table>
     </div>
 </div>

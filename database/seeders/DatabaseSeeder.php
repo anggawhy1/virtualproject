@@ -15,7 +15,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-         DB::table('users')->insert([
+        // Menambahkan data pengguna admin
+        DB::table('users')->insert([
             'nama_lengkap' => 'Admin',
             'email' => 'admin@example.com',
             'phone' => '081234567890',
@@ -26,6 +27,12 @@ class DatabaseSeeder extends Seeder
             'profile_photo' => null, // Optional
             'created_at' => now(),
             'updated_at' => now(),
+        ]);
+
+        // Memanggil seeder lain
+        $this->call([
+            RewardSeeder::class,
+            // Tambahkan seeder lain jika ada
         ]);
     }
 }
