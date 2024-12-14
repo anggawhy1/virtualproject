@@ -13,6 +13,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminLaporController;
 use App\Http\Controllers\RewardsAdminController;
 use App\Http\Controllers\PesanController;
+use App\Http\Controllers\NotificationController;
 
 
 
@@ -212,7 +213,7 @@ Route::get('/selesai-lapor', function () {
 Route::get('/notifications', function () {
     return view('notifications'); 
 });
-
+Route::get('/notifikasi/{id}', [NotificationController::class, 'show'])->name('notifications.show');
 // Route::get('/profile', function () {
 //     return view('profile'); 
 // });
