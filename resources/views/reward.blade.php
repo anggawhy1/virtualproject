@@ -10,7 +10,10 @@
             <p class="text-gray-700 mb-2">Kumpulkan point dan tukarkan hadiahnya</p>
             <p class="text-gray-700 mb-8">Point kamu sekarang adalah: <span class="font-bold text-blue-600">100</span></p>
 
-            <h2 class="text-lg font-semibold mb-4">Hadiah yang bisa ditukarkan</h2>
+            
+            <h2 class="text-lg font-semibold mb-4">Hadiah yang bisa ditukarkan.
+            <a href="/hadiah-kamu" class="text-blue-600 no-underline hover:underline text-sm font-normal" style="font-weight: 400;">Lihat Hadiah Saya</a>
+            
             <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
                 @foreach ([
                     ['id' => 'voucher-belanja', 'title' => 'Voucher Belanja', 'points' => 10, 'icon' => 'voucher.png'],

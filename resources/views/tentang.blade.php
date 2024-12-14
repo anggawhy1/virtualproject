@@ -50,7 +50,7 @@
             </a>
         </div>
         <div class="md:w-1/2 mt-8 md:mt-0 flex justify-center">
-            <img src="{{ asset('images/abu.png') }}" alt="Illustration Image" class="w-full h-auto max-w-md rounded-lg shadow-lg" />
+            <img src="{{ asset('images/apasih.png') }}" alt="Illustration Image" class="w-full h-auto max-w-md rounded-lg shadow-lg" />
         </div>
     </section>
 
@@ -75,7 +75,7 @@
                 <li><strong>Bagi Pemerintah</strong> - Memberikan data real-time tentang masalah di lapangan. Membantu pemerintah mengidentifikasi prioritas pembangunan.</li>
             </ul>
         </div>
-        <img src="{{ asset('images/abu.png') }}" alt="Benefits Image" class="md:w-1/2 h-64 md:h-80 lg:h-96 object-cover rounded-lg shadow-lg" />
+        <img src="{{ asset('images/manfaat.png') }}" alt="Benefits Image" class="md:w-1/2 h-64 md:h-80 lg:h-96 object-cover rounded-lg shadow-lg" />
     </section>
 
     <section class="text-center mb-16 px-6 md:px-20">
@@ -146,8 +146,8 @@
     document.addEventListener('DOMContentLoaded', function() {
         const heroImages = [
             "{{ asset('images/image1.png') }}",
-            "{{ asset('images/Frame1.png') }}",
-            "{{ asset('images/image1.png') }}"
+            "{{ asset('images/tentang2.png') }}",
+            "{{ asset('images/tentang3.png') }}"
         ];
 
         let currentIndex = 0;

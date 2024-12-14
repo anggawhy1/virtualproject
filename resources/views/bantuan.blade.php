@@ -17,27 +17,45 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     @php
                         $faqs = [
-                            "Bagaimana cara saya membuat laporan?",
-                            "Bagaimana cara melacak perkembangan laporan saya?",
-                            "Apakah saya bisa melaporkan secara anonim?",
-                            "Bagaimana cara mendaftar akun baru?",
-                            "Bagaimana cara memperbarui informasi akun saya?",
-                            "Apa yang harus saya lakukan jika saya lupa kata sandi?",
+                            [
+                                'question' => "Bagaimana cara saya membuat laporan?",
+                                'answer' => "Kamu bisa membuat laporan dengan membuat akun terlebih dahulu, jika sudah maka kamu dapat mengklik 'Mulai Laporan' isi informasi mengenai laporan anda dan anda telah membuat laporan."
+                            ],
+                            [
+                                'question' => "Bagaimana cara melacak perkembangan laporan saya?",
+                                'answer' => "Cara melacak perkembangan laporan anda bisa menggunakan fitur 'Lacak aduan' pada navbar kami, Masukkan ID laporan anda dan anda telah menemukan informasi tentang laporan anda."
+                            ],
+                            [
+                                'question' => "Apakah saya bisa melaporkan secara anonim?",
+                                'answer' => "Ya, anda bisa melaporkan secara anonim, jika anda tidak ingin nama anda diketahui anda bisa menceklis 'Lapor sebagai anonim' saat mengisi informasi laporan."
+                            ],
+                            [
+                                'question' => "Bagaimana cara mendaftar akun baru?",
+                                'answer' => "Cara mendaftar akun baru anda bisa mengklik 'daftar' pada navbar website kami, isi informasi untuk akun anda dan anda telah siap mendaftar."
+                            ],
+                            [
+                                'question' => "Bagaimana cara memperbarui informasi akun saya?",
+                                'answer' => "Anda bisa memperbarui informasi anda dengan mengklik 'Edit profile' pada profile anda, isi informasi baru akun anda dan anda telah memperbaruinya."
+                            ],
+                            [
+                                'question' => "Apa yang harus saya lakukan jika saya lupa kata sandi?",
+                                'answer' => "Anda bisa mengklik 'lupa password' ketika anda mencoba password dan salah berkali-kali."
+                            ]
                         ];
                     @endphp
 
-                    @foreach ($faqs as $index => $question)
+                    @foreach ($faqs as $index => $faq)
                         <div class="border border-blue-300 rounded-lg p-4">
                             <div
                                 class="flex items-center justify-start cursor-pointer"
                                 onclick="toggleFAQ('{{ $index }}')"
                             >
                                 <img src="{{ asset('images/question.png') }}" alt="Icon" class="mr-2 w-6 h-6"> 
-                                <span class="text-blue-600 font-semibold text-left">{{ $question }}</span>
+                                <span class="text-blue-600 font-semibold text-left">{{ $faq['question'] }}</span>
                                 <span id="icon-{{ $index }}" class="ml-auto">+</span>
                             </div>
                             <p id="faq-{{ $index }}" class="mt-4 text-gray-700 text-sm hidden">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                                {{ $faq['answer'] }}
                             </p>
                         </div>
                     @endforeach
