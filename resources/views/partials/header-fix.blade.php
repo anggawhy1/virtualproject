@@ -16,7 +16,7 @@
             </a>
         </div>
 
-        <div class="flex items-center space-x-2">
+        <a href="/admin/settings" class="flex items-center space-x-2">
             <img src="{{ asset('images/pict1.png') }}" alt="User Profile" class="w-8 h-8 rounded-full">
             <span class="text-gray-700">Admin</span>
         </div>

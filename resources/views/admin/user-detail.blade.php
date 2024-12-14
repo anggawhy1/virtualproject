@@ -55,13 +55,6 @@
         <div class="mt-6 space-y-4">
 
             <div class="flex items-center justify-between bg-blue-50 border border-blue-600 rounded-lg p-4">
-                <span class="font-semibold text-blue-600">Blokir/Nonaktifkan Akun</span>
-                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
-                    Blokir
-                </button>
-            </div>
-
-            <div class="flex items-center justify-between bg-blue-50 border border-blue-600 rounded-lg p-4">
                 <span class="font-semibold text-blue-600">Hapus Akun</span>
                 <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
                     Hapus
