@@ -25,13 +25,13 @@
         </div>
     @endif
 
-    <!-- Sesudah Aduan (After Image) -->
+    <!-- Sesudah Aduan (After Image)
     <h2 class="text-2xl font-bold text-blue-600 mb-4">Sesudah Aduan</h2>
     @if($laporan->files && isset(json_decode($laporan->files)[1]))
         <div class="mb-8">
             <img src="{{ asset('storage/' . json_decode($laporan->files)[1]) }}" alt="Sesudah Aduan" class="w-full h-64 object-cover rounded-lg shadow-md cursor-pointer" id="afterImage" />
         </div>
-    @endif
+    @endif -->
 
     <p class="text-gray-800 text-center">
         Terima kasih telah melaporkan, semoga hasil dari aduan kamu dapat bermanfaat bagi lingkungan sekitar anda.

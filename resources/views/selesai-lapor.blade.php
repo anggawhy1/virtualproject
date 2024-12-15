@@ -17,13 +17,14 @@
                     onclick="copyReportId()"
                     class="ml-2 text-blue-600 cursor-pointer"
                 >
-                    <img src="{{ asset('images/Copy.png') }}" alt="Copy Icon" class="w-5 h-5 inline" />
+                    <i class="fas fa-copy w-5 h-5 inline"></i>
+
                 </button>
             </p>
             
             <a
                 href="/beranda"
-                class="w-full px-8 py-3 text-lg font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition duration-300 shadow-md transform hover:scale-105 text-center block"
+                class="w-full px-8 py-3 text-lg font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 shadow-md transform text-center block"
             >
                 Kembali ke Beranda
             </a>
@@ -37,7 +38,6 @@
     function copyReportId() {
         const reportId = document.getElementById('reportId').innerText;
         navigator.clipboard.writeText(reportId).then(() => {
-            alert("ID Laporan disalin ke clipboard!");
         });
     }
 </script>

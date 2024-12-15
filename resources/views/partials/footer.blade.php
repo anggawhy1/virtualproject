@@ -2,7 +2,7 @@
     <div class="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-5 gap-4">
 
         <div class="md:col-span-1 flex flex-col items-start pl-4">
-            <img src="images/logo.png" alt="Logo" class="w-20 h-20 mb-4" />
+        <img src="{{ asset('/images/logo.png') }}" alt="Logo" class="w-20 h-20 mb-4" />
             <p class="text-sm text-gray-400">© 2024 LaporPak.com</p>
         </div>
 

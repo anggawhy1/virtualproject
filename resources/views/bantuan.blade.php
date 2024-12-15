@@ -50,7 +50,8 @@
                                 class="flex items-center justify-start cursor-pointer"
                                 onclick="toggleFAQ('{{ $index }}')"
                             >
-                                <img src="{{ asset('images/question.png') }}" alt="Icon" class="mr-2 w-6 h-6"> 
+                            <i class="fa fa-question-circle text-blue-600 mr-2 w-6 h-6"></i>
+
                                 <span class="text-blue-600 font-semibold text-left">{{ $faq['question'] }}</span>
                                 <span id="icon-{{ $index }}" class="ml-auto">+</span>
                             </div>

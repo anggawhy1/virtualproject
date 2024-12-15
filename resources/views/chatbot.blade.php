@@ -14,16 +14,16 @@
 
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-            <button class="faq-btn bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg shadow-lg shadow-black focus:outline-none" data-answer="Bagaimana cara saya lapor?">
+            <button class="faq-btn bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg shadow-lg shadow-black focus:outline-none" data-answer="Kamu bisa membuat laporan dengan membuat akun terlebih dahulu, jika sudah maka kamu dapat mengklik 'Mulai Laporan' isi informasi mengenai laporan anda dan anda telah membuat laporan.">
                 Bagaimana cara saya lapor?
             </button>
-            <button class="faq-btn bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg shadow-lg shadow-black focus:outline-none" data-answer="Dimana saya dapat melacak laporan saya?">
+            <button class="faq-btn bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg shadow-lg shadow-black focus:outline-none" data-answer="Cara melacak perkembangan laporan anda bisa menggunakan fitur 'Lacak aduan' pada navbar kami, Masukkan ID laporan anda dan anda telah menemukan informasi tentang laporan anda.">
                 Dimana saya dapat melacak laporan saya?
             </button>
-            <button class="faq-btn bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg shadow-lg shadow-black focus:outline-none" data-answer="Apakah saya dapat melapor secara anonim?">
+            <button class="faq-btn bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg shadow-lg shadow-black focus:outline-none" data-answer="Ya, anda bisa melaporkan secara anonim, jika anda tidak ingin nama anda diketahui anda bisa menceklis 'Lapor sebagai anonim' saat mengisi informasi laporan.">
                 Apakah saya dapat melapor secara anonim?
             </button>
-            <button class="faq-btn bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg shadow-lg shadow-black focus:outline-none" data-answer="Cara membuat akun?">
+            <button class="faq-btn bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg shadow-lg shadow-black focus:outline-none" data-answer="Cara mendaftar akun baru anda bisa mengklik 'daftar' pada navbar website kami, isi informasi untuk akun anda dan anda telah siap mendaftar.">
                 Cara membuat akun?
             </button>
         </div>
@@ -39,7 +39,7 @@
                 class="flex-grow border border-blue-600 rounded-lg py-2 px-4 shadow-lg shadow-black focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600">
             <button
                 id="send-btn"
-                class="ml-2 bg-blue-600 text-white p-2 rounded-full shadow hover:bg-blue-700 focus:outline-none">
+                class="ml-2 bg-blue-600 text-white py-2 px-4  rounded-lg shadow hover:bg-blue-700 focus:outline-none">
                 <i class="fas fa-paper-plane text-lg"></i>
             </button>
 
@@ -73,7 +73,7 @@
                 botMessageWrapper.style.justifyContent = 'flex-start';
 
                 const botMessage = document.createElement('div');
-                botMessage.textContent = `LaporBot: ${answer}`;
+                botMessage.textContent = ` ${answer}`;
                 botMessage.className = 'bg-gray-300 text-gray-800 p-2 rounded-lg max-w-[75%] inline-block';
                 botMessageWrapper.appendChild(botMessage);
 
@@ -106,7 +106,7 @@
                 botMessageWrapper.style.justifyContent = 'flex-start';
 
                 const botMessage = document.createElement('div');
-                botMessage.textContent = `LaporBot: Terima kasih atas pertanyaan kamu! Kami akan memprosesnya.`;
+                botMessage.textContent = ` Terima kasih atas pertanyaan kamu! Kami akan memprosesnya.`;
                 botMessage.className = 'bg-gray-300 text-gray-800 p-2 rounded-lg max-w-[75%] inline-block';
                 botMessageWrapper.appendChild(botMessage);
 
