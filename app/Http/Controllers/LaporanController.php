@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Laporan;
-use App\Models\Kategori; 
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Auth;
 
 class LaporanController extends Controller
 {
+
 
      public function index()
 {
@@ -19,8 +19,7 @@ class LaporanController extends Controller
         return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu.');
     }
 
-    $kategori = Kategori::all();
-    return view('tambah-lapor', compact('kategori'));
+    return view('tambah-lapor');
 }
 
 public function store(Request $request)
@@ -36,10 +35,13 @@ public function store(Request $request)
         'lokasi' => 'nullable|string|max:255',
         'latitude' => 'nullable|numeric',
         'longitude' => 'nullable|numeric',
-        'kategori_id' => 'required|exists:kategoris,id',
+        'kategori' => 'required', // Kategori field is required
         'files.*' => 'nullable|file|mimes:jpeg,png,jpg,mp4|max:2048',
         'anonim' => 'nullable|boolean',
     ]);
+
+    // Ambil nilai kategori dari input
+    $kategori = $validatedData['kategori'];
 
     // Menentukan path folder untuk menyimpan file
     $folderPath = storage_path('app/public/uploads/laporan_files');
@@ -72,7 +74,7 @@ public function store(Request $request)
         'lokasi' => $lokasi,
         'latitude' => $latitude,
         'longitude' => $longitude,
-        'kategori_id' => $validatedData['kategori_id'],
+        'kategori' => $kategori, // Save kategori
         'files' => $filePaths ? json_encode($filePaths) : null,
         'user_id' => $anonim ? null : Auth::id(),  // Jika anonim, user_id diatur null
         'anonim' => $anonim,  // Menyimpan true/false ke database
@@ -82,32 +84,34 @@ public function store(Request $request)
     return redirect()->route('selesai-lapor', ['laporan' => $laporan->id])->with('success', 'Laporan berhasil dikirim.');
 }
 
- public function updateStatus($id)
-    {
-        // Temukan laporan berdasarkan ID
-        $laporan = Laporan::findOrFail($id);
 
-        // Cek status saat ini dan ubah ke status berikutnya
-        switch ($laporan->status) {
-            case 'Diajukan':
-                $laporan->status = 'Diproses';
-                $laporan->updated_at = now(); // Set waktu saat diproses
-                break;
-            case 'Diproses':
-                $laporan->status = 'Disetujui';
-                $laporan->approved_at = now(); // Set waktu saat disetujui
-                break;
-            case 'Disetujui':
-                // Jika sudah disetujui, tidak ada perubahan yang bisa dilakukan
-                return redirect()->back()->with('error', 'Laporan sudah disetujui.');
-        }
+public function updateStatus(Request $request, $id)
+{
+    // Validasi input
+    $request->validate([
+        'status' => 'required|in:Diajukan,Diproses,Disetujui',
+    ]);
 
-        // Simpan perubahan status
-        $laporan->save();
+    // Temukan laporan berdasarkan ID
+    $laporan = Laporan::findOrFail($id);
 
-        // Redirect kembali dengan pesan sukses
-        return redirect()->route('laporan.index')->with('status', 'Status laporan berhasil diubah.');
+    // Update status
+    $laporan->status = $request->status;
+
+    // Set waktu jika status berubah ke 'Diproses' atau 'Disetujui'
+    if ($request->status === 'Diproses') {
+        $laporan->updated_at = now(); // Update timestamp saat status berubah ke Diproses
+    } elseif ($request->status === 'Disetujui') {
+        $laporan->approved_at = now(); // Set waktu persetujuan
     }
+
+    // Simpan perubahan
+    $laporan->save();
+
+    // Redirect dengan pesan sukses
+    return redirect()->back()->with('status', 'Status laporan berhasil diubah.');
+}
+
 
      public function lacak()
     {
@@ -196,10 +200,25 @@ public function adminReports()
 public function reportshow($id)
 {
     // Menampilkan laporan berdasarkan ID dengan kategori yang terkait
-    $laporan = Laporan::with('kategori')->findOrFail($id);
-
-    // Pass laporan and kategori to the view
+    $laporan = Laporan::findOrFail($id);
+    
+    
     return view('admin.reports-detail', compact('laporan'));
+}
+
+public function laporan()
+{
+    // Mengambil laporan berdasarkan user yang login
+    $reports = Report::where('user_id', auth()->id())->get(); 
+
+    // Mengecek apakah ada laporan yang diambil
+    if ($reports->isEmpty()) {
+        dd('Tidak ada laporan yang ditemukan');
+    } else {
+        dd($reports);  // Menampilkan laporan yang ditemukan
+    }
+
+    return view('laporan', compact('reports'));  // Pastikan nama view sesuai dengan yang digunakan
 }
 
 

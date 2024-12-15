@@ -14,15 +14,15 @@ class DashboardController extends Controller
         $reportsThisMonth = Laporan::whereMonth('created_at', now()->month)->count();
         $completionRate = Laporan::where('status', 'Disetujui')->count() / max(Laporan::count(), 1) * 100;
 
-        $categories = Laporan::selectRaw('kategori_id, COUNT(*) as total')
-            ->groupBy('kategori_id')
+        $categories = Laporan::selectRaw('kategori, COUNT(*) as total')
+            ->groupBy('kategori')
             ->orderBy('total', 'desc')
             ->get();
 
         // Mapping kategori_id ke nama kategori (relasi dapat ditambahkan jika ada)
         $categories = $categories->map(function ($category) {
             return [
-                'name' => $category->kategori_id, // Ganti dengan relasi jika tersedia
+                'name' => $category->kategori, // Ganti dengan relasi jika tersedia
                 'value' => $category->total
             ];
         });

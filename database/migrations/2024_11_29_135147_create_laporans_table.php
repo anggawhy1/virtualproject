@@ -26,7 +26,7 @@ class CreateLaporansTable extends Migration
             ])->default('Diajukan');
             $table->json('files')->nullable();  
             $table->unsignedBigInteger('user_id')->nullable(); // Menggunakan ID biasa (unsignedBigInteger) untuk user_id
-            $table->unsignedBigInteger('kategori_id'); // Menggunakan ID biasa untuk kategori_id
+            $table->string('kategori'); 
             $table->boolean('anonim')->default(false); 
             $table->timestamps();
             $table->timestamp('approved_at')->nullable();
@@ -34,7 +34,7 @@ class CreateLaporansTable extends Migration
 
             // Foreign key dengan ID biasa
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('kategori_id')->references('id')->on('kategoris')->onDelete('cascade');
+            
         });
     }
 

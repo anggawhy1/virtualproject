@@ -61,15 +61,16 @@
             <tbody id="laporanContent">
                 @foreach ($reports as $report)
                     <tr class="border-b">
-                        <td class="py-2 px-4">#{{ $report['id'] }}</td>
+                        <td class="py-2 px-4">{{ $report['id'] }}</td>
                         <td class="py-2 px-4 flex items-center space-x-2">
-                            @if ($report->user->profile_photos)
-                                <img src="{{ asset('storage/profile_photos/' . $report->user->profile_photos) }}" alt="Profile" class="w-10 h-10 rounded-full">
-                            @else
-                                <div class="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-gray-700 text-2xl font-bold">
-                                    {{ strtoupper(substr($report->user->nama_lengkap, 0, 1)) }} 
-                                </div>
-                            @endif
+                          @if ($report->user->profile_photo) <!-- Periksa jika ada foto profil -->
+    <img src="{{ asset('storage/profile_photos/' . $report->user->profile_photo) }}" alt="Profile" class="w-10 h-10 rounded-full">
+@else
+    <div class="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-gray-700 text-2xl font-bold">
+        {{ strtoupper(substr($report->user->nama_lengkap, 0, 1)) }} <!-- Ambil huruf pertama dari nama -->
+    </div>
+@endif
+
                             <span>{{ $report->user->nama_lengkap }}</span>
                         </td>
                         <td class="py-2 px-4">{{ $report['created_at'] }}</td>

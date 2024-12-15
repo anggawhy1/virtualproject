@@ -19,7 +19,7 @@
                     <i class="fas fa-file-alt mr-2"></i>
                     <span>Kelola Laporan</span>
                 </a>
-                <a href="{{ route('admin.rewards') }}" class="flex items-center py-2 px-4 mb-4 text-blue-600 hover:bg-blue-600 hover:text-white rounded-md transition">
+                <a href="{{ route('rewards.index.admin') }}" class="flex items-center py-2 px-4 mb-4 text-blue-600 hover:bg-blue-600 hover:text-white rounded-md transition">
                     <i class="fas fa-gift mr-2"></i>
                     <span> Kelola Reward</span>
                 </a>

@@ -12,7 +12,7 @@
         <i class="fas fa-bell mr-2"></i> Notifikasi
     </a>
     <a
-        href="/laporan"
+        href="/laporan/tampil"
         class="flex items-center justify-start py-2 px-4 mb-4 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100"
     >
         <i class="fas fa-file-alt mr-2"></i> Laporan

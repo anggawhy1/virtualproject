@@ -39,27 +39,27 @@
                     <th class="py-2 px-4 text-left text-sm font-medium text-gray-700">Aksi</th>
                 </tr>
             </thead>
-            <tbody>
-    @forelse ($userRewards as $userReward)
-        <tr class="border-b">
-            <td class="py-2 px-4 flex items-center">
-                <img src="{{ asset($userReward->user->profile_photo ?? 'default.png') }}" alt="Profile" class="w-10 h-10 rounded-full mr-3">
-                <span>{{ $userReward->user->username ?? 'Tidak tersedia' }}</span>
-            </td>
-            <td class="py-2 px-4">{{ $userReward->reward->points ?? 'Tidak tersedia' }}</td>
-            <td class="py-2 px-4">{{ $userReward->status ?? 'Tidak tersedia' }}</td>
-            <td class="py-2 px-4">
-                <a href="{{ route('rewards.show', $userReward->id) }}" class="text-blue-600 hover:text-blue-800">
-                    <i class="fas fa-cogs text-lg"></i>
-                </a>
-            </td>
-        </tr>
-    @empty
-        <tr>
-            <td colspan="4" class="text-center py-4">Tidak ada data rewards.</td>
-        </tr>
-    @endforelse
+<tbody>
+  @foreach ($userRewards as $userReward)
+    <tr class="border-b">
+        <td class="py-2 px-4 flex items-center">
+            <span>{{ $userReward->user->nama_lengkap ?? 'Tidak tersedia' }}</span>
+        </td>
+        <td class="py-2 px-4">{{ $userReward->reward->points ?? 'Tidak tersedia' }}</td>
+        <td class="py-2 px-4">
+            {{ $userReward->status ?? 'Tidak tersedia' }} <!-- Menampilkan status dari pivot -->
+        </td>
+        <td class="py-2 px-4">
+            <a href="{{ route('rewards.show', $userReward->id) }}" class="text-blue-600 hover:text-blue-800">
+                <i class="fas fa-cogs text-lg"></i>
+            </a>
+        </td>
+    </tr>
+  @endforeach
 </tbody>
+
+
+
 
         </table>
     </div>

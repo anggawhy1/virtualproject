@@ -39,7 +39,7 @@
 
     <div class="bg-white border border-blue-600 rounded-lg p-6 mb-6 shadow-md">
         <h2 class="text-lg font-semibold text-blue-600 mb-4">Kategori Laporan</h2>
-        <p class="text-gray-700">{{$laporan->kategori->nama ?? 'Kategori tidak tersedia'}}</p>
+        <p class="text-gray-700">{{$laporan->kategori ?? 'Kategori tidak tersedia'}}</p>
     </div>
 
     <div class="relative bg-white border border-blue-600 rounded-lg p-6 mb-6 shadow-md">
@@ -84,12 +84,35 @@
     </div>
 </div>
 
+<div class="bg-white border border-blue-600 rounded-lg p-6 mb-6 shadow-md">
+    <h2 class="text-lg font-semibold text-blue-600 mb-4">Status Laporan</h2>
+    
+   <form action="{{ route('laporan.updateStatus', $laporan->id) }}" method="POST">
+    @csrf
+    <input type="hidden" name="_method" value="PUT"> <!-- Meniru metode PUT -->
+    
+    <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-4">
+            <span class="px-4 py-2 inline-block bg-green-100 text-green-800 text-sm font-medium rounded-lg">
+                {{$laporan->status ?? 'Status tidak tersedia'}}
+            </span>
 
+            <select name="status" class="bg-white border border-blue-600 text-gray-800 rounded-lg p-2">
+                <option value="Diajukan" {{ $laporan->status === 'Diajukan' ? 'selected' : '' }}>Diajukan</option>
+                <option value="Diproses" {{ $laporan->status === 'Diproses' ? 'selected' : '' }}>Diproses</option>
+                <option value="Disetujui" {{ $laporan->status === 'Disetujui' ? 'selected' : '' }}>Disetujui</option>
+            </select>
+        </div>
 
-    <div class="bg-white border border-blue-600 rounded-lg p-6 mb-6 shadow-md">
-        <h2 class="text-lg font-semibold text-blue-600 mb-4">Status Laporan</h2>
-        <span class="px-4 py-2 inline-block bg-green-100 text-green-800 text-sm font-medium rounded-lg">{{$laporan->status ?? 'Status tidak tersedia'}}</span>
+        <button type="submit" class="bg-blue-600 text-white py-2 px-4 rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            Konfirmasi
+        </button>
     </div>
+</form>
+
+</div>
+
+    
 
 <div class="bg-white border border-blue-600 rounded-lg p-6 mb-6 shadow-md">
     <h2 class="text-lg font-semibold text-blue-600 mb-4">Riwayat Status Laporan</h2>

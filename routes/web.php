@@ -32,6 +32,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// Route for Google login redirect
+Route::get('login/google', [AuthController::class, 'redirectToGoogle'])->name('google.login');
+
+// Handle Google login callback
+Route::get('auth/google/callback', [AuthController::class, 'handleGoogleCallback'])->name('google.callback');
+
 // Route for Beranda (Homepage)
 Route::middleware(['auth'])->get('/beranda', function () {
     if (Auth::user()->role === 'admin') {
@@ -61,7 +67,8 @@ Route::middleware(['auth', 'isAdmin'])->group(function() {
 
 Route::middleware(['auth', 'isAdmin'])->group(function() {
 Route::get('/admin/rewards', [RewardController::class, 'indexadmin'])->name('rewards.index.admin');
-
+Route::get('/rewards/{id}', [RewardController::class, 'showadmin'])->name('rewards.show');
+Route::put('/rewards/{id}/status', [RewardController::class, 'updateStatus'])->name('rewards.updateStatus');
 });
 
 
@@ -78,11 +85,7 @@ Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 // Handle login form submission (POST request)
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 
-// Route for Google login redirect
-Route::get('login/google', [AuthController::class, 'redirectToGoogle'])->name('google.login');
 
-// Handle Google login callback
-Route::get('auth/google/callback', [AuthController::class, 'handleGoogleCallback'])->name('google.callback');
 
 // Logout Route (POST request)
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -104,9 +107,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/selesai-lapor/{laporan}', [LaporanController::class, 'selesaiLapor'])->name('selesai-lapor');
     Route::get('/lacakaduan', [LaporanController::class, 'lacak'])->name('lacakaduan');
     Route::get('/lacak-aduan/show', [LaporanController::class, 'show'])->name('lacakaduan.show');
-    Route::post('/laporan/{id}/update-status', [LaporanController::class, 'updateStatus'])->name('laporan.updateStatus');
+    Route::put('/laporan/{id}/update-status', [LaporanController::class, 'updateStatus'])->name('laporan.updateStatus');
     Route::get('/hasiladuan/{id}', [LaporanController::class, 'hasilAduan'])->name('hasiladuan');
+     Route::get('/laporan/tampil', [LaporanController::class, 'laporan'])->name('laporan');
 });
+
+
+
 
 Route::middleware(['auth'])->group(function () {
     // Klaim Poin
@@ -119,6 +126,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/reward/{slug}', [RewardController::class, 'showpop']);
     Route::get('/hadiah-kamu', [RewardController::class, 'showRewards'])->name('hadiah-kamu');
 });
+
+
+Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+    // Rute untuk pengaturan
+    Route::get('/settings', [ProfileController::class, 'showSettings'])->name('settings');
+    Route::post('/settings', [ProfileController::class, 'updateSettings'])->name('update-settings');
+    Route::post('/settings/photo', [ProfileController::class, 'updateProfilePhotoadmin'])->name('update-photo');
+});
+
 
 
 
@@ -246,20 +262,20 @@ Route::get('/info-point', function () {
 
 Route::get('/admin/reports/index', [AdminLaporController::class, 'index'])->name('admin.reports.index');
 
-Route::prefix('admin')->group(function () {
-    Route::get('/rewards', [RewardsAdminController::class, 'index'])->name('admin.rewards');
-    Route::get('/rewards/{id}', [RewardsAdminController::class, 'show'])->name('rewards.show');
-});
+// Route::prefix('admin')->group(function () {
+//     Route::get('/rewards', [RewardsAdminController::class, 'index'])->name('admin.rewards');
+//     Route::get('/rewards/{id}', [RewardsAdminController::class, 'show'])->name('rewards.show');
+// });
 
 Route::prefix('admin')->group(function () {
     Route::get('/message', [PesanController::class, 'index'])->name('admin.message');
     Route::get('/message/{id}', [PesanController::class, 'show'])->name('admin.message.detail');
 });
 
-Route::get('/admin/settings', function (Illuminate\Http\Request $request) {
-    $section = $request->input('section', 'default'); 
-    return view('admin.settings', compact('section'));
-})->name('admin.settings');
+// Route::get('/admin/settings', function (Illuminate\Http\Request $request) {
+//     $section = $request->input('section', 'default'); 
+//     return view('admin.settings', compact('section'));
+// })->name('admin.settings');
 
 // Route::get('/logout', function () {
 //     return redirect('/');

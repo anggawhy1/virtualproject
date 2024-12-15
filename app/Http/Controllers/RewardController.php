@@ -89,12 +89,11 @@ public function showRewards()
     return view('hadiah-kamu', compact('rewards'));
 }
 
-
 public function indexadmin()
 {
     $userRewards = UserReward::with(['user', 'reward'])->get();
     
-    // Debugging: Cek apakah data berhasil diambil
+    // Debugging: Check if data is retrieved
     if ($userRewards->isEmpty()) {
         \Log::info('Tidak ada data user rewards.');
     } else {
@@ -103,6 +102,55 @@ public function indexadmin()
 
     return view('admin.rewards', compact('userRewards'));
 }
+
+
+public function showadmin($id)
+{
+    // Mencari data UserReward berdasarkan id
+    $userReward = UserReward::with(['user', 'reward'])->findOrFail($id);
+
+    // Mencari semua UserReward dengan status 'menunggu konfirmasi'
+    $pendingRewards = UserReward::with(['user', 'reward'])
+                                ->where('status', 'menunggu konfirmasi')
+                                ->get();
+
+    // Mengembalikan view untuk menampilkan detail reward pengguna dan daftar reward menunggu konfirmasi
+    return view('admin.reward-detail', compact('userReward', 'pendingRewards'));
+}
+
+
+public function updateStatus(Request $request, $id)
+{
+    // Find the UserReward by ID
+    $userReward = UserReward::findOrFail($id);
+
+    // Validate the incoming request
+    $validated = $request->validate([
+        'status' => 'required|in:ditolak,dikonfirmasi'
+    ]);
+
+    // Handle the status update based on the validated input
+    if ($validated['status'] === 'dikonfirmasi') {
+        // Update the status to "dikonfirmasi"
+        $userReward->update(['status' => 'dikonfirmasi']);
+    } elseif ($validated['status'] === 'ditolak') {
+        // Handle rejection: return points to the user
+        $user = $userReward->user;
+        $pointsUsed = $userReward->reward->points; // Assuming points are in the `reward` model
+
+        // Return the points to the user
+        $user->points += $pointsUsed;
+        $user->save();
+
+        // Update the status to "ditolak"
+        $userReward->update(['status' => 'ditolak']);
+    }
+
+    // Redirect with a success message
+    return redirect()->route('rewards.index.admin')
+                     ->with('success', 'Status berhasil diperbarui.');
+}
+
 
 
 }

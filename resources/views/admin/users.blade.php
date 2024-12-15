@@ -44,13 +44,14 @@
                 @foreach ($users as $user)
                     <tr>
                      <td class="py-2 px-4">
-    @if ($user->profile_photos) <!-- Check if the user has a profile picture -->
-        <img src="{{ asset('storage/profile_photos/' . $user->profile_photos) }}" alt="Profile" class="w-10 h-10 rounded-full">
-    @else
-        <div class="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-gray-700 text-2xl font-bold">
-            {{ strtoupper(substr($user->nama_lengkap, 0, 1)) }} 
-        </div>
-    @endif
+  @if ($user->profile_photo)
+    <img src="{{ asset('storage/profile_photos/' . $user->profile_photo) }}" alt="Profile" class="w-10 h-10 rounded-full">
+@else
+    <div class="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-gray-700 text-2xl font-bold">
+        {{ strtoupper(substr($user->nama_lengkap, 0, 1)) }} 
+    </div>
+@endif
+
 </td>
 
 

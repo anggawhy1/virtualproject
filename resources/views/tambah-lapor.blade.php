@@ -9,22 +9,19 @@
 
         <div>
             <select
-                name="kategori_id"
+                name="kategori"
                 class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700"
                 required>
                 <option value="" disabled selected>Pilih Kategori Laporan</option>
-                @foreach($kategori as $item)
-                <option value="{{ $item->id }}">{{ $item->nama }}</option>
-                @endforeach
-                <option value="Jalan Rusak">Jalan Rusak</option>
-                <option value="Infrastruktur">Infrastruktur</option>
-                <option value="Kriminalitas">Kriminalitas</option>
-                <option value="Internet">Internet</option>
-                <option value="Kesehatan">Kesehatan</option>
-                <option value="Pendidikan">Pendidikan</option>
-                <option value="Lingkungan">Lingkungan</option>
-                <option value="Transportasi">Transportasi</option>
-                <option value="Bencana Alam">Bencana Alam</option>
+            <option value="Jalan Rusak">Jalan Rusak</option>
+            <option value="Infrastruktur">Infrastruktur</option>
+            <option value="Kriminalitas">Kriminalitas</option>
+            <option value="Internet">Internet</option>
+            <option value="Kesehatan">Kesehatan</option>
+            <option value="Pendidikan">Pendidikan</option>
+            <option value="Lingkungan">Lingkungan</option>
+            <option value="Transportasi">Transportasi</option>
+            <option value="Bencana Alam">Bencana Alam</option>
             </select>
         </div>
 

@@ -23,7 +23,7 @@ class Laporan extends Model
         'status',
         'files',
         'user_id',
-        'kategori_id',
+        'kategori',
         'anonim',
         'approved_at',
         'is_claimed',
@@ -41,12 +41,6 @@ class Laporan extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
-    }
-
-    // Relasi dengan tabel 'kategoris' (kategori_id)
-    public function kategori()
-    {
-        return $this->belongsTo(Kategori::class, 'kategori_id');
     }
 
      protected $casts = [

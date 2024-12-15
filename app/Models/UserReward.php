@@ -11,17 +11,17 @@ class UserReward extends Pivot
     public $timestamps = false;
 
 
-public function users()
-{
-    return $this->belongsToMany(User::class, 'user_rewards')
-        ->withPivot('redeemed_at')
-        ->withTimestamps();
-}
+ // Relasi many-to-many dengan User
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
-public function reward()
-{
-    return $this->belongsTo(Reward::class);
-}
+    // Relasi many-to-many dengan Reward
+    public function reward()
+    {
+        return $this->belongsTo(Reward::class,  'reward_id');
+    }
 
 
 }

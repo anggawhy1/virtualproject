@@ -18,13 +18,14 @@
         </div>
 
       <div class="flex items-center mb-6">
-    @if ($user->profile) <!-- Check if the user has a profile picture -->
-        <img src="{{ asset('storage/profile_photos/' . $user->profile_pho) }}" alt="Profile" class="w-10 h-10 rounded-full">
-    @else
-        <div class="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-gray-700 text-2xl font-bold">
-            {{ strtoupper(substr($user->name, 0, 1)) }} <!-- Display the first letter of the user's name if no photo -->
-        </div>
-    @endif
+   @if ($user->profile_photo) <!-- Check if the user has a profile picture -->
+    <img src="{{ asset('storage/profile_photos/' . $user->profile_photo) }}" alt="Profile" class="w-10 h-10 rounded-full">
+@else
+    <div class="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-gray-700 text-2xl font-bold">
+        {{ strtoupper(substr($user->name, 0, 1)) }} <!-- Display the first letter of the user's name if no photo -->
+    </div>
+@endif
+
 <div class="ml-4">
     <h2 class="text-xl font-semibold">{{ $user->nama_lengkap ?? 'Nama tidak tersedia' }}</h2>
     <p class="text-gray-600">{{ $user->role ?? 'Role tidak tersedia' }}</p>
