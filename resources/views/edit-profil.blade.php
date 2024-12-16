@@ -43,6 +43,7 @@
                                 onchange="previewPhoto(event)">
                         </label>
                     </div>
+                    <div id="fileNamePreview" class="mt-2 text-gray-600 font-semibold"></div>
 
                     <button type="submit" class="mt-8 w-full py-3 text-white bg-blue-600 rounded-lg hover:bg-blue-700">
                         Selesai
@@ -54,11 +55,12 @@
 
     <!-- Skrip didefinisikan langsung di sini -->
     <script>
-        // Fungsi untuk menampilkan pratinjau foto
+        // Fungsi untuk menampilkan pratinjau foto dan nama file
         function previewPhoto(event) {
             const file = event.target.files[0];
             const preview = document.getElementById('profilePhotoPreview');
             const placeholder = document.getElementById('profilePlaceholder');
+            const fileNamePreview = document.getElementById('fileNamePreview');
 
             if (file) {
                 const reader = new FileReader();
@@ -68,6 +70,9 @@
                     placeholder.classList.add('hidden');
                 };
                 reader.readAsDataURL(file);
+
+                // Menampilkan nama file
+                fileNamePreview.textContent = file.name;
             }
         }
     </script>

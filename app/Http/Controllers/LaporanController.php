@@ -138,9 +138,18 @@ public function show(Request $request)
     // Menangani permintaan untuk menampilkan detail laporan berdasarkan ID
     $laporan = Laporan::findOrFail($request->id);
 
-    // Pass laporan ke view yang sesuai
-    return view('aduan', compact('laporan'));
+    // Menangani kemungkinan $laporan->files kosong atau tidak sesuai format
+    $files = json_decode($laporan->files);
+    
+    // Periksa apakah files tidak kosong dan memiliki data yang benar
+    $images = is_array($files) ? array_map(function ($file) {
+        return asset('storage/' . str_replace('\/', '/', $file));
+    }, $files) : [];
+
+    // Pass laporan dan images ke view yang sesuai
+    return view('aduan', compact('laporan', 'images'));
 }
+
 
 
 public function selesaiLapor($laporan)
@@ -185,16 +194,50 @@ public function approveAndClaimPoint($laporanId)
     return response()->json(['success' => false, 'message' => 'Laporan tidak dapat disetujui.']);
 }
 
-public function adminReports()
+
+public function adminReports(Request $request)
 {
+    // Check if the user is authenticated and has the 'admin' role
     if (!Auth::check() || !Auth::user()->hasRole('admin')) {
         return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu.');
     }
 
-    $reports = Laporan::with('user')->orderBy('created_at', 'desc')->paginate(10);
+    // Get the 'status' filter from the request, default to 'semua'
+    $status = $request->get('status', 'semua'); 
 
-    return view('admin.reports', compact('reports'));
+    // Start the query for the reports
+    $reportsQuery = Laporan::with('user')->orderBy('created_at', 'desc');
+
+    // Apply filter if a specific status is selected
+    $validStatuses = ['diajukan', 'diproses', 'disetujui', 'selesai']; // Valid statuses
+    if ($status !== 'semua' && in_array($status, $validStatuses)) {
+        $reportsQuery->where('status', ucfirst($status)); // Apply filter based on status
+    }
+
+    // Paginate reports
+    $reports = $reportsQuery->paginate(10);
+$reportsArray = $reports->map(function ($report) {
+    $profilePhotoUrl = $report->user->profile_photo ? 
+                       asset('storage/profile_photos/' . $report->user->profile_photo) : 
+                       strtoupper(substr($report->user->nama_lengkap, 0, 1));
+    
+    
+    return [
+        'id' => $report->id,
+        'name' => $report->user->nama_lengkap,
+        'date' => $report->created_at->format('Y-m-d H:i'),
+        'status' => $report->status,
+        'profile_photo' => $profilePhotoUrl,
+    ];
+})->toArray();
+
+
+    // Pass the reports and the transformed reports array to the view
+    return view('admin.reports', compact('reportsArray', 'reports'));
 }
+
+
+
 
 
 public function reportshow($id)
@@ -206,21 +249,48 @@ public function reportshow($id)
     return view('admin.reports-detail', compact('laporan'));
 }
 
-public function laporan()
+public function showReports(Request $request)
 {
-    // Mengambil laporan berdasarkan user yang login
-    $reports = Report::where('user_id', auth()->id())->get(); 
+    $status = $request->input('status', 'semua'); // Default to 'semua' if no filter applied
 
-    // Mengecek apakah ada laporan yang diambil
-    if ($reports->isEmpty()) {
-        dd('Tidak ada laporan yang ditemukan');
-    } else {
-        dd($reports);  // Menampilkan laporan yang ditemukan
+    $reportsQuery = Report::with('user'); 
+
+    if ($status !== 'semua') {
+        $reportsQuery->where('status', $status);
     }
 
-    return view('laporan', compact('reports'));  // Pastikan nama view sesuai dengan yang digunakan
+    $reports = $reportsQuery->get()->map(function ($report) {
+        return [
+            'id' => $report->id,
+            'name' => $report->user->nama_lengkap,
+            'date' => $report->created_at->format('Y-m-d H:i'),
+            'status' => $report->status,
+            'profile_photo' => $report->user->profile_photo ? 
+                                 asset('storage/profile_photos/' . $report->user->profile_photo) : 
+                                 strtoupper(substr($report->user->nama_lengkap, 0, 1)),
+        ];
+    });
+
+    // Debugging: Log the reports
+    \Log::info('Fetched reports:', $reports->toArray());
+
+    return response()->json(['reports' => $reports]);
 }
 
 
+// public function laporan()
+// {
+//     // // Mengambil laporan berdasarkan user yang login
+//     // $reports = Report::where('user_id', auth()->id())->get(); 
 
+//     // // Mengecek apakah ada laporan yang diambil
+//     // if ($reports->isEmpty()) {
+//     //     dd('Tidak ada laporan yang ditemukan');
+//     // } else {
+//     //     dd($reports);  // Menampilkan laporan yang ditemukan
+//     // }
+
+//     // , compact('reports')
+
+//     return view('laporan');  // Pastikan nama view sesuai dengan yang digunakan
 }

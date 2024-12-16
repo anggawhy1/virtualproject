@@ -58,11 +58,17 @@ Route::middleware(['auth', 'isAdmin'])->get('/admin/dashboard', [DashboardContro
 Route::middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/admin/users', [UserController::class, 'index'])->name('admin.users');
     Route::get('/admin/users/{id}', [UserController::class, 'show'])->name('users.show');
+    Route::get('/admin/edit/{id}', [UserController::class, 'edit'])->name('users.edit');
+    Route::post('/admin/update/{id}', [UserController::class, 'update'])->name('admin.update');
+    Route::delete('/admin/delete/{id}', [UserController::class, 'destroy'])->name('admin.users.destroy');
+
 });
 
 Route::middleware(['auth', 'isAdmin'])->group(function() {
     Route::get('/admin/reports', [LaporanController::class, 'adminReports'])->name('admin.reports');
     Route::get('/admin/reports/{laporan}', [LaporanController::class, 'reportshow'])->name('admin.reports.show');
+    Route::get('/admin/reports/filter', [LaporanController::class, 'adminReports']);
+
 });
 
 Route::middleware(['auth', 'isAdmin'])->group(function() {
@@ -109,7 +115,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/lacak-aduan/show', [LaporanController::class, 'show'])->name('lacakaduan.show');
     Route::put('/laporan/{id}/update-status', [LaporanController::class, 'updateStatus'])->name('laporan.updateStatus');
     Route::get('/hasiladuan/{id}', [LaporanController::class, 'hasilAduan'])->name('hasiladuan');
-     Route::get('/laporan/tampil', [LaporanController::class, 'laporan'])->name('laporan');
+    // Route::get('/laporan/tampil', [LaporanController::class, 'laporan'])->name('laporan.tampil');
 });
 
 
@@ -136,28 +142,6 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
 });
 
 
-
-
-
-// Route::middleware(['auth'])->group(function () {
-//     // Rute untuk mendapatkan semua kategori (terbuka untuk semua pengguna)
-//     Route::get('/kategoris', [KategoriController::class, 'getKategoris'])->name('kategoris.index');
-
-//     // Menggunakan middleware 'isAdmin' untuk akses admin
-//     Route::middleware(['isAdmin'])->group(function () {
-//         // Menambah kategori baru
-//         Route::post('/kategoris', [KategoriController::class, 'storeKategori'])->name('kategoris.store');
-
-//         // Memperbarui kategori
-//         Route::put('/kategoris/{id}', [KategoriController::class, 'updateKategori'])->name('kategoris.update');
-
-//         // Menghapus kategori
-//         Route::delete('/kategoris/{id}', [KategoriController::class, 'destroyKategori'])->name('kategoris.destroy');
-//     });
-// });
-
-
-
 Route::get('/tambah-lapor', function () {
     return view('tambah-lapor'); 
 });
@@ -170,10 +154,43 @@ Route::get('/tentang', function () {
 });
 
 
-
-Route::get('/selesai-lapor', function () {
-    return view('selesai-lapor');
+Route::get('/laporan/tampil', function () {
+    return view('laporan'); 
 });
+    
+    Route::get('/selesai-lapor', function () {
+        return view('selesai-lapor');
+    });
+
+Route::get('/notifications', function () {
+    return view('notifications'); 
+});
+Route::get('/notifikasi/{id}', [NotificationController::class, 'show'])->name('notifications.show');
+
+Route::get('/edit-data-diri', function () {
+    return view('edit-data-diri'); 
+});
+
+Route::get('/bantuan', function () {
+    return view('bantuan');
+});
+
+Route::get('/info-point', function () {
+    return view('info-point');
+})->name('info-point');
+
+
+Route::get('/admin/reports/index', [AdminLaporController::class, 'index'])->name('admin.reports.index');
+
+
+Route::prefix('admin')->group(function () {
+    Route::get('/message', [PesanController::class, 'index'])->name('admin.message');
+    Route::get('/message/{id}', [PesanController::class, 'show'])->name('admin.message.detail');
+});
+
+Route::get('/chatbot', function () {
+    return view('chatbot'); 
+})->name('chatbot');
 
 // Route::get('/lacakaduan', function () {
 //     return view('lacak-aduan');
@@ -226,10 +243,7 @@ Route::get('/selesai-lapor', function () {
 //     return "Detail laporan dengan ID: $id"; 
 // });
 
-Route::get('/notifications', function () {
-    return view('notifications'); 
-});
-Route::get('/notifikasi/{id}', [NotificationController::class, 'show'])->name('notifications.show');
+
 // Route::get('/profile', function () {
 //     return view('profile'); 
 // });
@@ -244,33 +258,14 @@ Route::get('/notifikasi/{id}', [NotificationController::class, 'show'])->name('n
 
 
 
-Route::get('/edit-data-diri', function () {
-    return view('edit-data-diri'); 
-});
 
-Route::get('/bantuan', function () {
-    return view('bantuan');
-});
-
-Route::get('/info-point', function () {
-    return view('info-point');
-})->name('info-point');
-
-
-
-
-
-Route::get('/admin/reports/index', [AdminLaporController::class, 'index'])->name('admin.reports.index');
 
 // Route::prefix('admin')->group(function () {
 //     Route::get('/rewards', [RewardsAdminController::class, 'index'])->name('admin.rewards');
 //     Route::get('/rewards/{id}', [RewardsAdminController::class, 'show'])->name('rewards.show');
 // });
 
-Route::prefix('admin')->group(function () {
-    Route::get('/message', [PesanController::class, 'index'])->name('admin.message');
-    Route::get('/message/{id}', [PesanController::class, 'show'])->name('admin.message.detail');
-});
+
 
 // Route::get('/admin/settings', function (Illuminate\Http\Request $request) {
 //     $section = $request->input('section', 'default'); 
@@ -284,6 +279,3 @@ Route::prefix('admin')->group(function () {
 
 
 //chatbot
-Route::get('/chatbot', function () {
-    return view('chatbot'); 
-})->name('chatbot');

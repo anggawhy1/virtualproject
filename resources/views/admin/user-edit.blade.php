@@ -6,7 +6,7 @@
 
     <div class="bg-white rounded-lg shadow-md p-4 border border-blue-600">
         <div class="flex items-center justify-center mb-6">
-            @if ($user->profile_photo) 
+            @if ($user->profile_photo)
                 <img src="{{ asset('storage/profile_photos/' . $user->profile_photo) }}" alt="Profile" class="w-24 h-24 rounded-full border border-blue-600">
             @else
                 <div class="w-24 h-24 rounded-full border border-blue-600 flex items-center justify-center text-gray-700 text-2xl font-bold">
@@ -15,28 +15,43 @@
             @endif
         </div>
 
-        <div class="mb-4">
-            <label class="block text-sm text-gray-600">Role</label>
-            <div class="flex items-center border border-blue-600 rounded-lg p-2">
-                <input type="text" value="{{ $user->role == 'admin' ? 'Admin' : 'User' }}" class="w-full text-gray-800 focus:outline-none" readonly>
+        @if (session('success'))
+            <div class="mb-4 text-green-600 font-semibold">
+                {{ session('success') }}
             </div>
-        </div>
+        @endif
 
-        <form action="{{ route('admin.update-settings', $user->id) }}" method="POST">
-            @csrf
-            @method('PUT') 
+        <form action="{{ route('admin.update', $user->id) }}" method="POST">
+    @csrf
+
+            <div class="mb-4">
+                <label class="block text-sm text-gray-600">Nama Lengkap</label>
+                <div class="flex items-center border border-blue-600 rounded-lg p-2">
+                    <input type="text" name="nama_lengkap" value="{{ old('nama_lengkap', $user->nama_lengkap) }}" class="w-full text-gray-800 focus:outline-none">
+                </div>
+                @error('nama_lengkap')
+                    <span class="text-red-600 text-sm">{{ $message }}</span>
+                @enderror
+            </div>
 
             <div class="mb-4">
                 <label class="block text-sm text-gray-600">Email</label>
                 <div class="flex items-center border border-blue-600 rounded-lg p-2">
                     <input type="email" name="email" value="{{ old('email', $user->email) }}" class="w-full text-gray-800 focus:outline-none">
                 </div>
+                @error('email')
+                    <span class="text-red-600 text-sm">{{ $message }}</span>
+                @enderror
             </div>
+
             <div class="mb-4">
                 <label class="block text-sm text-gray-600">Nomor Telepon</label>
                 <div class="flex items-center border border-blue-600 rounded-lg p-2">
                     <input type="text" name="phone" value="{{ old('phone', $user->phone) }}" class="w-full text-gray-800 focus:outline-none">
                 </div>
+                @error('phone')
+                    <span class="text-red-600 text-sm">{{ $message }}</span>
+                @enderror
             </div>
 
             <div class="mb-4">
@@ -44,6 +59,9 @@
                 <div class="flex items-center border border-blue-600 rounded-lg p-2">
                     <input type="text" name="lokasi" value="{{ old('lokasi', $user->lokasi) }}" class="w-full text-gray-800 focus:outline-none">
                 </div>
+                @error('lokasi')
+                    <span class="text-red-600 text-sm">{{ $message }}</span>
+                @enderror
             </div>
 
             <div class="mb-4">
@@ -51,10 +69,24 @@
                 <div class="flex items-center border border-blue-600 rounded-lg p-2">
                     <input type="date" name="tanggal_lahir" value="{{ old('tanggal_lahir', $user->tanggal_lahir) }}" class="w-full text-gray-800 focus:outline-none">
                 </div>
+                @error('tanggal_lahir')
+                    <span class="text-red-600 text-sm">{{ $message }}</span>
+                @enderror
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-sm text-gray-600">Role</label>
+                <select name="role" class="w-full border border-blue-600 rounded-lg p-2 text-gray-800 focus:outline-none">
+                    <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>
+                    <option value="user" {{ $user->role == 'user' ? 'selected' : '' }}>User</option>
+                </select>
+                @error('role')
+                    <span class="text-red-600 text-sm">{{ $message }}</span>
+                @enderror
             </div>
 
             <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-lg">Simpan Perubahan</button>
-        </form>
+</form>
     </div>
 </div>
 @endsection

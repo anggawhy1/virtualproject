@@ -28,6 +28,7 @@ class User extends Authenticatable
         'lokasi',
         'profile_photo',
         'points',
+        'tanggal_lahir',
     ];
 
     /**

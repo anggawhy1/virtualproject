@@ -5,11 +5,16 @@
 
         @auth
         <!-- Tautan untuk pengguna yang sudah login -->
-        <a href="{{ route('beranda') }}" class="text-gray-900 font-medium text-base hover:text-blue-600 transition duration-300 hidden sm:inline-block">Beranda</a>
-        <a href="/tentang" class="text-gray-900 font-medium text-base hover:text-blue-600 transition duration-300 hidden sm:inline-block">Tentang</a>
-        <a href="/lacakaduan" class="text-gray-900 font-medium text-base hover:text-blue-600 transition duration-300 hidden sm:inline-block">Lacak Aduan</a>
-        <a href="/bantuan" class="text-gray-900 font-medium text-base hover:text-blue-600 transition duration-300 hidden sm:inline-block">Bantuan</a>
+        <a href="{{ route('beranda') }}" class="text-base font-medium transition duration-300 hidden sm:inline-block 
+           {{ request()->routeIs('beranda') ? 'text-blue-600' : 'text-gray-900 hover:text-blue-600' }}">Beranda</a>
+        <a href="/tentang" class="text-base font-medium transition duration-300 hidden sm:inline-block 
+           {{ request()->is('tentang') ? 'text-blue-600' : 'text-gray-900 hover:text-blue-600' }}">Tentang</a>
+        <a href="/lacakaduan" class="text-base font-medium transition duration-300 hidden sm:inline-block 
+           {{ request()->is('lacakaduan') ? 'text-blue-600' : 'text-gray-900 hover:text-blue-600' }}">Lacak Aduan</a>
+        <a href="/bantuan" class="text-base font-medium transition duration-300 hidden sm:inline-block 
+           {{ request()->is('bantuan') ? 'text-blue-600' : 'text-gray-900 hover:text-blue-600' }}">Bantuan</a>
         @else
+
         <!-- Tautan untuk pengguna yang belum login -->
         <a href="/" class="text-gray-900 font-medium text-base hover:text-blue-600 transition duration-300 hidden sm:inline-block">Beranda</a>
         <a href="/tentang" class="text-gray-900 font-medium text-base hover:text-blue-600 transition duration-300 hidden sm:inline-block">Tentang</a>

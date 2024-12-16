@@ -72,7 +72,7 @@
                     readonly />
             </div>
 
-            <button type="button" id="clearData" class="text-blue-600 mt-4" onclick="clearData()">Clear Data</button>
+            <button type="button" id="clearData" class="text-blue-600 mt-4">Clear Data</button>
         </div>
 
         <div>
@@ -176,101 +176,102 @@
 <script>
     let map, marker;
 
-    // Fungsi untuk inisialisasi peta
-    function initMap() {
-        const defaultLocation = {
-            lat: -7.9169924,
-            lng: 112.1549559
-        };
+function initMap() {
+    const defaultLocation = {
+        lat: -7.9169924,
+        lng: 112.1549559
+    };
 
-        map = new google.maps.Map(document.getElementById("map"), {
-            center: defaultLocation,
-            zoom: 15,
+    map = new google.maps.Map(document.getElementById("map"), {
+        center: defaultLocation,
+        zoom: 15,
+    });
+
+    marker = new google.maps.Marker({
+        position: defaultLocation,
+        map: map,
+        draggable: true,
+    });
+
+    google.maps.event.addListener(marker, "dragend", function() {
+        const position = marker.getPosition();
+        document.getElementById("latitude").value = position.lat();
+        document.getElementById("longitude").value = position.lng();
+    });
+
+    map.addListener("click", function(event) {
+        const latLng = event.latLng;
+        marker.setPosition(latLng);
+        document.getElementById("latitude").value = latLng.lat();
+        document.getElementById("longitude").value = latLng.lng();
+    });
+
+    getLocation();
+}
+
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+
+            const userLocation = {
+                lat: latitude,
+                lng: longitude
+            };
+            map.setCenter(userLocation);
+            marker.setPosition(userLocation);
+
+            document.getElementById("latitude").value = latitude;
+            document.getElementById("longitude").value = longitude;
+        }, function(error) {
+            alert("Lokasi tidak ditemukan. Peta diatur ke lokasi default.");
         });
+    } else {
+        alert("Geolocation tidak didukung oleh browser ini.");
+    }
+}
 
-        marker = new google.maps.Marker({
-            position: defaultLocation,
-            map: map,
-            draggable: true,
+function openMap() {
+    document.getElementById('lokasi').value = "";
+    document.getElementById('latlongFields').classList.remove('hidden');
+
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+
+            document.getElementById("latitude").value = latitude;
+            document.getElementById("longitude").value = longitude;
+
+            const url = `https://www.google.com/maps/?q=${latitude},${longitude}`;
+            window.open(url, '_blank');
+        }, function(error) {
+            alert("Lokasi tidak ditemukan.");
         });
-
-        google.maps.event.addListener(marker, "dragend", function() {
-            const position = marker.getPosition();
-            document.getElementById("latitude").value = position.lat();
-            document.getElementById("longitude").value = position.lng();
-        });
-
-        map.addListener("click", function(event) {
-            const latLng = event.latLng;
-            marker.setPosition(latLng);
-            document.getElementById("latitude").value = latLng.lat();
-            document.getElementById("longitude").value = latLng.lng();
-        });
-
-        getLocation();
+    } else {
+        alert("Geolocation tidak didukung oleh browser ini.");
     }
 
-    // Fungsi untuk mendapatkan lokasi pengguna
-    function getLocation() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                const latitude = position.coords.latitude;
-                const longitude = position.coords.longitude;
+    document.getElementById('lokasi').readOnly = !(document.getElementById("latitude").value === "" && document.getElementById("longitude").value === "");
+}
 
-                const userLocation = {
-                    lat: latitude,
-                    lng: longitude
-                };
-                map.setCenter(userLocation);
-                marker.setPosition(userLocation);
+function clearData() {
+    document.getElementById("latitude").value = "";
+    document.getElementById("longitude").value = "";
+    document.getElementById('lokasi').value = "";
 
-                document.getElementById("latitude").value = latitude;
-                document.getElementById("longitude").value = longitude;
-            }, function(error) {
-                alert("Lokasi tidak ditemukan. Peta diatur ke lokasi default.");
-            });
-        } else {
-            alert("Geolocation tidak didukung oleh browser ini.");
-        }
-    }
+    document.getElementById('latlongFields').classList.add('hidden');
+    document.getElementById('lokasi').readOnly = false;
+}
 
-    // Fungsi untuk membuka peta dan memilih lokasi
-    function openMap() {
-        document.getElementById('lokasi').value = "";
-        document.getElementById('latlongFields').classList.remove('hidden');
+window.onload = function() {
+    initMap();
 
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                const latitude = position.coords.latitude;
-                const longitude = position.coords.longitude;
+    // Add event listener for "Clear Data" button
+    document.getElementById("clearData").addEventListener("click", clearData);
+};
 
-                document.getElementById("latitude").value = latitude;
-                document.getElementById("longitude").value = longitude;
 
-                const url = `https://www.google.com/maps/?q=${latitude},${longitude}`;
-                window.open(url, '_blank');
-            }, function(error) {
-                alert("Lokasi tidak ditemukan.");
-            });
-        } else {
-            alert("Geolocation tidak didukung oleh browser ini.");
-        }
-
-        document.getElementById('lokasi').readOnly = !(document.getElementById("latitude").value === "" && document.getElementById("longitude").value === "");
-    }
-
-    // Fungsi untuk mengosongkan latitude dan longitude
-    function clearData() {
-        document.getElementById("latitude").value = "";
-        document.getElementById("longitude").value = "";
-
-        document.getElementById('lokasi').value = "";
-        document.getElementById('latlongFields').classList.add('hidden');
-        document.getElementById('lokasi').readOnly = false;
-    }
-
-    window.onload = function() {
-        initMap();
-    }
 </script>
 @endsection

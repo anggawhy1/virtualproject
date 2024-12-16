@@ -60,22 +60,23 @@
                 </div>
             </div>
 
-             <div class="bg-yellow-100 border border-blue-600 p-4 rounded-lg flex items-center space-x-4 shadow-md">
+@if($laporanBaru)
+    <div class="bg-yellow-100 border border-blue-600 p-4 rounded-lg flex items-center space-x-4 shadow-md">
+        <i class="fas fa-bell text-lg text-blue-600"></i>
+        <div>
+            <h3 class="text-lg font-bold text-blue-600">Laporan Baru</h3>
+            <p class="text-sm text-gray-700">
+                Anda memiliki laporan baru yang perlu diverifikasi. Segera tinjau dan ambil tindakan yang diperlukan.
+            </p>
+        </div>
+    </div>
 
-                <i class="fas fa-bell text-lg text-blue-600"></i>
-                <div>
-                    <h3 class="text-lg font-bold text-blue-600">Laporan Baru</h3>
-                    <p class="text-sm text-gray-700">
-                        Anda memiliki laporan baru yang perlu diverifikasi. Segera tinjau dan ambil tindakan yang diperlukan.
-                    </p>
-                </div>
-            </div>
-
-            <a href="{{ route('admin.reports') }}">
-                <div class="bg-blue-600 text-white border border-blue-600 p-4 rounded-lg flex items-center justify-center shadow-md cursor-pointer hover:bg-blue-700 transition">
-                    <p class="text-lg font-bold text-center">Mulai Manajemen Laporan</p>
-                </div>
-            </a>
+    <a href="{{ route('admin.reports') }}">
+        <div class="bg-blue-600 text-white border border-blue-600 p-4 rounded-lg flex items-center justify-center shadow-md cursor-pointer hover:bg-blue-700 transition">
+            <p class="text-lg font-bold text-center">Mulai Manajemen Laporan</p>
+        </div>
+    </a>
+    @endif
 
         </div>
     </div>

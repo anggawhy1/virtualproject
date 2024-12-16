@@ -78,33 +78,30 @@ public function update(Request $request)
         return view('edit-profil', compact('user'));
     }
 
-public function updateProfilePhotoadmin(Request $request)
-{
-    $user = Auth::user();
+public function updateProfilePhoto(Request $request)
+    {
+        // Validasi file yang diunggah
+        $request->validate([
+            'profile_photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
 
-    // Validasi file foto
-    $validated = $request->validate([
-        'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi foto
-    ]);
+        // Ambil data pengguna yang sedang login
+        $user = Auth::user();
 
-    if ($request->hasFile('profile_photo')) {
-        // Hapus foto lama jika ada
+        // Cek apakah sudah ada foto sebelumnya dan hapus jika ada
         if ($user->profile_photo) {
-            Storage::delete('profile_photos/' . $user->profile_photo); // Menghapus foto lama
+            Storage::delete('public/profile_photos/' . $user->profile_photo);
         }
 
-        // Menyimpan foto baru di dalam folder storage/app/profile_photos
-        $imageName = time() . '.' . $request->profile_photo->extension();
-        $request->profile_photo->storeAs('profile_photos', $imageName);
+        // Simpan foto yang diunggah
+        $photoPath = $request->file('profile_photo')->store('profile_photos', 'public');
 
-        // Update foto profil di database
-        $user->profile_photo = $imageName;
+        // Perbarui foto profil pengguna
+        $user->profile_photo = basename($photoPath);
         $user->save();
-    }
 
-    // Redirect kembali ke halaman settings admin dengan pesan sukses
-    return redirect()->route('admin.settings', ['section' => 'profile'])->with('success', 'Foto profil berhasil diperbarui');
-}
+        return redirect()->route('edit-profil-photo')->with('success', 'Foto profil berhasil diperbarui.');
+    }
 
 
 public function showSettings()

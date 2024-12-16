@@ -19,7 +19,7 @@ class DashboardController extends Controller
             ->orderBy('total', 'desc')
             ->get();
 
-        // Mapping kategori_id ke nama kategori (relasi dapat ditambahkan jika ada)
+        // Mapping kategori_id ke nama kategori
         $categories = $categories->map(function ($category) {
             return [
                 'name' => $category->kategori, // Ganti dengan relasi jika tersedia
@@ -27,6 +27,9 @@ class DashboardController extends Controller
             ];
         });
 
-        return view('admin.dashboard', compact('totalUsers', 'reportsThisMonth', 'completionRate', 'categories'));
+        // Tambahkan cek laporan baru
+        $laporanBaru = Laporan::where('status', 'Diajukan')->exists();
+
+        return view('admin.dashboard', compact('totalUsers', 'reportsThisMonth', 'completionRate', 'categories', 'laporanBaru'));
     }
 }

@@ -26,6 +26,7 @@ class CreateUsersTable extends Migration
             $table->string('gender')->nullable(); 
             $table->string('profile_photo')->nullable();
             $table->integer('points')->default(0);
+            $table->date('tanggal_lahir')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
