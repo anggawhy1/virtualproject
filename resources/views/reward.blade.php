@@ -39,9 +39,9 @@
             </div>
 
             <p class="text-gray-500 text-sm mt-6">
-                Bagaimana saya mendapatkan point? Lihat caranya 
-                <a href="/info-point" class="text-blue-600 underline">disini</a>.
-            </p>
+            Bagaimana saya mendapatkan point? Lihat caranya 
+            <a href="/info-point" class="text-blue-600 underline">disini</a>.
+        </p>
         </section>
     </main>
 

@@ -28,6 +28,39 @@
     </div>
 </div>
 
+<!-- Modal untuk menampilkan gambar full -->
+<div id="imageModal" class="fixed inset-0 hidden items-center justify-center bg-black bg-opacity-75 z-50">
+    <!-- Gambar yang ditampilkan di modal -->
+    <img id="modalImage" class="max-w-full max-h-full rounded-lg" src="" alt="Full Image" />
+    
+    <!-- Tombol Close -->
+    <button 
+        onclick="closeModal()" 
+        class="absolute top-4 right-4 text-white bg-gray-800 rounded-full p-2 hover:bg-gray-700 transition">
+        &times; <!-- Icon X -->
+    </button>
+</div>
+
+<!-- Script untuk Modal -->
+<script>
+    // Fungsi untuk membuka modal dan menampilkan gambar
+    function openModal(imageSrc) {
+        const modal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+        modalImage.src = imageSrc;
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    }
+
+    // Fungsi untuk menutup modal
+    function closeModal() {
+        const modal = document.getElementById('imageModal');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }
+</script>
+
+
     <p class="text-gray-700 mb-6">{{ $laporan->deskripsi }}</p> <!-- Deskripsi laporan -->
 
   <div class="mb-8">

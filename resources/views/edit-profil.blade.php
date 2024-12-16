@@ -32,9 +32,6 @@
                 <form action="{{ route('update-profile-photo') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="flex justify-center space-x-4 mt-4">
-                        <button type="button" class="px-4 py-2 text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-600 hover:text-white transition">
-                            <i class="fas fa-camera"></i> Kamera
-                        </button>
                         <label class="px-4 py-2 text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-600 hover:text-white transition cursor-pointer">
                             <i class="fas fa-upload"></i> Upload Foto
                             <input 
@@ -47,7 +44,7 @@
                         </label>
                     </div>
 
-                    <button type="submit" class="mt-8 w-full py-3 text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition transform hover:scale-105">
+                    <button type="submit" class="mt-8 w-full py-3 text-white bg-blue-600 rounded-lg hover:bg-blue-700">
                         Selesai
                     </button>
                 </form>

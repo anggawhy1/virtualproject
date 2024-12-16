@@ -34,9 +34,9 @@
             <a href="/info-point" class="text-blue-600 underline">disini</a>.
         </p>
     </section>
-
+    </main>
     <!-- Popup Section -->
-    <div id="rewardPopup" class="fixed inset-0 items-center justify-center bg-black bg-opacity-50 z-50 flex hidden">
+    <div id="rewardPopup" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 hidden">
         <div class="bg-white rounded-lg shadow-md p-6 max-w-lg w-full text-center">
             <h2 class="text-2xl font-bold text-blue-600 mb-4">Hadiah Telah Ditukarkan!</h2>
             <p class="text-gray-700 mb-6">
@@ -58,20 +58,22 @@
     </div>
 
     <!-- Error message section -->
-    <div id="errorPopup" class="fixed inset-0 items-center justify-center bg-black bg-opacity-50 z-50 flex hidden">
-        <div class="bg-red-600 rounded-lg shadow-md p-6 max-w-lg w-full text-center">
-            <h2 class="text-2xl font-bold text-white mb-4">Terjadi Kesalahan!</h2>
-            <p class="text-white mb-6" id="errorMessage"></p>
+    <div id="errorPopup" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 hidden">
+        <div class="bg-white rounded-lg p-6 max-w-sm w-full text-center">
+            <h3 class="text-xl font-bold text-red-600 mb-4">Terjadi Kesalahan!</h3>
+            <p class="text-gray-700 mb-4" id="errorMessage"></p>
             <div class="flex justify-center space-x-4">
                 <button
                     onclick="hideErrorPopup()"
-                    class="px-6 py-3 border border-white text-white font-semibold rounded-lg hover:bg-red-700 transition">
+                    class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-200">
                     Oke
                 </button>
             </div>
         </div>
     </div>
-</main>
+
+
+
 
 @push('scripts')
 <script>

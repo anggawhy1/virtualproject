@@ -3,7 +3,7 @@
 @section('content')
 <div class="container mx-auto p-6">
     <div class="flex justify-between items-center mb-6">
-        <h1 class="text-3xl font-bold text-blue-600">Kelola User</h1>
+        <h1 class="text-3xl font-bold text-gray-900">Kelola User</h1>
 
         <div class="relative">
             <button onclick="toggleFilter()" class="flex items-center px-4 py-2 border border-blue-600 rounded-lg text-blue-600">

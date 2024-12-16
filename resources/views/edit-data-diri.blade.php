@@ -48,12 +48,12 @@
                             type="text"
                             name="lokasi"
                             value="{{ auth()->user()->lokasi }}"
-                            placeholder="Lokasi"
+                            placeholder="Alamat"
                             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700"
                         />
                     </div>
 
-                    <button type="submit" class="w-full py-3 text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition transform hover:scale-105">
+                    <button type="submit" class="w-full py-3 text-white bg-blue-600 rounded-lg hover:bg-blue-700">
                         Selesai
                     </button>
                 </form>

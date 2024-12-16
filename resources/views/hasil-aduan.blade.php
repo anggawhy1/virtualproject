@@ -32,8 +32,6 @@
     </div>
     @endif
 
-
-    Sesudah Aduan (After Image)
     <h2 class="text-2xl font-bold text-blue-600 mb-4">Sesudah Aduan</h2>
     @if($laporan->files && isset(json_decode($laporan->files)[1]))
     <div class="mb-8">

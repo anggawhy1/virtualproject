@@ -23,9 +23,12 @@
             <button class="faq-btn bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg shadow-lg shadow-black focus:outline-none" data-answer="Ya, anda bisa melaporkan secara anonim, jika anda tidak ingin nama anda diketahui anda bisa menceklis 'Lapor sebagai anonim' saat mengisi informasi laporan.">
                 Apakah saya dapat melapor secara anonim?
             </button>
-            <button class="faq-btn bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg shadow-lg shadow-black focus:outline-none" data-answer="Cara mendaftar akun baru anda bisa mengklik 'daftar' pada navbar website kami, isi informasi untuk akun anda dan anda telah siap mendaftar.">
+            <button class="faq-btn bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg shadow-lg shadow-black focus:outline-none" data-answer="Cara mendaftar akun baru anda bisa mengklik 'daftar' pada navbar website kami, isi informasi untuk akun anda dan anda telah siap mendaftar.">
                 Cara membuat akun?
             </button>
+            <button class="faq-btn flex-grow border border-blue-600 rounded-lg py-2 px-4 shadow-lg shadow-black focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600" data-answer="Anda Bisa Menghubungi Kami pada Nomor : 0800 01234 5678">
+                Atau Kontak Kami Disini</button>
+
         </div>
 
         <div id="chat-container" class="space-y-4">
