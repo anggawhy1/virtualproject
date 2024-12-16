@@ -4,32 +4,29 @@
 
 <main class="flex-grow w-full px-4 md:px-20 py-12 bg-gray-50 text-gray-800 font-sans min-h-screen">
 
-    <div class="mb-6 flex items-center space-x-4">
-        <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full font-semibold text-lg shadow-md">Status:
-            <span class="text-blue-600">{{ $laporan->status }}</span> <!-- Ambil status dari database -->
-        </span>
-        <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full font-semibold text-lg shadow-md">ID Aduan:
-            <span class="text-blue-600">{{ $laporan->id }}</span> <!-- Ambil ID dari database -->
-        </span>
-    </div>
+<div class="mb-6 flex items-center space-x-4">
+    <span class="border border-blue-600 text-blue-600 px-4 py-2 rounded-full font-semibold text-lg">Status:
+        <span class="text-blue-600">{{ $laporan->status }}</span> <!-- Ambil status dari database -->
+    </span>
+    <span class="border border-blue-600 text-blue-600 px-4 py-2 rounded-full font-semibold text-lg">ID Aduan:
+        <span class="text-blue-600">{{ $laporan->id }}</span> <!-- Ambil ID dari database -->
+    </span>
+</div>
 
-    <div class="mb-8">
-        <div class="relative overflow-hidden rounded-lg shadow-lg">
-        
+
+<div class="mb-8">
+    <h2 class="text-2xl font-bold text-blue-600 mb-4">Foto Aduan</h2>
+    <div class="grid grid-cols-2 gap-4">
+        <!-- Menampilkan gambar-gambar dalam dua kolom -->
+        @foreach(json_decode($laporan->files) as $index => $file)
             <img
-            id="currentImage"
-            src="{{ asset('storage/' . str_replace('\/', '/', json_decode($laporan->files)[0])) }}"
-            alt="Foto Aduan"
-            class="w-full h-64 object-cover transition-opacity duration-500 cursor-pointer"
-            onclick="openModal('{{ asset('storage/' . str_replace('\/', '/', json_decode($laporan->files)[0])) }}')" />
-        
-        <div id="imageIndicators" class="flex justify-center mt-4 space-x-2">
-            <!-- Misalnya, kamu punya lebih dari satu gambar -->
-            {{-- @foreach($laporan->images as $index => $image) --}}
-                <button onclick="changeImage({{ $laporan->images }})" class="h-3 w-3 rounded-full {{ $laporan->images == 0 ? 'bg-blue-600' : 'bg-gray-300' }}"></button>
-            {{-- @endforeach --}}
-        </div>
+                src="{{ asset('storage/' . str_replace('\/', '/', $file)) }}"
+                alt="Foto Aduan {{ $index + 1 }}"
+                class="w-full h-64 object-cover rounded-lg shadow-md cursor-pointer transition-opacity duration-500"
+                onclick="openModal('{{ asset('storage/' . str_replace('\/', '/', $file)) }}')" />
+        @endforeach
     </div>
+</div>
 
     <p class="text-gray-700 mb-6">{{ $laporan->deskripsi }}</p> <!-- Deskripsi laporan -->
 
@@ -86,7 +83,7 @@
                     class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-200">
                     Oke
                 </button>
-                <a href="/reward" class="text-blue-600 hover:underline">Cek Reward</a>
+                <a href="/rewards" class="text-blue-600 hover:underline">Cek Reward</a>
             </div>
         </div>
     </div>
@@ -104,98 +101,11 @@
 @push('scripts')
 <script>
     const images = [
-        "{{ asset('storage/' . $laporan->image) }}", // Ambil gambar utama
-        // Bisa tambahkan lebih banyak gambar dari array jika ada
+        @foreach(json_decode($laporan->files) as $file)
+            "{{ asset('storage/' . str_replace('\/', '/', $file)) }}",
+        @endforeach
     ];
     let currentImageIndex = 0;
-
-    function changeImage(action) {
-        if (action === 'prev') {
-            currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
-        } else if (action === 'next') {
-            currentImageIndex = (currentImageIndex + 1) % images.length;
-        } else if (typeof action === 'number') {
-            currentImageIndex = action;
-        }
-        document.getElementById('currentImage').src = images[currentImageIndex];
-        updateImageIndicators(currentImageIndex);
-    }
-
-    function updateImageIndicators(index) {
-        const buttons = document.querySelectorAll('#imageIndicators button');
-        buttons.forEach((button, idx) => {
-            button.classList.remove('bg-blue-600', 'bg-gray-300');
-            button.classList.add(idx === index ? 'bg-blue-600' : 'bg-gray-300');
-        });
-    }
-
-   document.addEventListener('DOMContentLoaded', function() {
-    // Check if the claimButton exists before adding the event listener
-    const claimButton = document.getElementById('claimButton');
-    
-    if (claimButton) {
-        claimButton.addEventListener('click', function(e) {
-            e.preventDefault(); // Prevent the form from being submitted normally
-
-            // Show the popup before submitting the form
-            showClaimPopup();
-
-            // Submit the form via AJAX
-            var form = document.getElementById('claimForm');
-            var formData = new FormData(form);
-
-            fetch(form.action, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content // Ensure CSRF token is sent
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Show success message
-                    alert('Poin berhasil diklaim!');
-                } else {
-                    alert('Gagal mengklaim poin.');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Terjadi kesalahan.');
-            });
-        });
-    }
-});
-
-function showClaimPopup() {
-    const popup = document.getElementById('claimPopup');
-    if (popup) {
-        popup.classList.remove('hidden');
-        popup.classList.add('flex');
-    }
-}
-
-function closePopup() {
-    const popup = document.getElementById('claimPopup');
-    if (popup) {
-        popup.classList.add('hidden');
-        popup.classList.remove('flex');
-    }
-    refreshPage();
-}
-
-function refreshPage() {
-    window.location.reload();  // Refresh the page
-}
-
-// Add an event listener to close the popup when clicking outside of it
-document.getElementById('claimPopup').addEventListener('click', function(event) {
-    if (event.target === this) { // If the click is outside the popup
-        closePopup(); // Close the popup and refresh the page
-    }
-});
-
 
     function openModal(imageSrc) {
         const modal = document.getElementById('imageModal');
@@ -209,5 +119,67 @@ document.getElementById('claimPopup').addEventListener('click', function(event) 
         modal.classList.add('hidden');
         modal.classList.remove('flex');
     }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const claimButton = document.getElementById('claimButton');
+        
+        if (claimButton) {
+            claimButton.addEventListener('click', function(e) {
+                e.preventDefault(); // Prevent the form from being submitted normally
+
+                showClaimPopup();
+
+                var form = document.getElementById('claimForm');
+                var formData = new FormData(form);
+
+                fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Poin berhasil diklaim!');
+                    } else {
+                        alert('Gagal mengklaim poin.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Terjadi kesalahan.');
+                });
+            });
+        }
+    });
+
+    function showClaimPopup() {
+        const popup = document.getElementById('claimPopup');
+        if (popup) {
+            popup.classList.remove('hidden');
+            popup.classList.add('flex');
+        }
+    }
+
+    function closePopup() {
+        const popup = document.getElementById('claimPopup');
+        if (popup) {
+            popup.classList.add('hidden');
+            popup.classList.remove('flex');
+        }
+        refreshPage();
+    }
+
+    function refreshPage() {
+        window.location.reload();  // Refresh the page
+    }
+
+    document.getElementById('claimPopup').addEventListener('click', function(event) {
+        if (event.target === this) { 
+            closePopup();
+        }
+    });
 </script>
 @endpush

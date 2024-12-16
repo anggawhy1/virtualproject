@@ -18,7 +18,7 @@
                     id="hero-image"
                     src="{{ asset('images/image1.png') }}"
                     alt="Hero Image"
-                    class="w-full h-80 md:h-96 object-cover transition-opacity duration-500" />
+                    class="w-full h-80 md:h-96 object-cover transition-opacity duration-900" />
             </div>
 
             <button
