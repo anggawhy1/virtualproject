@@ -38,7 +38,7 @@ class LapDummyController extends Controller
 
     public function index()
     {
-        return view('laporann', ['reports' => $this->reports]);
+        return view('laporan', ['reports' => $this->reports]);
     }
 
     public function notifications()

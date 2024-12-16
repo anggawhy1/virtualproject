@@ -22,6 +22,7 @@ class Laporan extends Model
         'longitude',
         'status',
         'files',
+        'hasil',
         'user_id',
         'kategori',
         'anonim',

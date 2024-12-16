@@ -8,13 +8,7 @@
     </div>
 
     <div class="mb-4 flex justify-between">
-    <ul class="flex space-x-4 text-blue-600">
-        <li><button type="button" class="font-semibold tab" id="semuaLaporanTab" onclick="filter('semua', event)">Semua Laporan</button></li>
-        <li><button type="button" class="hover:underline tab" id="diajukanTab" onclick="filter('diajukan', event)">Diajukan</button></li>
-        <li><button type="button" class="hover:underline tab" id="diprosesTab" onclick="filter('diproses', event)">Diproses</button></li>
-        <li><button type="button" class="hover:underline tab" id="disetujuiTab" onclick="filter('disetujui', event)">Disetujui</button></li>
-        <li><button type="button" class="hover:underline tab" id="selesaiTab" onclick="filter('selesai', event)">Selesai</button></li>
-    </ul>
+    
 
 
 
@@ -129,8 +123,8 @@
         <td class="py-2 px-4 flex items-center space-x-2">
             <div class="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center text-gray-700 text-2xl font-bold">
                 ${report.profile_photo ? 
-                    <img src="${report.profile_photo}" alt="Avatar" class="w-8 h-8 rounded-full"> : 
-                    <span>${report.name.charAt(0).toUpperCase()}</span>
+                    `<img src="${report.profile_photo}" alt="Avatar" class="w-8 h-8 rounded-full">` : 
+                    `<span>${report.name.charAt(0).toUpperCase()}</span>`
                 }
             </div>
             <span>${report.name}</span>
@@ -183,8 +177,8 @@
         <td class="py-2 px-4 flex items-center space-x-2">
             <div class="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center text-gray-700 text-2xl font-bold">
                 ${report.profile_photo ? 
-                    <img src="${report.profile_photo}" alt="Avatar" class="w-8 h-8 rounded-full"> : 
-                    <span>${report.name.charAt(0).toUpperCase()}</span>
+                    `<img src="${report.profile_photo}" alt="Avatar" class="w-8 h-8 rounded-full">` : 
+                    `<span>${report.name.charAt(0).toUpperCase()}</span>`
                 }
             </div>
             <span>${report.name}</span>
@@ -214,7 +208,7 @@
         // Highlight active tab
         const tabs = document.querySelectorAll('.tab');
         tabs.forEach(tab => tab.classList.remove('border-b-2', 'border-blue-600'));
-        const activeTab = document.getElementById(${tab}Tab);
+        const activeTab = document.getElementById(`${tab}Tab`);
         activeTab.classList.add('border-b-2', 'border-blue-600');
     }
 
@@ -222,71 +216,10 @@
         filterByTab('semua', event); // Default filter to 'semua'
     });
 
-    function filter(status, event) {
-    event.preventDefault(); // Prevent default anchor click behavior
-
-    // Make an AJAX request to fetch filtered reports
-   fetch(/admin/reports/filter?status=${status})
-    .then(response => {
-        console.log('Response status:', response.status); // Log status
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-        .then(data => {
-            console.log('Fetched data:', data);  // Log the response to check its structure
-
-            // Ensure the data is in the correct format (an array of reports)
-            if (Array.isArray(data.reports)) {
-                // Clear the existing content
-                const laporanContent = document.getElementById('laporanContent');
-                laporanContent.innerHTML = '';
-
-                // Loop through the reports and render them
-                data.reports.forEach(report => {
-                    let htmlContent = `
-                        <tr class="border-b">
-                            <td class="py-2 px-4">#${report.id}</td>
-                            <td class="py-2 px-4 flex items-center space-x-2">
-                                <div class="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center text-gray-700 text-2xl font-bold">
-                                    ${report.profile_photo ? 
-                                        <img src="${report.profile_photo}" alt="Avatar" class="w-8 h-8 rounded-full"> : 
-                                        <span>${report.name.charAt(0).toUpperCase()}</span> 
-                                    }
-                                </div>
-                                <span>${report.name}</span>
-                            </td>
-                            <td class="py-2 px-4">${report.date}</td>
-                            <td class="py-2 px-4">
-                                <span class="px-2 py-1 text-sm rounded-full
-                                    ${report.status === 'Diproses' ? 'bg-yellow-200 text-yellow-800' : ''}
-                                    ${report.status === 'Disetujui' ? 'bg-green-200 text-green-800' : ''}
-                                    ${report.status === 'Diajukan' ? 'bg-red-200 text-red-800' : ''}
-                                    ${report.status === 'Selesai' ? 'bg-gray-200 text-gray-800' : ''}">
-                                    ${report.status}
-                                </span>
-                            </td>
-                            <td class="py-2 px-4">
-                                <a href="/admin/reports/filter/${report.id}" class="text-blue-600 hover:underline">
-                                    <i class="fas fa-cogs"></i>
-                                </a>
-                            </td>
-                        </tr>
-                    `;
-                    laporanContent.innerHTML += htmlContent;
-                });
-            } else {
-                console.error('Data is not an array:', data);  // Log an error if data is not an array
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);  // Log any errors from the fetch request
-            alert('An error occurred while fetching data. Please check the console for details.');
-        });
-}
+  
 
     
 </script>
 
 @endsection
+

@@ -7,7 +7,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RewardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
-
+use App\Http\Controllers\LapDummyController;
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminLaporController;
@@ -107,7 +107,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
+    // Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
     Route::post('/laporanstore', [LaporanController::class, 'store'])->name('laporan.store');
     Route::get('/laporan/{id}', [LaporanController::class, 'show'])->name('laporan.show');
     Route::get('/selesai-lapor/{laporan}', [LaporanController::class, 'selesaiLapor'])->name('selesai-lapor');
@@ -191,6 +191,9 @@ Route::prefix('admin')->group(function () {
 Route::get('/chatbot', function () {
     return view('chatbot'); 
 })->name('chatbot');
+
+Route::get('/laporan', [LapDummyController::class, 'index'])->name('laporan.index');
+Route::get('/laporan/{id}', [LapDummyController::class, 'show'])->name('laporan.show');
 
 // Route::get('/lacakaduan', function () {
 //     return view('lacak-aduan');

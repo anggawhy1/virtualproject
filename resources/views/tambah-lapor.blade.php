@@ -36,49 +36,44 @@
         </div>
 
         <div class="relative">
-            <input
-                type="text"
-                name="lokasi"
-                placeholder="Tempat Kejadian"
-                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700"
-                id="lokasi" />
-            <span
-                class="absolute inset-y-0 right-4 flex items-center cursor-pointer"
-                onclick="openMap()"
-                title="Pilih lokasi di Maps">
-                <i class="fas fa-map-marker-alt text-blue-600 text-lg"></i>
-            </span>
+    <input
+        type="text"
+        name="lokasi"
+        placeholder="Tempat Kejadian"
+        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700"
+        id="lokasi" />
+    <span
+        class="absolute inset-y-0 right-4 flex items-center cursor-pointer"
+        onclick="openMap()"
+        title="Pilih lokasi di Maps">
+        <i class="fas fa-map-marker-alt text-blue-600 text-lg"></i>
+    </span>
+</div>
 
-        </div>
+<div id="latlongFields" class="hidden">
+    <div class="mt-4">
+        <label for="latitude" class="block text-gray-600">Latitude</label>
+        <input
+            type="text"
+            name="latitude"
+            id="latitude"
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700"
+            placeholder="Latitude" />
+    </div>
 
-        <div id="latlongFields" class="hidden">
-            <div class="mt-4">
-                <label for="latitude" class="block text-gray-600">Latitude</label>
-                <input
-                    type="text"
-                    name="latitude"
-                    id="latitude"
-                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700"
-                    readonly />
-            </div>
+    <div class="mt-4">
+        <label for="longitude" class="block text-gray-600">Longitude</label>
+        <input
+            type="text"
+            name="longitude"
+            id="longitude"
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700"
+            placeholder="Longitude" />
+    </div>
 
-            <div class="mt-4">
-                <label for="longitude" class="block text-gray-600">Longitude</label>
-                <input
-                    type="text"
-                    name="longitude"
-                    id="longitude"
-                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700"
-                    readonly />
-            </div>
+    <button type="button" id="clearData" class="text-blue-600 mt-4">Clear Data</button>
+</div>
 
-            <button type="button" id="clearData" class="text-blue-600 mt-4">Clear Data</button>
-        </div>
-
-        <div>
-            <input type="hidden" name="latitude" id="latitude">
-            <input type="hidden" name="longitude" id="longitude">
-        </div>
 
         <div class="relative border border-gray-300 rounded-lg p-4 flex flex-col items-center justify-center text-gray-500 w-full">
     <label class="cursor-pointer w-full text-center">
@@ -233,8 +228,8 @@ function getLocation() {
 }
 
 function openMap() {
-    document.getElementById('lokasi').value = "";
-    document.getElementById('latlongFields').classList.remove('hidden');
+    document.getElementById('lokasi').value = "";  // Kosongkan kolom lokasi
+    document.getElementById('latlongFields').classList.remove('hidden'); // Tampilkan kolom lat/long
 
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
@@ -253,7 +248,7 @@ function openMap() {
         alert("Geolocation tidak didukung oleh browser ini.");
     }
 
-    document.getElementById('lokasi').readOnly = !(document.getElementById("latitude").value === "" && document.getElementById("longitude").value === "");
+    document.getElementById('lokasi').readOnly = false;  // Izinkan pengguna untuk mengedit lokasi secara manual
 }
 
 function clearData() {
@@ -264,6 +259,7 @@ function clearData() {
     document.getElementById('latlongFields').classList.add('hidden');
     document.getElementById('lokasi').readOnly = false;
 }
+
 
 window.onload = function() {
     initMap();

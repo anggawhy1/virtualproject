@@ -33,15 +33,12 @@ public function store(Request $request)
     $validatedData = $request->validate([
         'deskripsi' => 'required|string',
         'lokasi' => 'nullable|string|max:255',
-        'latitude' => 'nullable|numeric',
-        'longitude' => 'nullable|numeric',
+        'latitude' => 'nullable|numeric|between:-90,90',  // Validasi latitude
+        'longitude' => 'nullable|numeric|between:-180,180',  // Validasi longitude
         'kategori' => 'required', // Kategori field is required
         'files.*' => 'nullable|file|mimes:jpeg,png,jpg,mp4|max:2048',
         'anonim' => 'nullable|boolean',
     ]);
-
-    // Ambil nilai kategori dari input
-    $kategori = $validatedData['kategori'];
 
     // Menentukan path folder untuk menyimpan file
     $folderPath = storage_path('app/public/uploads/laporan_files');
@@ -74,7 +71,7 @@ public function store(Request $request)
         'lokasi' => $lokasi,
         'latitude' => $latitude,
         'longitude' => $longitude,
-        'kategori' => $kategori, // Save kategori
+        'kategori' => $validatedData['kategori'],
         'files' => $filePaths ? json_encode($filePaths) : null,
         'user_id' => $anonim ? null : Auth::id(),  // Jika anonim, user_id diatur null
         'anonim' => $anonim,  // Menyimpan true/false ke database
@@ -83,6 +80,7 @@ public function store(Request $request)
     // Redirect ke halaman selesai-lapor dengan membawa ID laporan
     return redirect()->route('selesai-lapor', ['laporan' => $laporan->id])->with('success', 'Laporan berhasil dikirim.');
 }
+
 
 
 public function updateStatus(Request $request, $id)

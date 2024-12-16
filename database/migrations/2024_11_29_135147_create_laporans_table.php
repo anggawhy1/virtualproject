@@ -25,6 +25,7 @@ class CreateLaporansTable extends Migration
                 'Disetujui'
             ])->default('Diajukan');
             $table->json('files')->nullable();  
+            $table->json('hasil')->nullable();  
             $table->unsignedBigInteger('user_id')->nullable(); // Menggunakan ID biasa (unsignedBigInteger) untuk user_id
             $table->string('kategori'); 
             $table->boolean('anonim')->default(false); 

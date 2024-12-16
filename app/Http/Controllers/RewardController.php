@@ -89,19 +89,28 @@ public function showRewards()
     return view('hadiah-kamu', compact('rewards'));
 }
 
-public function indexadmin()
+public function indexadmin(Request $request)
 {
-    $userRewards = UserReward::with(['user', 'reward'])->get();
-    
-    // Debugging: Check if data is retrieved
-    if ($userRewards->isEmpty()) {
-        \Log::info('Tidak ada data user rewards.');
-    } else {
-        \Log::info('Data user rewards berhasil diambil.', ['data' => $userRewards]);
+    // Ambil parameter filter dari request
+    $role = $request->query('role');
+
+    // Query UserReward dengan relasi user dan reward
+    $userRewardsQuery = UserReward::with(['user', 'reward']);
+
+    // Jika ada filter role, tambahkan kondisi
+    if ($role) {
+        $userRewardsQuery->whereHas('user', function ($query) use ($role) {
+            $query->where('role', $role);
+        });
     }
 
+    $userRewards = $userRewardsQuery->get();
+
+    // Kirim data ke view
     return view('admin.rewards', compact('userRewards'));
 }
+
+
 
 
 public function showadmin($id)
