@@ -2,12 +2,12 @@
 
 @section('content')
 <div class="container mx-auto p-6">
-    <h1 class="text-3xl font-bold text-blue-600 mb-6">Kelola User</h1>
+    <h1 class="text-3xl font-bold text-gray-900 mb-6">Kelola User</h1>
 
     <div class="flex items-center mb-6 text-sm text-gray-600">
         <a href="{{ route('admin.users') }}" class="text-blue-600">Kelola User</a>
         <span class="mx-2"> > </span>
-        <span class="text-blue-600 font-medium">Detail User</span>
+        <span class="text-blue-600 ">Detail User</span>
     </div>
 
     <div class="bg-white border border-blue-600 rounded-lg shadow-md p-6">

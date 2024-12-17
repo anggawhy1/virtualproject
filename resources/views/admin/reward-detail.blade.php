@@ -2,9 +2,9 @@
 
 @section('content')
 <div class="container mx-auto p-6">
-    <h1 class="text-3xl font-bold text-gray-900 mb-4">Manajemen Reward</h1>
+    <h1 class="text-3xl font-bold text-gray-900 mb-4">Kelola Reward</h1>
     <div class="text-sm text-blue-600 mb-6">
-        <a href="{{ route('rewards.index.admin') }}" class="hover:underline">Manajemen Reward</a> &gt; Aksi
+        <a href="{{ route('rewards.index.admin') }}" class="hover:underline">Kelola Reward</a> &gt; Aksi
     </div>
 
     <!-- User Information -->

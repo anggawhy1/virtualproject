@@ -87,30 +87,64 @@
 <div class="bg-white border border-blue-600 rounded-lg p-6 mb-6 shadow-md">
     <h2 class="text-lg font-semibold text-blue-600 mb-4">Status Laporan</h2>
     
-   <form action="{{ route('laporan.updateStatus', $laporan->id) }}" method="POST">
-    @csrf
-    <input type="hidden" name="_method" value="PUT"> <!-- Meniru metode PUT -->
-    
-    <div class="flex items-center justify-between">
-        <div class="flex items-center space-x-4">
-            <span class="px-4 py-2 inline-block bg-green-100 text-green-800 text-sm font-medium rounded-lg">
-                {{$laporan->status ?? 'Status tidak tersedia'}}
-            </span>
+    <form action="{{ route('laporan.updateStatus', $laporan->id) }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        <input type="hidden" name="_method" value="PUT"> <!-- Meniru metode PUT -->
+        
+        <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+                <span class="px-4 py-2 inline-block bg-green-100 text-green-800 text-sm font-medium rounded-lg">
+                    {{$laporan->status ?? 'Status tidak tersedia'}}
+                </span>
 
-            <select name="status" class="bg-white border border-blue-600 text-gray-800 rounded-lg p-2">
-                <option value="Diajukan" {{ $laporan->status === 'Diajukan' ? 'selected' : '' }}>Diajukan</option>
-                <option value="Diproses" {{ $laporan->status === 'Diproses' ? 'selected' : '' }}>Diproses</option>
-                <option value="Disetujui" {{ $laporan->status === 'Disetujui' ? 'selected' : '' }}>Disetujui</option>
-            </select>
+                <select name="status" class="bg-white border border-blue-600 text-gray-800 rounded-lg p-2">
+                    <option value="Diajukan" {{ $laporan->status === 'Diajukan' ? 'selected' : '' }}>Diajukan</option>
+                    <option value="Diproses" {{ $laporan->status === 'Diproses' ? 'selected' : '' }}>Diproses</option>
+                    <option value="Disetujui" {{ $laporan->status === 'Disetujui' ? 'selected' : '' }}>Disetujui</option>
+                </select>
+            </div>
+
+            <div class="flex items-center space-x-4">
+                <label for="image-upload" class="bg-blue-600 text-white py-2 px-4 rounded-lg cursor-pointer shadow-md hover:bg-blue-700">
+                    Unggah Gambar
+                </label>
+                <input type="file" id="image-upload" name="image" class="hidden" accept="image/*" onchange="previewImage(event)">
+            </div>
         </div>
 
-        <button type="submit" class="bg-blue-600 text-white py-2 px-4 rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <!-- Preview Gambar -->
+        <div id="image-preview" class="mt-4">
+            <img id="preview" src="" alt="Preview Gambar" class="hidden max-w-full h-auto rounded-lg shadow-md">
+        </div>
+
+        <button type="submit" class="bg-blue-600 text-white py-2 px-4 rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 mt-4">
             Konfirmasi
         </button>
-    </div>
-</form>
-
+    </form>
 </div>
+
+<script>
+    function previewImage(event) {
+        const file = event.target.files[0];
+        const preview = document.getElementById('preview');
+        const previewContainer = document.getElementById('image-preview');
+        
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function() {
+                preview.src = reader.result;
+                preview.classList.remove('hidden'); // Menampilkan gambar preview
+                previewContainer.classList.remove('hidden'); // Menampilkan kontainer preview
+            };
+            reader.readAsDataURL(file);
+        } else {
+            preview.src = "";
+            preview.classList.add('hidden'); // Menyembunyikan preview jika tidak ada gambar
+            previewContainer.classList.add('hidden'); // Menyembunyikan kontainer preview
+        }
+    }
+</script>
+
 
     
 

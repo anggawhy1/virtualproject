@@ -3,7 +3,7 @@
 @section('content')
 <div class="container mx-auto p-6">
     <div class="flex justify-between items-center mb-6">
-        <h1 class="text-3xl font-bold text-blue-600">Kelola User</h1>
+        <h1 class="text-3xl font-bold text-gray-900">Kelola User</h1>
 
         <!-- Filter Dropdown -->
         <div class="relative">

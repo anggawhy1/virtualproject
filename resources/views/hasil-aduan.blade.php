@@ -33,38 +33,45 @@
     @endif
 
     <h2 class="text-2xl font-bold text-blue-600 mb-4">Sesudah Aduan</h2>
+
+    @if($laporan->status === 'Selesai')
     @if($laporan->files && isset(json_decode($laporan->files)[1]))
     <div class="mb-8">
         <img src="{{ asset('storage/' . json_decode($laporan->files)[1]) }}" alt="Sesudah Aduan" class="w-full h-64 object-cover rounded-lg shadow-md cursor-pointer" id="afterImage" />
     </div>
+    @else
+    <p class="text-gray-600 italic mb-4">Gambar belum diunggah oleh admin.</p>
+    @endif
+    @else
+    <p class="text-gray-600 italic mb-4">Status laporan belum selesai. Gambar hanya akan muncul setelah status selesai.</p>
     @endif
 
     <p class="text-gray-800 text-center">
         Terima kasih telah melaporkan, semoga hasil dari aduan kamu dapat bermanfaat bagi lingkungan sekitar anda.
     </p>
-</main>
 
-<div id="imageModal" class="fixed inset-0 hidden items-center justify-center bg-black bg-opacity-75 z-50">
-    <img id="modalImage" class="max-w-full max-h-full rounded-lg" src="" alt="Full View" />
-    <button onclick="closeModal()" class="absolute top-4 right-4 bg-gray-800 text-white rounded-full p-2 hover:bg-gray-700">×</button>
-</div>
 
-@endsection
+    <div id="imageModal" class="fixed inset-0 hidden items-center justify-center bg-black bg-opacity-75 z-50">
+        <img id="modalImage" class="max-w-full max-h-full rounded-lg" src="" alt="Full View" />
+        <button onclick="closeModal()" class="absolute top-4 right-4 bg-gray-800 text-white rounded-full p-2 hover:bg-gray-700">×</button>
+    </div>
 
-@push('scripts')
-<script>
-    function openModal(imageSrc) {
-        const modal = document.getElementById('imageModal');
-        const modalImage = document.getElementById('modalImage');
-        modalImage.src = imageSrc;
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
-    }
+    @endsection
 
-    function closeModal() {
-        const modal = document.getElementById('imageModal');
-        modal.classList.remove('flex');
-        modal.classList.add('hidden');
-    }
-</script>
-@endpush
+    @push('scripts')
+    <script>
+        function openModal(imageSrc) {
+            const modal = document.getElementById('imageModal');
+            const modalImage = document.getElementById('modalImage');
+            modalImage.src = imageSrc;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('imageModal');
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+        }
+    </script>
+    @endpush
