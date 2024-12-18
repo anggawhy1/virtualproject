@@ -3,14 +3,14 @@
 @section('content')
 <main class="flex-grow w-full px-6 md:px-20 py-10 bg-gray-50 text-gray-800 font-sans min-h-screen">
 
-    <section class="text-center mb-4">
+    <section class="text-center mb-4" data-aos="fade-up">
         <h1 class="text-3xl md:text-4xl font-bold text-blue-600 mb-2">Tentang LaporPak.com</h1>
         <p class="text-gray-700 text-md md:text-lg">
             Membangun Indonesia yang lebih baik dengan memberdayakan masyarakat untuk melaporkan masalah di sekitar mereka.
         </p>
     </section>
 
-    <section class="relative max-w-5xl mx-auto mb-12">
+    <section class="relative max-w-5xl mx-auto mb-12" data-aos="zoom-in">
         <div class="relative overflow-hidden rounded-lg shadow-lg">
 
             <div id="hero-slider" class="relative">
@@ -36,8 +36,7 @@
         <div id="dots-container" class="flex justify-center mt-4 gap-4"></div>
     </section>
 
-
-    <section class="flex flex-col md:flex-row items-center justify-between mb-16 px-6 md:px-20 gap-8">
+    <section class="flex flex-col md:flex-row items-center justify-between mb-16 px-6 md:px-20 gap-8" data-aos="fade-right">
         <div class="md:w-1/2 text-gray-800">
             <h2 class="text-2xl md:text-3xl font-bold text-blue-600 mb-4">Apasih LaporPak.com Itu?</h2>
             <p class="text-gray-700 mb-4 text-md md:text-lg">
@@ -46,15 +45,17 @@
             <a
                 href="/tambah-lapor"
                 class="px-6 py-3 text-md font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition duration-300 shadow-md transform hover:scale-105">
-                Mulai Laporan Sekarang <span class="ml-2">→</span>
+                Mulai Laporan Sekarang
+                <i class="fas fa-chevron-right ml-2 text-lg"></i> 
             </a>
+
         </div>
-        <div class="md:w-1/2 mt-8 md:mt-0 flex justify-center">
+        <div class="md:w-1/2 mt-8 md:mt-0 flex justify-center" data-aos="fade-left">
             <img src="{{ asset('images/apasih.png') }}" alt="Illustration Image" class="w-full h-auto max-w-md rounded-lg shadow-lg" />
         </div>
     </section>
 
-    <section class="text-center mb-16 px-6 md:px-20 gap-8">
+    <section class="text-center mb-16 px-6 md:px-20 gap-8" data-aos="fade-up">
         <h2 class="text-3xl font-bold text-blue-600 mb-10">Bagaimana Cara Kerja LaporPak.com?</h2>
         <div class="relative overflow-hidden rounded-lg shadow-lg max-w-5xl mx-auto">
             <img
@@ -64,7 +65,7 @@
         </div>
     </section>
 
-    <section class="flex flex-col md:flex-row items-center justify-between mb-16 px-6 md:px-20 gap-8">
+    <section class="flex flex-col md:flex-row items-center justify-between mb-16 px-6 md:px-20 gap-8" data-aos="fade-up">
         <div class="md:w-1/2 text-gray-800">
             <h2 class="text-2xl md:text-3xl font-bold text-blue-600 mb-4">Manfaat LaporPak.com Bagi Masyarakat dan Pemerintah</h2>
             <p class="text-gray-700 mb-4 text-md md:text-lg">
@@ -75,17 +76,17 @@
                 <li><strong>Bagi Pemerintah</strong> - Memberikan data real-time tentang masalah di lapangan. Membantu pemerintah mengidentifikasi prioritas pembangunan.</li>
             </ul>
         </div>
-        <img src="{{ asset('images/manfaat.png') }}" alt="Benefits Image" class="md:w-1/2 h-64 md:h-80 lg:h-96 object-cover rounded-lg shadow-lg" />
+        <img src="{{ asset('images/manfaat.png') }}" alt="Benefits Image" class="md:w-1/2 h-64 md:h-80 lg:h-96 object-cover rounded-lg shadow-lg" data-aos="fade-up" />
     </section>
 
     <section class="text-center mb-16 px-6 md:px-20">
-        <h2 class="text-3xl font-bold text-blue-600 mb-4">Apa Kata Pengguna LaporPak.com</h2>
-        <p class="text-gray-700 mb-8 text-md md:text-lg max-w-2xl mx-auto">
+        <h2 class="text-3xl font-bold text-blue-600 mb-4" data-aos="fade-up">Apa Kata Pengguna LaporPak.com</h2>
+        <p class="text-gray-700 mb-8 text-md md:text-lg max-w-2xl mx-auto" data-aos="fade-up">
             <span class="font-semibold text-blue-600">LaporPak.com</span> telah membantu banyak orang untuk menyampaikan keluhan mereka dengan mudah dan cepat. Lihat apa yang dikatakan para pengguna kami yang telah berkontribusi membuat lingkungan mereka lebih baik.
         </p>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-
-            <div class="p-6 border border-blue-300 rounded-lg bg-white shadow-md flex flex-col items-start">
+            <!-- Feedback 1 -->
+            <div class="p-6 border border-blue-300 rounded-lg bg-white shadow-md flex flex-col items-start" data-aos="fade-right">
                 <div class="flex items-center mb-4">
                     <img src="{{ asset('images/pict1.png') }}" alt="Adam Jacobs" class="w-10 h-10 rounded-full mr-3" />
                     <p class="text-blue-600 font-semibold">Adam Jacobs</p>
@@ -95,7 +96,8 @@
                 </p>
             </div>
 
-            <div class="p-6 border border-blue-300 rounded-lg bg-white shadow-md flex flex-col items-start">
+            <!-- Feedback 2 -->
+            <div class="p-6 border border-blue-300 rounded-lg bg-white shadow-md flex flex-col items-start" data-aos="fade-left">
                 <div class="flex items-center mb-4">
                     <img src="{{ asset('images/pict1.png') }}" alt="Adam Denis" class="w-10 h-10 rounded-full mr-3" />
                     <p class="text-blue-600 font-semibold">Adam Denis</p>
@@ -105,7 +107,8 @@
                 </p>
             </div>
 
-            <div class="p-6 border border-blue-300 rounded-lg bg-white shadow-md flex flex-col items-start">
+            <!-- Feedback 3 -->
+            <div class="p-6 border border-blue-300 rounded-lg bg-white shadow-md flex flex-col items-start" data-aos="fade-right">
                 <div class="flex items-center mb-4">
                     <img src="{{ asset('images/pict1.png') }}" alt="Adam Joseph" class="w-10 h-10 rounded-full mr-3" />
                     <p class="text-blue-600 font-semibold">Adam Joseph</p>
@@ -115,7 +118,8 @@
                 </p>
             </div>
 
-            <div class="p-6 border border-blue-300 rounded-lg bg-white shadow-md flex flex-col items-start">
+            <!-- Feedback 4 -->
+            <div class="p-6 border border-blue-300 rounded-lg bg-white shadow-md flex flex-col items-start" data-aos="fade-left">
                 <div class="flex items-center mb-4">
                     <img src="{{ asset('images/pict1.png') }}" alt="Adam Elwis" class="w-10 h-10 rounded-full mr-3" />
                     <p class="text-blue-600 font-semibold">Adam Elwis</p>
@@ -127,7 +131,7 @@
         </div>
     </section>
 
-    <section class="text-center mb-16 px-6 md:px-20">
+    <section class="text-center mb-16 px-6 md:px-20" data-aos="zoom-in">
         <p class="text-lg text-gray-700 mb-4">Ayo Berkontribusi Sekarang!</p>
         <h2 class="text-2xl md:text-3xl font-bold text-blue-600 mb-8 leading-relaxed">
             Bersama kita bisa menciptakan perubahan nyata di lingkungan kita. Jangan hanya diam, laporkan masalah di sekitar Anda dan bantu wujudkan lingkungan yang lebih baik!
@@ -135,12 +139,24 @@
         <a
             href="/tambah-lapor"
             class="px-10 py-4 text-lg font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition duration-300 shadow-md transform hover:scale-105">
-            Mulai Laporan Sekarang <span class="ml-2">→</span>
+            Mulai Laporan Sekarang 
+            <i class="fas fa-chevron-right ml-2 text-lg"></i>
         </a>
     </section>
 
 
+
 </main>
+
+<!-- AOS Scripts -->
+<link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script>
+    AOS.init({
+        duration: 1000, // Durasi animasi
+        once: true // Animasi hanya berjalan sekali
+    });
+</script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {

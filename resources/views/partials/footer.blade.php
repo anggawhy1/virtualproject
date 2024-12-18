@@ -7,13 +7,13 @@
         </div>
 
         <div class="md:col-span-1 ml-4">
-            <h3 class="text-lg font-semibold mb-2">Contact</h3>
+            <h3 class="text-lg font-semibold mb-2">Kontak</h3>
             <p class="text-sm text-gray-400">
-                9565 S. Railroad Dr.<br />
-                Spring Valley, NY 10977<br />
-                United States
+                Jl. Raya Sudirman No. 123<br />
+                Jakarta Pusat, 10110<br />
+                Indonesia
             </p>
-            <p class="text-sm mt-3 text-gray-400">0800 01234 5678</p>
+            <p class="text-sm mt-3 text-gray-400">(021) 1234 5678</p>
         </div>
 
         <div class="md:col-span-1 ml-4">
@@ -38,9 +38,9 @@
         <div class="md:col-span-1 ml-4">
             <h3 class="text-lg font-semibold mb-2">Legal</h3>
             <ul class="space-y-1">
-                <li><a href="#" class="text-sm text-gray-400 hover:text-blue-400">Privacy Policy</a></li>
-                <li><a href="#" class="text-sm text-gray-400 hover:text-blue-400">Cookie Agreement</a></li>
-                <li><a href="#" class="text-sm text-gray-400 hover:text-blue-400">Terms of Service</a></li>
+                <li><a href="#" class="text-sm text-gray-400 hover:text-blue-400">Kebijakan Privasi</a></li>
+                <li><a href="#" class="text-sm text-gray-400 hover:text-blue-400">Persetujuan Cookie</a></li>
+                <li><a href="#" class="text-sm text-gray-400 hover:text-blue-400">Syarat dan Ketentuan</a></li>
             </ul>
         </div>
     </div>

@@ -2,24 +2,29 @@
     <div class="flex items-center space-x-5 md:space-x-7">
         <img src="{{ asset('images/logo.png') }}" alt="Logo" class="w-8 h-8 md:w-10 md:h-10" />
 
+    
 
         @auth
-        <!-- Tautan untuk pengguna yang sudah login -->
-        <a href="{{ route('beranda') }}" class="text-base font-medium transition duration-300 hidden sm:inline-block 
-           {{ request()->routeIs('beranda') ? 'text-blue-600' : 'text-gray-900 hover:text-blue-600' }}">Beranda</a>
+         <!-- Tautan untuk pengguna yang sudah login -->
+         <a href="{{ route('beranda') }}" class="text-base font-medium transition duration-300 hidden sm:inline-block 
+           {{ request()->routeIs('beranda') ? 'text-blue-600' : 'text-gray-900 hover:text-blue-400' }}">Beranda</a>
         <a href="/tentang" class="text-base font-medium transition duration-300 hidden sm:inline-block 
-           {{ request()->is('tentang') ? 'text-blue-600' : 'text-gray-900 hover:text-blue-600' }}">Tentang</a>
+           {{ request()->is('tentang') ? 'text-blue-600' : 'text-gray-900 hover:text-blue-400' }}">Tentang</a>
         <a href="/lacakaduan" class="text-base font-medium transition duration-300 hidden sm:inline-block 
-           {{ request()->is('lacakaduan') ? 'text-blue-600' : 'text-gray-900 hover:text-blue-600' }}">Lacak Aduan</a>
+           {{ request()->is('lacakaduan') ? 'text-blue-600' : 'text-gray-900 hover:text-blue-400' }}">Lacak Aduan</a>
         <a href="/bantuan" class="text-base font-medium transition duration-300 hidden sm:inline-block 
-           {{ request()->is('bantuan') ? 'text-blue-600' : 'text-gray-900 hover:text-blue-600' }}">Bantuan</a>
+           {{ request()->is('bantuan') ? 'text-blue-600' : 'text-gray-900 hover:text-blue-400' }}">Bantuan</a>
         @else
 
         <!-- Tautan untuk pengguna yang belum login -->
-        <a href="/" class="text-gray-900 font-medium text-base hover:text-blue-600 transition duration-300 hidden sm:inline-block">Beranda</a>
-        <a href="/tentang" class="text-gray-900 font-medium text-base hover:text-blue-600 transition duration-300 hidden sm:inline-block">Tentang</a>
-        <a href="/login" class="text-gray-900 font-medium text-base hover:text-blue-600 transition duration-300 hidden sm:inline-block">Lacak Aduan</a>
-        <a href="/bantuan" class="text-gray-900 font-medium text-base hover:text-blue-600 transition duration-300 hidden sm:inline-block">Bantuan</a>
+        <a href="/" class="text-base font-medium transition duration-300 hidden sm:inline-block 
+           {{ request()->is('/') ? 'text-blue-600' : 'text-gray-900 hover:text-blue-400' }}">Beranda</a>
+        <a href="/tentang" class="text-base font-medium transition duration-300 hidden sm:inline-block 
+           {{ request()->is('tentang') ? 'text-blue-600' : 'text-gray-900 hover:text-blue-400' }}">Tentang</a>
+        <a href="/login" class="text-base font-medium transition duration-300 hidden sm:inline-block 
+           {{ request()->is('login') ? 'text-blue-600' : 'text-gray-900 hover:text-blue-400' }}">Lacak Aduan</a>
+        <a href="/bantuan" class="text-base font-medium transition duration-300 hidden sm:inline-block 
+           {{ request()->is('bantuan') ? 'text-blue-600' : 'text-gray-900 hover:text-blue-400' }}">Bantuan</a>
         @endauth
     </div>
 
@@ -75,5 +80,5 @@
 
     profileSection.addEventListener('mouseleave', function() {
         dropdownMenu.classList.add('hidden');
-    });
+    });
 </script>

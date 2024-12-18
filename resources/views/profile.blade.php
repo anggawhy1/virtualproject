@@ -71,16 +71,20 @@
 
 
 <div id="popupOverlay" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-    <div class="bg-white rounded-lg p-4 md:p-6 text-center w-auto max-w-full">
+    <div class="bg-white rounded-lg p-6 md:p-7 text-center w-auto max-w-xl">
         <h2 class="text-xl font-semibold mb-4 text-gray-800">Informasi Badge</h2>
         <div class="flex justify-center mb-4">
             <img src="{{ asset('images/badges/infobadge.png') }}" alt="Info Badge"
                 class="object-contain rounded-lg"
-                style="max-width: 90%; max-height: 500px;">
+                style="max-width: 97%; max-height: 400px;">
         </div>
-        <button id="closePopup" class="mt-2 px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300">Oke</button>
+        <button id="closePopup" 
+            class="mt-4 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300">
+            Oke
+        </button>
     </div>
 </div>
+
 
 
 <script>

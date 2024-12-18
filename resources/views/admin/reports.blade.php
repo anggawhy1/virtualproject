@@ -2,20 +2,14 @@
 
 @section('content')
 <div class="container mx-auto p-6">
-
     <div class="flex justify-between items-center mb-6">
-        <h1 class="text-3xl font-bold">Kelola Laporan</h1>
-    </div>
+        <h1 class="text-3xl font-bold text-gray-900">Kelola Laporan </h1>
 
-    <div class="mb-4 flex justify-between">
-    
-
-
-
-    <div class="relative">
-        <button onclick="toggleFilter()" class="flex items-center px-4 py-2 border border-blue-600 rounded-lg text-blue-600">
-            <i class="fas fa-filter mr-2 text-blue-600"></i> Filter
-        </button>
+        <!-- Filter Dropdown -->
+        <div class="relative">
+            <button onclick="toggleFilter()" class="flex items-center px-4 py-2 border border-blue-600 rounded-lg text-blue-600">
+                <i class="fas fa-filter mr-2 text-blue-600"></i> Filter
+            </button>
         <div id="filterDropdown" class="absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded-lg shadow-lg hidden">
             <div class="p-2">
                 <label class="block text-sm font-semibold">Filter Status:</label>
