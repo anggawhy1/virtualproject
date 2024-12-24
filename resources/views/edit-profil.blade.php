@@ -18,7 +18,7 @@
                 <div class="relative">
                     <img 
                         id="profilePhotoPreview"
-                        src="{{ $user->profile_photo ? asset('storage/profile_photos/' . $user->profile_photo) : '' }}" 
+                        src="{{ $user->profile_photo ? asset('storage/' . $user->profile_photo) : '' }}" 
                         alt="User Profile" 
                         class="w-24 h-24 rounded-full mx-auto mb-4 {{ $user->profile_photo ? '' : 'hidden' }}"
                     />

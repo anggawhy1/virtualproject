@@ -22,7 +22,8 @@ class CreateLaporansTable extends Migration
             $table->enum('status', [
                 'Diajukan',
                 'Diproses',
-                'Disetujui'
+                'Disetujui',
+                'Selesai'
             ])->default('Diajukan');
             $table->json('files')->nullable();  
             $table->json('hasil')->nullable();  
@@ -31,6 +32,7 @@ class CreateLaporansTable extends Migration
             $table->boolean('anonim')->default(false); 
             $table->timestamps();
             $table->timestamp('approved_at')->nullable();
+            $table->timestamp('completed_at')->nullable();
             $table->boolean('is_claimed')->default(false);
 
             // Foreign key dengan ID biasa

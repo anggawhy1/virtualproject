@@ -8,7 +8,8 @@ use App\Http\Controllers\RewardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LapDummyController;
-
+use App\Http\Controllers\SearchController;
+use App\Http\Controllers\LapController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminLaporController;
 use App\Http\Controllers\RewardsAdminController;
@@ -68,7 +69,7 @@ Route::middleware(['auth', 'isAdmin'])->group(function() {
     Route::get('/admin/reports', [LaporanController::class, 'adminReports'])->name('admin.reports');
     Route::get('/admin/reports/{laporan}', [LaporanController::class, 'reportshow'])->name('admin.reports.show');
     Route::get('/admin/reports/filter', [LaporanController::class, 'adminReports']);
-
+       Route::post('/upload-hasil', [LaporanController::class, 'uploadHasil'])->name('admin.upload-hasil');
 });
 
 Route::middleware(['auth', 'isAdmin'])->group(function() {
@@ -96,6 +97,8 @@ Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 // Logout Route (POST request)
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+Route::get('/search', [SearchController::class, 'search']);
+
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'showProfile'])->name('profile');
@@ -111,14 +114,20 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/laporanstore', [LaporanController::class, 'store'])->name('laporan.store');
     Route::get('/laporan/{id}', [LaporanController::class, 'show'])->name('laporan.show');
     Route::get('/selesai-lapor/{laporan}', [LaporanController::class, 'selesaiLapor'])->name('selesai-lapor');
-    Route::get('/lacakaduan', [LaporanController::class, 'lacak'])->name('lacakaduan');
-    Route::get('/lacak-aduan/show', [LaporanController::class, 'show'])->name('lacakaduan.show');
-    Route::put('/laporan/{id}/update-status', [LaporanController::class, 'updateStatus'])->name('laporan.updateStatus');
-    Route::get('/hasiladuan/{id}', [LaporanController::class, 'hasilAduan'])->name('hasiladuan');
+   
+    
+    // Route untuk update badge
+Route::post('/user/{userId}/update-badge', [LaporanController::class, 'updateBadge'])->name('user.updateBadge');
+Route::post('/laporan/{laporanId}/complete', [LaporanController::class, 'markLaporanAsCompleted'])->name('laporan.complete');
+Route::put('/laporan/{id}/update-status', [LaporanController::class, 'updateStatus'])->name('laporan.updateStatus');
+
+    
     // Route::get('/laporan/tampil', [LaporanController::class, 'laporan'])->name('laporan.tampil');
 });
 
-
+ Route::get('/lacakaduan', [LaporanController::class, 'lacak'])->name('lacakaduan');
+    Route::get('/lacak-aduan/show', [LaporanController::class, 'show'])->name('lacakaduan.show');
+Route::get('/hasiladuan/{id}', [LaporanController::class, 'hasilAduan'])->name('hasiladuan');
 
 
 Route::middleware(['auth'])->group(function () {
@@ -137,8 +146,9 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
     // Rute untuk pengaturan
     Route::get('/settings', [ProfileController::class, 'showSettings'])->name('settings');
-    Route::post('/settings', [ProfileController::class, 'updateSettings'])->name('update-settings');
-    Route::post('/settings/photo', [ProfileController::class, 'updateProfilePhotoadmin'])->name('update-photo');
+    Route::post('/settings/{id}', [ProfileController::class, 'updateSettings'])->name('update-settings');
+    Route::post('/settings/photo/{id}', [ProfileController::class, 'updateProfilePhotoadmin'])->name('update-photo');
+
 });
 
 
@@ -204,6 +214,11 @@ Route::get('/chatbot', function () {
 // });
 
 
+Route::get('/lap', function () {
+    return view('lap'); 
+});
+Route::get('/lap', [LapController::class, 'index']);
+Route::get('/lap/{id}', [LapController::class, 'show']);
 // Route::get('/aduan', function () {
 //     return view('aduan');
 // });

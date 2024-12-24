@@ -52,7 +52,7 @@
                     <tr>
                         <td class="py-2 px-4">
                             @if ($user->profile_photo)
-                                <img src="{{ asset('storage/profile_photos/' . $user->profile_photo) }}" alt="Profile" class="w-10 h-10 rounded-full">
+                                <img src="{{ asset('storage/' . $user->profile_photo) }}" alt="Profile" class="w-10 h-10 rounded-full">
                             @else
                                 <div class="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-gray-700 text-2xl font-bold">
                                     {{ strtoupper(substr($user->nama_lengkap, 0, 1)) }} 

@@ -2,6 +2,10 @@
 
 @section('content')
 
+<script>
+    window.isAuthenticated = {{ auth()->check() ? 'true' : 'false' }};
+</script>
+
 <main class="flex-grow w-full px-4 md:px-20 py-12 bg-gray-50 text-gray-800 font-sans min-h-screen">
 
 <div class="mb-6 flex items-center space-x-4">
@@ -67,17 +71,17 @@
     <h2 class="text-xl font-bold text-blue-600 mb-4">Proses Aduan</h2>
     <ul class="space-y-2 text-gray-700">
         <!-- Diajukan -->
-        @if($laporan->status === 'Diajukan' || $laporan->status === 'Diproses' || $laporan->status === 'Disetujui')
+       @if($laporan->status === 'Diajukan' || $laporan->status === 'Diproses' || $laporan->status === 'Disetujui' || $laporan->status === 'Selesai')
             <li><strong>Diajukan:</strong> {{ $laporan->created_at->format('d F Y') }}</li>
         @endif
 
         <!-- Diproses -->
-        @if($laporan->status === 'Diproses' || $laporan->status === 'Disetujui')
+        @if($laporan->status === 'Diproses' || $laporan->status === 'Disetujui' || $laporan->status === 'Selesai')
             <li><strong>Diproses:</strong> {{ $laporan->updated_at->format('d F Y') }}</li>
         @endif
 
             <!-- Disetujui -->
-            @if($laporan->status === 'Disetujui')
+        @if($laporan->status === 'Disetujui' || $laporan->status === 'Selesai')
                 <li>
                     <strong>Disetujui:</strong> {{ $laporan->approved_at->format('d F Y') }}
                     @if($laporan->is_claimed == 0)
@@ -93,15 +97,21 @@
                     @endif
                 </li>
             @endif
+            
+        <!-- Selesai -->
+        @if($laporan->status === 'Selesai')
+            <li><strong>Selesai:</strong> {{ $laporan->completed_at->format('d F Y') }}</li>
+        @endif
         </ul>
     </div>
 
-<!-- Hasil Aduan hanya muncul jika laporan sudah disetujui -->
-@if($laporan->status === 'Disetujui')
+
+<!-- Hasil Aduan hanya muncul jika laporan sudah selesai -->
+@if($laporan->status === 'Selesai')
     <div class="mb-8">
         <h2 class="text-xl font-bold text-blue-600 mb-4">Hasil Aduan</h2>
         <a href="/hasiladuan/{{ $laporan->id }}" class="text-blue-600 hover:underline">Cek disini</a>
-        <p class="text-gray-500 text-sm">{{ $laporan->updated_at->format('d F Y') }}</p>
+        <p class="text-gray-500 text-sm">{{ $laporan->completed_at->format('d F Y') }}</p>
     </div>
 @endif
 
@@ -109,7 +119,7 @@
     <div id="claimPopup" class="fixed inset-0 hidden items-center justify-center bg-black bg-opacity-50 z-50">
         <div class="bg-white rounded-lg p-6 max-w-sm w-full text-center">
             <h3 class="text-xl font-bold text-blue-600 mb-4">Claim Point</h3>
-            <p class="text-gray-700 mb-4">Laporan mu telah disetujui. Selamat anda telah mengumpulkan 1 point.</p>
+            <p class="text-gray-700 mb-4">Laporan mu telah disetujui. Selamat anda telah mengumpulkan 5 point.</p>
             <div class="flex justify-center space-x-4">
                 <button
                     onclick="closePopup()"
@@ -153,40 +163,49 @@
         modal.classList.remove('flex');
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
-        const claimButton = document.getElementById('claimButton');
-        
-        if (claimButton) {
-            claimButton.addEventListener('click', function(e) {
-                e.preventDefault(); // Prevent the form from being submitted normally
+ document.addEventListener('DOMContentLoaded', function() {
+    const claimButton = document.getElementById('claimButton');
+    
+    if (claimButton) {
+        claimButton.addEventListener('click', function(e) {
+            e.preventDefault(); // Prevent the form from being submitted normally
 
-                showClaimPopup();
+            // Check if the user is logged in
+            if (!window.isAuthenticated) {
+                // Redirect to the login page
+                window.location.href = '/login'; // Adjust the URL if needed
+                return; // Stop the rest of the code from running
+            }
 
-                var form = document.getElementById('claimForm');
-                var formData = new FormData(form);
+            // If the user is logged in, show the claim popup
+            showClaimPopup();
 
-                fetch(form.action, {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert('Poin berhasil diklaim!');
-                    } else {
-                        alert('Gagal mengklaim poin.');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Terjadi kesalahan.');
-                });
+            var form = document.getElementById('claimForm');
+            var formData = new FormData(form);
+
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Poin berhasil diklaim!');
+                } else {
+                    alert('Gagal mengklaim poin.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Terjadi kesalahan.');
             });
-        }
-    });
+        });
+    }
+});
+
 
     function showClaimPopup() {
         const popup = document.getElementById('claimPopup');

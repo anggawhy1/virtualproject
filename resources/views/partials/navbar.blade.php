@@ -21,8 +21,8 @@
            {{ request()->is('/') ? 'text-blue-600' : 'text-gray-900 hover:text-blue-400' }}">Beranda</a>
         <a href="/tentang" class="text-base font-medium transition duration-300 hidden sm:inline-block 
            {{ request()->is('tentang') ? 'text-blue-600' : 'text-gray-900 hover:text-blue-400' }}">Tentang</a>
-        <a href="/login" class="text-base font-medium transition duration-300 hidden sm:inline-block 
-           {{ request()->is('login') ? 'text-blue-600' : 'text-gray-900 hover:text-blue-400' }}">Lacak Aduan</a>
+        <a href="/lacakaduan" class="text-base font-medium transition duration-300 hidden sm:inline-block 
+           {{ request()->is('lacakaduan') ? 'text-blue-600' : 'text-gray-900 hover:text-blue-400' }}">Lacak Aduan</a>
         <a href="/bantuan" class="text-base font-medium transition duration-300 hidden sm:inline-block 
            {{ request()->is('bantuan') ? 'text-blue-600' : 'text-gray-900 hover:text-blue-400' }}">Bantuan</a>
         @endauth
@@ -41,7 +41,7 @@
             <div class="flex items-center space-x-3 cursor-pointer">
                 <div class="w-8 h-8 rounded-full overflow-hidden border-2 border-blue-600">
                     @if (Auth::user()->profile_photo)
-                    <img src="{{ asset('storage/profile_photos/' . Auth::user()->profile_photo) }}" alt="Profile" class="object-cover w-full h-full" />
+                    <img src="{{ asset('storage/' . Auth::user()->profile_photo) }}" alt="Profile" class="object-cover w-full h-full" />
                     @else
                     <div class="w-full h-full bg-gray-300 flex items-center justify-center text-gray-700 text-2xl font-bold">
                         {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}

@@ -27,6 +27,7 @@ class Laporan extends Model
         'kategori',
         'anonim',
         'approved_at',
+        'completed_at',
         'is_claimed',
     ];
 
@@ -44,9 +45,16 @@ class Laporan extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+     // Relasi ke UserReward (Laporan memiliki UserReward)
+    public function userReward()
+    {
+        return $this->belongsTo(UserReward::class, 'user_reward_id');
+    }
+
      protected $casts = [
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
         'approved_at' => 'datetime',
+        'completed_at' => 'datetime',
     ];
 }

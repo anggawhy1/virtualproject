@@ -14,7 +14,7 @@
     </a>
 
     <a
-        href="/laporan"
+        href="/lap"
         class="flex items-center justify-start py-2 px-4 mb-4 border border-gray-300 rounded-md transition
         {{ Request::is('laporan') ? 'bg-blue-600 text-white' : 'text-gray-700 hover:bg-gray-100' }}">
         <i class="fas fa-file-alt mr-2"></i> Laporan

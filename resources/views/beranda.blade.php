@@ -15,7 +15,7 @@
             <span class="block mt-2">mudah dan bantu pemerintah memperbaiki</span>
             <span class="block mt-2">infrastruktur publik.</span>
         </p>
-        <a href="/login"
+        <a href="/laporan"
             class="px-6 py-3 inline-flex items-center text-white text-base md:text-lg bg-blue-600 font-semibold rounded-lg shadow-md hover:bg-blue-700 transition duration-300">
             <span class="inline-block">Mulai Laporan Sekarang</span>
             <i class="fas fa-chevron-right ml-2 text-lg"></i>

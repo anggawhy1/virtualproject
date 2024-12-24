@@ -7,7 +7,7 @@
     <div class="bg-white rounded-lg shadow-md p-4 border border-blue-600">
         <div class="flex items-center justify-center mb-6">
             @if ($user->profile_photo)
-                <img src="{{ asset('storage/profile_photos/' . $user->profile_photo) }}" alt="Profile" class="w-24 h-24 rounded-full border border-blue-600">
+                <img src="{{ asset('storage/' . $user->profile_photo) }}" alt="Profile" class="w-24 h-24 rounded-full border border-blue-600">
             @else
                 <div class="w-24 h-24 rounded-full border border-blue-600 flex items-center justify-center text-gray-700 text-2xl font-bold">
                     {{ strtoupper(substr($user->nama_lengkap, 0, 1)) }}

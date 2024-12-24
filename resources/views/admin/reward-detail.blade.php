@@ -77,9 +77,7 @@
         @forelse ($pendingRewards as $reward)
         <div class="flex justify-between items-center mb-4">
             <div class="flex items-center">
-                <img src="{{ asset('storage/icons/' . ($reward->reward->icon ?? 'default-icon.png')) }}" 
-                     alt="{{ $reward->reward->name ?? 'Hadiah tidak ditemukan' }}" 
-                     class="w-12 h-12 mr-4">
+                               <img src="{{ asset('images/' . $userReward->reward->icon) }}" alt="{{ $reward->reward->name ?? 'Hadiah tidak ditemukan' }}" class="w-12 h-12 mr-4">
                 <div>
                     <p class="mb-2">Permintaan Penukaran Hadiah:</p>
                     <p class="font-semibold">{{ optional($reward->reward)->name ?? 'Hadiah tidak ditemukan' }}</p>

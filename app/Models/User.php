@@ -26,6 +26,7 @@ class User extends Authenticatable
         'gender',
         'nama_lengkap',
         'lokasi',
+        'badge_id',
         'profile_photo',
         'points',
         'tanggal_lahir',
@@ -63,6 +64,13 @@ class User extends Authenticatable
     {
         return $this->hasMany(Laporan::class);
     }
+
+public function badge()
+{
+    return $this->belongsTo(Badge::class);
+}
+
+
 
 
     public function rewards()

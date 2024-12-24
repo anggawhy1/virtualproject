@@ -13,7 +13,7 @@ use Laravel\Sanctum\PersonalAccessToken;
 class AuthController extends Controller
 {
 
-      public function showRegisterForm()
+    public function showRegisterForm()
     {
         return view('partials.register');
     }
@@ -26,6 +26,7 @@ class AuthController extends Controller
             'phone' => 'nullable|string|max:15|unique:users', // wajib untuk registrasi biasa
             'password' => 'required|string|min:8|confirmed',
             'role' => 'nullable|string',
+
         ]);
 
         $role = $request->role ?? 'user';
@@ -37,16 +38,17 @@ class AuthController extends Controller
             'phone' => $request->phone, // phone hanya diperlukan saat register biasa
             'password' => Hash::make($request->password),
             'role' => $role,
+            'badge_id' => 1,
         ]);
 
-       // Memberikan response jika registrasi berhasil
+        // Memberikan response jika registrasi berhasil
         return redirect()->route('login')->with('success', 'Registrasi berhasil! Silakan login.');
     }
 
     public function showLoginForm()
-{
-    return view('partials.login-form');
-}
+    {
+        return view('partials.login-form');
+    }
 
 
     // Login biasa (menggunakan email atau nomor HP)
@@ -63,7 +65,7 @@ class AuthController extends Controller
             // Regenerasi session untuk keamanan
             $request->session()->regenerate();
 
-            return redirect()->intended('/beranda');  
+            return redirect()->intended('/beranda');
         }
 
         return back()->withErrors([
@@ -82,13 +84,12 @@ class AuthController extends Controller
     }
 
 
-  
- public function redirectToGoogle()
+
+    public function redirectToGoogle()
     {
         return Socialite::driver('google')->redirect();
     }
 
-    // Handle callback dari Google
     public function handleGoogleCallback()
     {
         try {
@@ -106,6 +107,7 @@ class AuthController extends Controller
                     'password' => bcrypt(Str::random(16)),
                     'role' => 'user',
                     'profile_photo' => $googleUser->avatar,
+                    'badge_id' => 1,
                 ]
             );
 

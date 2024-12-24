@@ -23,5 +23,10 @@ class UserReward extends Pivot
         return $this->belongsTo(Reward::class,  'reward_id');
     }
 
+    public function laporan()
+    {
+        return $this->hasMany(Laporan::class);
+    }
+
 
 }

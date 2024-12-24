@@ -12,14 +12,14 @@
 
     <div class="bg-white border border-blue-600 rounded-lg shadow-md p-6">
         <div class="flex justify-between items-center mb-4">
-            <a href="{{ route('users.edit', $user['id']) }}" class="text-blue-600 hover:text-blue-800 ml-auto">
+            <a href="{{ route('admin.settings', $user['id']) }}" class="text-blue-600 hover:text-blue-800 ml-auto">
                 <i class="fas fa-edit text-lg"></i> Edit
             </a>
         </div>
 
       <div class="flex items-center mb-6">
    @if ($user->profile_photo) <!-- Check if the user has a profile picture -->
-    <img src="{{ asset('storage/profile_photos/' . $user->profile_photo) }}" alt="Profile" class="w-10 h-10 rounded-full">
+   <img src="{{ asset('storage/' . $user->profile_photo) }}" alt="Profile" class="w-10 h-10 rounded-full">
 @else
     <div class="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-gray-700 text-2xl font-bold">
         {{ strtoupper(substr($user->nama_lengkap, 0, 1)) }} <!-- Display the first letter of the user's name if no photo -->

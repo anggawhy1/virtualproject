@@ -3,18 +3,24 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
+use App\Models\Badge;
 
-class DatabaseSeeder extends Seeder
+class BadgeSeeder extends Seeder
 {
     /**
-     * Seed the application's database.
+     * Run the database seeds.
      *
      * @return void
      */
     public function run()
     {
+
+        // Memanggil seeder lain
+        $this->call([
+            RewardSeeder::class,
+            BadgeSeeder::class,
+        ]);
+
         // Menambahkan data pengguna admin
         DB::table('users')->insert([
             'nama_lengkap' => 'Admin',
@@ -23,16 +29,12 @@ class DatabaseSeeder extends Seeder
             'lokasi' => 'Jakarta',
             'password' => Hash::make('password'), // Ganti dengan password aman
             'role' => 'admin',
-            'gender' => 'Laki-laki', // Optional
+            'gender' => 'Laki-laki',
+            'badge_id'=> 1,
             'profile_photo' => null, // Optional
             'created_at' => now(),
             'updated_at' => now(),
         ]);
-
-        // Memanggil seeder lain
-        $this->call([
-            RewardSeeder::class,
-            BadgeSeeder::class,
-        ]);
     }
 }
+

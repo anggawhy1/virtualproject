@@ -54,7 +54,7 @@
                         <td class="py-2 px-4">{{ $report['id'] }}</td>
                         <td class="py-2 px-4 flex items-center space-x-2">
                           @if ($report->user->profile_photo) <!-- Periksa jika ada foto profil -->
-                            <img src="{{ asset('storage/profile_photos/' . $report->user->profile_photo) }}" alt="Profile" class="w-10 h-10 rounded-full">
+                            <img src="{{ asset('storage/' . $report->user->profile_photo) }}" alt="Profile" class="w-10 h-10 rounded-full">
                           @else
                             <div class="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-gray-700 text-2xl font-bold">
                                 {{ strtoupper(substr($report->user->nama_lengkap, 0, 1)) }} <!-- Ambil huruf pertama dari nama -->
@@ -113,13 +113,16 @@
         filteredReports.forEach(report => {
            htmlContent += `
     <tr class="border-b">
-        <td class="py-2 px-4">#${report.id}</td>
-        <td class="py-2 px-4 flex items-center space-x-2">
-            <div class="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center text-gray-700 text-2xl font-bold">
-                ${report.profile_photo ? 
-                    `<img src="${report.profile_photo}" alt="Avatar" class="w-8 h-8 rounded-full">` : 
-                    `<span>${report.name.charAt(0).toUpperCase()}</span>`
-                }
+    <td class="py-2 px-4">#${report.id}</td>
+    <td class="py-2 px-4 flex items-center space-x-2">
+        <div class="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center text-gray-700 text-2xl font-bold">
+            ${
+                report.profile_photo
+                    ? `<img src="/storage/profile_photos/${report.profile_photo}" alt="Avatar" class="w-8 h-8 rounded-full">`
+                    : `<span>${report.name.charAt(0).toUpperCase()}</span>`
+            }
+
+
             </div>
             <span>${report.name}</span>
         </td>
@@ -166,14 +169,17 @@
         let htmlContent = '';
         filteredReports.forEach(report => {
         htmlContent += `
-    <tr class="border-b">
-        <td class="py-2 px-4">#${report.id}</td>
-        <td class="py-2 px-4 flex items-center space-x-2">
-            <div class="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center text-gray-700 text-2xl font-bold">
-                ${report.profile_photo ? 
-                    `<img src="${report.profile_photo}" alt="Avatar" class="w-8 h-8 rounded-full">` : 
-                    `<span>${report.name.charAt(0).toUpperCase()}</span>`
-                }
+ <tr class="border-b">
+    <td class="py-2 px-4">#${report.id}</td>
+    <td class="py-2 px-4 flex items-center space-x-2">
+        <div class="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center text-gray-700 text-2xl font-bold">
+            ${
+                report.profile_photo
+                    ? `<img src="/storage/profile_photos/${report.profile_photo}" alt="Avatar" class="w-8 h-8 rounded-full">`
+                    : `<span>${report.name.charAt(0).toUpperCase()}</span>`
+            }
+
+
             </div>
             <span>${report.name}</span>
         </td>
@@ -210,7 +216,6 @@
         filterByTab('semua', event); // Default filter to 'semua'
     });
 
-  
 
     
 </script>

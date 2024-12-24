@@ -13,7 +13,7 @@
             <div class="relative flex flex-col items-center">
                 <div class="w-32 h-32 rounded-full overflow-hidden border-2 border-gray-300">
                     @if ($user->profile_photo)
-                    <img src="{{ asset('storage/profile_photos/' . $user->profile_photo) }}" alt="Profile" class="object-cover w-full h-full" />
+                    <img src="{{ asset('storage/' . $user->profile_photo) }}" alt="Profile" class="object-cover w-full h-full" />
                     @else
                     <div class="w-full h-full bg-gray-300 flex items-center justify-center text-gray-700 text-2xl font-bold">
                         {{ strtoupper(substr($user->name, 0, 1)) }}
@@ -28,9 +28,7 @@
                 </a>
 
                 <div class="mt-4">
-                    <img
-                        src="{{ asset('images/badges/penggunabaru.png') }}"
-                        alt="Badge"
+                   <img src="{{ asset('images/badges/' . $user->badge->badge_image) }}" alt="Badge"
                         id="badgeImage"
                         class="cursor-pointer object-contain inline-block"
                         style="width: 70px; height: 70px;" />
@@ -72,11 +70,11 @@
 
 <div id="popupOverlay" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
     <div class="bg-white rounded-lg p-6 md:p-7 text-center w-auto max-w-xl">
-        <h2 class="text-xl font-semibold mb-4 text-gray-800">Informasi Badge</h2>
+        <h2 class="text-xl font-semibold mb-4 text-gray-800">Informasi Level Membership</h2>
         <div class="flex justify-center mb-4">
             <img src="{{ asset('images/badges/infobadge.png') }}" alt="Info Badge"
                 class="object-contain rounded-lg"
-                style="max-width: 97%; max-height: 400px;">
+                style="max-width: 90%; max-height: 400px;">
         </div>
         <button id="closePopup" 
             class="mt-4 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300">

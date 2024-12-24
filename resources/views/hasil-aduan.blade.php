@@ -32,19 +32,30 @@
     </div>
     @endif
 
-    <h2 class="text-2xl font-bold text-blue-600 mb-4">Sesudah Aduan</h2>
+    
 
-    @if($laporan->status === 'Selesai')
-    @if($laporan->files && isset(json_decode($laporan->files)[1]))
-    <div class="mb-8">
-        <img src="{{ asset('storage/' . json_decode($laporan->files)[1]) }}" alt="Sesudah Aduan" class="w-full h-64 object-cover rounded-lg shadow-md cursor-pointer" id="afterImage" />
+    <!-- Menampilkan gambar sesudah aduan -->
+<h2 class="text-2xl font-bold text-blue-600 mb-4">Sesudah Aduan</h2>
+@if($laporan->status === 'Selesai')
+    @php
+        $hasilFiles = $laporan->hasil ? json_decode($laporan->hasil) : [];
+    @endphp
+    @if($hasilFiles && count($hasilFiles) > 0)
+    <div class="mb-8 grid grid-cols-2 gap-4">
+        @foreach($hasilFiles as $file)
+        <img
+            src="{{ asset('storage/' . str_replace('\/', '/', $file)) }}"
+            alt="Sesudah Aduan"
+            class="w-full h-64 object-cover rounded-lg shadow-md cursor-pointer"
+            onclick="openModal('{{ asset('storage/' . str_replace('\/', '/', $file)) }}')" />
+        @endforeach
     </div>
     @else
     <p class="text-gray-600 italic mb-4">Gambar belum diunggah oleh admin.</p>
     @endif
-    @else
-    <p class="text-gray-600 italic mb-4">Status laporan belum selesai. Gambar hanya akan muncul setelah status selesai.</p>
-    @endif
+@else
+<p class="text-gray-600 italic mb-4">Status laporan belum selesai. Gambar hanya akan muncul setelah status selesai.</p>
+@endif
 
     <p class="text-gray-800 text-center">
         Terima kasih telah melaporkan, semoga hasil dari aduan kamu dapat bermanfaat bagi lingkungan sekitar anda.

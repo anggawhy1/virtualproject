@@ -27,6 +27,9 @@ class CreateUsersTable extends Migration
             $table->string('profile_photo')->nullable();
             $table->integer('points')->default(0);
             $table->date('tanggal_lahir')->nullable();
+            $table->unsignedBigInteger('badge_id')->nullable();
+            $table->unsignedBigInteger('badge_id')->default(1);
+            $table->foreign('badge_id')->references('id')->on('badges')->onDelete('cascade');
             $table->rememberToken();
             $table->timestamps();
         });

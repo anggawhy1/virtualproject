@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Laporan;
+use App\Models\Badge;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Auth;
 
@@ -82,12 +83,13 @@ public function store(Request $request)
 }
 
 
-
 public function updateStatus(Request $request, $id)
 {
     // Validasi input
     $request->validate([
-        'status' => 'required|in:Diajukan,Diproses,Disetujui',
+        'status' => 'required|in:Diajukan,Diproses,Disetujui,Selesai',
+        'hasil' => 'nullable|array|max:5', // Allow an array of up to 5 files
+        'hasil.*' => 'nullable|file|mimes:jpeg,png,jpg,mp4|max:2048', // Validate each file
     ]);
 
     // Temukan laporan berdasarkan ID
@@ -96,35 +98,83 @@ public function updateStatus(Request $request, $id)
     // Update status
     $laporan->status = $request->status;
 
-    // Set waktu jika status berubah ke 'Diproses' atau 'Disetujui'
+    // Set waktu jika status berubah ke 'Diproses', 'Disetujui', atau 'Selesai'
     if ($request->status === 'Diproses') {
-        $laporan->updated_at = now(); // Update timestamp saat status berubah ke Diproses
+        $laporan->updated_at = now();
     } elseif ($request->status === 'Disetujui') {
-        $laporan->approved_at = now(); // Set waktu persetujuan
+        $laporan->approved_at = now();
+    } elseif ($request->status === 'Selesai') {
+        // Set waktu selesai
+        $laporan->completed_at = now();
+
+        if ($request->hasFile('hasil')) {
+            // Array to store file paths
+            $filePaths = [];
+
+            // Loop through the uploaded files
+            foreach ($request->file('hasil') as $file) {
+                // Save each file and get the path
+                $filePaths[] = $file->store('laporan_hasil', 'public');
+            }
+
+            // Update kolom 'hasil' dengan array file path dalam format JSON
+            $laporan->hasil = json_encode($filePaths);
+        } else {
+            $laporan->hasil = null;
+        }
     }
 
-    // Simpan perubahan
+    // Simpan perubahan laporan
     $laporan->save();
+
+    // Ambil user yang terkait dengan laporan ini
+    $user = $laporan->user; // Menentukan user dari laporan yang ada
+
+    if ($user) {
+        // Get the count of completed laporan (status = 'Selesai')
+        $laporanCount = $user->laporan()->where('status', 'Selesai')->count();
+
+        // Tentukan badge yang akan diberikan berdasarkan jumlah laporan selesai
+        $badge = null;
+        if ($laporanCount == 1) {
+            $badge = Badge::where('badge_image', 'pelaporpemula.png')->first();
+        } elseif ($laporanCount == 5) {
+            $badge = Badge::where('badge_image', 'pelaporaktif.png')->first();
+        } elseif ($laporanCount == 10) {
+            $badge = Badge::where('badge_image', 'pelaporsetia.png')->first();
+        } elseif ($laporanCount == 20) {
+            $badge = Badge::where('badge_image', 'saksiterpercaya.png')->first();
+        } elseif ($laporanCount == 30) {
+            $badge = Badge::where('badge_image', 'pelaporveteran.png')->first();
+        } elseif ($laporanCount == 50) {
+            $badge = Badge::where('badge_image', 'pahlawanmasyarakat.png')->first();
+        } elseif ($laporanCount == 100) {
+            $badge = Badge::where('badge_image', 'pelaporsuper.png')->first();
+        }
+
+        // Jika badge ditemukan, update badge_id pengguna
+        if ($badge) {
+            $user->badge_id = $badge->id;
+            $user->save(); // Pastikan untuk menyimpan perubahan pada user
+        }
+    }
 
     // Redirect dengan pesan sukses
     return redirect()->back()->with('status', 'Status laporan berhasil diubah.');
 }
 
 
-     public function lacak()
-    {
-        // Cek apakah pengguna sudah login
-        if (!Auth::check()) {
-            return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu.');
-        }
 
-        // Ambil laporan yang sudah dilaporkan oleh pengguna yang sedang login
-        $laporans = Laporan::where('user_id', Auth::id())->get();
-        // dd($laporans);
-        // die;
-        // Passing $laporans variable to the view
-        return view('lacak-aduan', compact('laporans'));
-    }
+
+
+  public function lacak()
+{
+    // Ambil semua laporan (tanpa filter user)
+    $laporans = Laporan::all();
+
+    // Passing $laporans ke view
+    return view('lacak-aduan', compact('laporans'));
+}
 
 public function show(Request $request)
 {
@@ -166,31 +216,41 @@ public function hasilAduan($id)
     return view('hasil-aduan', compact('laporan'));
 }
 
-public function approveAndClaimPoint($laporanId)
+
+public function approveAndClaimPoint($id)
 {
     // Retrieve the laporan by its ID
-    $laporan = Laporan::findOrFail($laporanId);
-    
-    // Check if the laporan status is 'Disetujui'
-    if ($laporan->status == 'Disetujui') {
-        // Mark the claim as done
-        $laporan->is_claimed = 1; 
-        $laporan->save(); // Save the updated laporan
-        $user = Auth::user();
-        
-        if ($user) {
-            // Increment the points of the currently logged-in user
-            $user->increment('points', 1); // Adds 1 to the current points
-            $user->save(); // Save the updated user points
-        }
-        
-        // Return success message
-        return response()->json(['success' => true, 'message' => 'Laporan disetujui dan 1 poin berhasil diklaim.']);
+    $laporan = Laporan::findOrFail($id);
+
+    // Check if laporan status is 'Disetujui' or 'Selesai'
+    if (!in_array($laporan->status, ['Disetujui', 'Selesai'])) {
+        return response()->json(['success' => false, 'message' => 'Status laporan tidak sesuai untuk klaim poin.']);
     }
 
-    // Return failure message if the laporan is not approved
-    return response()->json(['success' => false, 'message' => 'Laporan tidak dapat disetujui.']);
+    // Check if the point has already been claimed
+    if ($laporan->is_claimed) {
+        return response()->json(['success' => false, 'message' => 'Poin sudah diklaim sebelumnya.']);
+    }
+
+    // Mark the claim as done
+    $laporan->is_claimed = 1;
+    $laporan->save();
+
+    // Get the authenticated user
+    $user = Auth::user();
+    if ($user) {
+        // Increment the user's points
+        $user->increment('points', 5);
+    } else {
+        return response()->json(['success' => false, 'message' => 'Pengguna tidak ditemukan.']);
+    }
+
+    // Return success response
+    return response()->json(['success' => true, 'message' => 'Poin berhasil diklaim.']);
 }
+
+
+
 
 
 public function adminReports(Request $request)
